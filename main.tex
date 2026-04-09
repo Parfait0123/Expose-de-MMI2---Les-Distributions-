@@ -1,0 +1,1256 @@
+% ============================================================
+% EXPOSÉ : THÉORIE DES DISTRIBUTIONS
+% Sections 1, 2, 3, 4 : Notion, Convergence, Dérivation, Primitives
+% Design académique (Palatino, marges, en-têtes, barre verticale)
+% Contenu sections 1 et 2 strictement identique au fichier fourni
+% ============================================================
+\documentclass[12pt,a4paper,openany]{book}
+
+% ----- Encodage & langue -----
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+
+% ----- Police Palatino -----
+\usepackage{mathpazo}
+
+% ----- Mise en page -----
+\usepackage{geometry}
+\geometry{
+	a4paper,
+	top=3.5cm,
+	bottom=3.0cm,
+	left=2.0cm,
+	right=2.0cm,
+	headheight=14pt,
+	headsep=0.5cm,
+	footskip=1.2cm
+}
+
+% ----- Mathématiques -----
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{mathrsfs}
+
+
+% ----- En-têtes / pieds de page -----
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[RO]{\small\textit{\scshape\leftmark}}
+\fancyhead[LE]{\small\textit{\scshape\rightmark}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+\fancyfoot[RO]{\thepage}
+\fancyfoot[LE]{\thepage}
+
+\fancypagestyle{plain}{%
+	\fancyhf{}%
+	\renewcommand{\headrulewidth}{0pt}%
+	\fancyfoot[C]{\thepage}%
+}
+
+% ----- Titres (chapitres, sections) -----
+\usepackage{titlesec}
+
+\titleformat{\chapter}[display]
+{\normalfont\Large}
+{\scshape\chaptertitlename~\thechapter}
+{0pt}
+{\titlerule[0.4pt]\vspace{6pt}\huge\bfseries\scshape}
+\titlespacing*{\chapter}{0pt}{0.5cm}{2cm}
+
+\titleformat{\section}
+{\normalfont\large\bfseries\scshape\centering}
+{\thesection\quad}
+{0pt}
+{}
+\titlespacing*{\section}{0pt}{1.5\baselineskip}{1\baselineskip}
+
+\titleformat{\subsection}
+{\normalfont\normalsize\bfseries}
+{\thesubsection\quad}
+{0pt}
+{}
+\titlespacing*{\subsection}{0pt}{1\baselineskip}{0.5\baselineskip}
+
+% ----- Environnements théorèmes (barre gauche) -----
+\usepackage[framemethod=TikZ]{mdframed}
+\mdfdefinestyle{leftbarblack}{%
+	linewidth=3pt, linecolor=black,
+	topline=false, rightline=false, bottomline=false,
+	innertopmargin=4pt, innerbottommargin=4pt,
+	innerleftmargin=10pt, innerrightmargin=0pt,
+	skipabove=8pt, skipbelow=8pt
+}
+
+\theoremstyle{definition}
+\newmdtheoremenv[style=leftbarblack]{definition}{Définition}[chapter]
+
+\theoremstyle{plain}
+\newmdtheoremenv[style=leftbarblack]{theorem}{Théorème}[chapter]
+\newmdtheoremenv[style=leftbarblack]{lemma}[theorem]{Lemme}
+\newmdtheoremenv[style=leftbarblack]{proposition}[theorem]{Proposition}
+\newmdtheoremenv[style=leftbarblack]{corollary}[theorem]{Corollaire}
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remarque}
+\newtheorem*{example}{Exemple}
+\newenvironment{remarque}{\begin{remark}}{\end{remark}}
+\newenvironment{exemple}{\begin{example}}{\end{example}}
+
+\renewcommand{\proofname}{\normalfont\itshape Démonstration}
+
+% ----- Listes -----
+\usepackage{enumitem}
+\setlist[itemize]{label=\textendash, leftmargin=1.5em}
+\setlist[enumerate]{leftmargin=1.5em}
+
+% ----- Table des matières -----
+\usepackage{tocloft}
+\renewcommand{\cfttoctitlefont}{\hfill\huge\bfseries\scshape}
+\renewcommand{\cftaftertoctitle}{\hfill}
+\setlength{\cftbeforetoctitleskip}{0pt}
+\setlength{\cftaftertoctitleskip}{1.5\baselineskip}
+\renewcommand{\cftchapfont}{\bfseries}
+\renewcommand{\cftchappagefont}{\bfseries}
+
+% ----- Figures -----
+\usepackage{caption}
+\DeclareCaptionLabelFormat{sc}{\scshape #1 #2}
+\captionsetup{labelformat=sc, labelsep=endash, font=small}
+\renewcommand{\thefigure}{\arabic{figure}}
+
+% ----- Hyperliens (noirs) -----
+\usepackage[hidelinks]{hyperref}
+
+% ----- Microtypographie (optionnel) -----
+\usepackage{microtype}
+
+% ----- Page de garde (import PDF) -----
+\usepackage{pdfpages}
+
+% ============================================================
+\begin{document}
+	
+	% ==================== PAGE DE GARDE ====================
+	%\includepdf{titlepage.pdf}   % À compiler séparément
+	\setcounter{page}{1}
+	
+	% ==================== TABLE DES MATIÈRES ====================
+	\frontmatter
+	\tableofcontents
+	\mainmatter
+	
+	% ============================================================
+	% SECTION 1 : NOTION DE DISTRIBUTION
+	% Contenu identique au fichier deepseek_tex_20260409_056613.tex
+	% ============================================================
+	
+	\chapter*{Notion de distribution}
+	\addcontentsline{toc}{chapter}{Notion de distribution}
+	\markboth{NOTION DE DISTRIBUTION}{NOTION DE DISTRIBUTION}
+	
+	\section*{Contexte}
+	\addcontentsline{toc}{section}{Contexte}
+	
+	La théorie des distributions a été développée par le mathématicien français Laurent Schwartz dans les années 1940–1950, travail pour lequel il a reçu la médaille Fields en 1950. L’objectif était de donner un cadre rigoureux à des objets qui apparaissaient naturellement en physique — notamment l’impulsion de Dirac $\delta$, utilisée par le physicien Paul Dirac depuis les années 1930 sans justification mathématique satisfaisante.
+	
+	Le problème central que résout cette théorie est le suivant : certaines fonctions physiquement naturelles (la fonction de Heaviside, les solutions de certaines équations aux dérivées partielles) ne sont pas dérivables au sens classique. L’idée de Schwartz est de renverser le point de vue : plutôt que d’évaluer une fonction en un point, on mesure son effet sur des fonctions très régulières appelées fonctions test. Cela permet de dériver n’importe quel objet raisonnable, et de donner un sens à des équations qui n’en avaient pas.
+	
+	\subsection*{Notations — valables pour tout l’exposé}
+	
+	Dans tout ce qui suit, $\Omega$ désigne un ouvert de $\mathbb{R}^d$ ($d \ge 1$), et $k \in \mathbb{N} \cup \{\infty\}$.
+	
+	\[
+	\begin{array}{|c|l|}
+		\hline
+		\textbf{Notation} & \textbf{Signification} \\
+		\hline
+		C^{k}(\Omega) & \text{Fonctions $k$ fois dérivables à dérivées $k$-ièmes continues sur $\Omega$} \\
+		C^{\infty}(\Omega) & \text{Fonctions infiniment dérivables sur $\Omega$} \\
+		C_{c}^{\infty}(\Omega)=\mathcal{D}(\Omega) & \text{Fonctions $C^{\infty}$ à support compact inclus dans $\Omega$} \\
+		\mathcal{D}^{\prime}(\Omega) & \text{Espace des distributions sur $\Omega$} \\
+		\operatorname{supp}(f) & \text{Support de $f$ : adhérence de $\{x \in \Omega \mid f(x) \neq 0\}$} \\
+		\langle T, \varphi\rangle & \text{Crochet de dualité : action de la distribution $T$ sur la fonction test $\varphi$} \\
+		L_{\text{loc}}^{1}(\Omega) & \text{Fonctions localement intégrables sur $\Omega$} \\
+		\alpha \in \mathbb{N}^{d} & \text{Multi-indice : $\alpha = (\alpha_1, \dots, \alpha_d)$, $|\alpha| = \alpha_1 + \cdots + \alpha_d$} \\
+		\partial^{\alpha}f & \text{Dérivée partielle $\frac{\partial^{|\alpha|}f}{\partial x_1^{\alpha_1} \cdots \partial x_d^{\alpha_d}}$} \\
+		\partial^{\alpha}T & \text{Dérivée d'ordre $\alpha$ de la distribution $T$} \\
+		T^{(n)} & \text{Dérivée d'ordre $n$ de $T$ en dimension $1$} \\
+		H & \text{Fonction de Heaviside : $H(x) = 1$ si $x > 0$, $0$ sinon} \\
+		\operatorname{sgn} & \text{Fonction signe : $\operatorname{sgn}(x) = 1$ si $x > 0$, $-1$ si $x < 0$} \\
+		\delta_{a} & \text{Distribution de Dirac au point $a$ : $\langle \delta_{a}, \varphi \rangle = \varphi(a)$} \\
+		\hline
+	\end{array}
+	\]
+	
+	\section{L’espace des fonctions test}
+	
+	\begin{definition}[Fonctions test — $\mathcal{D}(\Omega)$]
+		L’espace des fonctions test est
+		\[
+		\mathcal{D}(\Omega) = C_c^{\infty}(\Omega) = \{ \varphi \in C^{\infty}(\Omega) \mid \operatorname{supp}(\varphi) \text{ est compact et contenu dans } \Omega \}.
+		\]
+	\end{definition}
+	
+	\textbf{Intuition.} Une fonction test est infiniment régulière et s’annule au-delà d’un certain rayon. On peut la voir comme une « sonde » qu’on applique à un objet mathématique pour mesurer ses propriétés locales sans perturber ce qui se passe loin.
+	
+	\begin{definition}[Convergence dans $\mathcal{D}(\Omega)$]
+		Une suite $(\varphi_n) \subset \mathcal{D}(\Omega)$ converge vers $\varphi$ dans $\mathcal{D}(\Omega)$ si :
+		\begin{enumerate}
+			\item[(i)] Il existe un compact $K \subset \Omega$ tel que $\operatorname{supp}(\varphi_n) \subset K$ pour tout $n$.
+			\item[(ii)] Pour tout multi-indice $\alpha \in \mathbb{N}^d$, $\partial^\alpha \varphi_n \to \partial^\alpha \varphi$ uniformément sur $K$.
+		\end{enumerate}
+	\end{definition}
+	
+	\section{Définition d’une distribution}
+	
+	Il existe deux formulations équivalentes, que l’on présente toutes les deux.
+	
+	\begin{definition}[Distribution — définition séquentielle]
+		Une distribution sur $\Omega$ est une forme linéaire $T : \mathcal{D}(\Omega) \to \mathbb{R}$ telle que :
+		\[
+		\varphi_n \xrightarrow{\mathcal{D}(\Omega)} \varphi \implies \langle T, \varphi_n \rangle \to \langle T, \varphi \rangle \quad \text{dans } \mathbb{R}.
+		\]
+	\end{definition}
+	
+	\begin{definition}[Distribution — définition par majoration]
+		Une forme linéaire $T : \mathcal{D}(\Omega) \to \mathbb{R}$ est une distribution si et seulement si, pour tout compact $K \subset \Omega$, il existe $C_K > 0$ et $m \in \mathbb{N}$ tels que
+		\[
+		|\langle T, \varphi \rangle| \le C_K \max_{|\alpha| \le m} \sup_{x \in K} |\partial^\alpha \varphi(x)|, \quad \forall \varphi \in \mathcal{D}(\Omega) \text{ avec } \operatorname{supp}(\varphi) \subset K.
+		\]
+		L’entier $m$ s’appelle l’\textbf{ordre} de la distribution. Si $m$ peut être choisi indépendant de $K$, on dit que $T$ est d’ordre $m$.
+	\end{definition}
+	
+	L’ensemble de toutes les distributions sur $\Omega$ se note $\mathcal{D}'(\Omega)$.
+	
+	\section{Les exemples fondamentaux}
+	
+	\begin{example}[Distribution régulière]
+		Toute fonction $f \in L_{\text{loc}}^1(\Omega)$ (localement intégrable) définit une distribution $T_f$ via
+		\[
+		\langle T_f, \varphi \rangle = \int_{\Omega} f(x) \varphi(x) \, dx, \quad \forall \varphi \in \mathcal{D}(\Omega).
+		\]
+		La majoration $|\langle T_f, \varphi \rangle| \le \|f\|_{L^1(K)} \|\varphi\|_\infty$ montre que $T_f$ est d’ordre $0$. On dit que $f$ est identifiée à $T_f$, et que $T_f$ est une distribution régulière. Ainsi les fonctions classiques sont des distributions, mais pas l’inverse.
+	\end{example}
+	
+	\begin{example}[La distribution de Dirac $\delta_a$]
+		Pour $a \in \Omega$, le Dirac en $a$ est défini par
+		\[
+		\langle \delta_a, \varphi \rangle = \varphi(a), \quad \forall \varphi \in \mathcal{D}(\Omega).
+		\]
+		Vérification rapide (majoration) :
+		\[
+		|\langle \delta_a, \varphi \rangle| = |\varphi(a)| \le \sup_{x \in K} |\varphi(x)|,
+		\]
+		ce qui correspond à la majoration avec $C_K = 1$ et $m = 0$. Donc $\delta_a \in \mathcal{D}'$, d’ordre $0$.
+		
+		\textbf{Attention.} $\delta_a$ n’est pas une distribution régulière : il n’existe aucune fonction $f$ telle que $\int_\Omega f(x)\varphi(x)\,dx = \varphi(a)$ pour toute $\varphi \in \mathcal{D}(\Omega)$.
+	\end{example}
+	
+	\begin{example}[La fonction de Heaviside]
+		La fonction de Heaviside $H : \mathbb{R} \to \mathbb{R}$, définie par $H(x)=1$ si $x>0$ et $H(x)=0$ sinon, est dans $L_{\text{loc}}^1(\mathbb{R})$. Elle définit donc une distribution régulière :
+		\[
+		\langle T_H, \varphi \rangle = \int_0^{+\infty} \varphi(x) \, dx.
+		\]
+		Elle n’est pas dérivable en $0$ au sens classique — c’est précisément ce genre de situation que la théorie des distributions permet de dépasser.
+	\end{example}
+	
+	\subsection*{QCM}
+	
+	\textbf{Question 1.} Parmi les affirmations suivantes, laquelle est vraie ? \\
+	A. Toute distribution est une fonction. \\
+	B. Toute fonction localement intégrable est une distribution. \\
+	C. La distribution de Dirac est une distribution régulière. \\
+	D. L’espace $\mathcal{D}(\Omega)$ contient toutes les fonctions continues. \\
+	\textit{Réponses : Q1 — B}
+	
+	\textbf{Question 2.} Soit $\varphi \in \mathcal{D}(\mathbb{R})$ avec $\varphi(2) = -3$ et $\varphi(0) = 7$. Calculer $\langle \delta_2, \varphi \rangle$. \\
+	A. $7$ \quad B. $-3$ \quad C. $0$ \quad D. $\varphi'(2)$ \\
+	\textit{Réponses : Q2 — B}
+	
+	\subsection*{Exercice — Vérifier qu’une forme est une distribution}
+	
+	Soit $T : \mathcal{D}(\mathbb{R}) \to \mathbb{R}$ définie par
+	\[
+	\langle T, \varphi \rangle = 3\varphi(0) - \varphi(1).
+	\]
+	
+	\begin{enumerate}
+		\item Vérifier que $T$ est linéaire.
+		\item Vérifier que $T$ est une distribution en utilisant la définition par majoration.
+		\item Quel est l’ordre de $T$ ?
+		\item Exprimer $T$ comme combinaison de distributions connues.
+	\end{enumerate}
+	
+	\textbf{Correction.}
+	\begin{enumerate}
+		\item \textbf{Linéarité.} Pour $\lambda, \mu \in \mathbb{R}$ et $\varphi, \psi \in \mathcal{D}(\mathbb{R})$ :
+		\[
+		\langle T, \lambda \varphi + \mu \psi \rangle = 3(\lambda \varphi + \mu \psi)(0) - (\lambda \varphi + \mu \psi)(1) = \lambda(3\varphi(0)-\varphi(1)) + \mu(3\psi(0)-\psi(1)) = \lambda\langle T,\varphi\rangle + \mu\langle T,\psi\rangle.
+		\]
+		\item \textbf{Majoration.} Soit $K \subset \mathbb{R}$ compact avec $\operatorname{supp}(\varphi) \subset K$. Alors :
+		\[
+		|\langle T, \varphi \rangle| = |3\varphi(0) - \varphi(1)| \le 3|\varphi(0)| + |\varphi(1)| \le 4 \sup_{x \in K} |\varphi(x)|.
+		\]
+		C’est bien la majoration avec $C_K = 4$ et $m = 0$. Donc $T \in \mathcal{D}'(\mathbb{R})$. $\checkmark$
+		\item La majoration tient avec $m = 0$ (aucune dérivée de $\varphi$ n’intervient) : $T$ est d’ordre $0$.
+		\item On reconnaît directement :
+		\[
+		\langle T, \varphi \rangle = 3\langle \delta_0, \varphi \rangle - \langle \delta_1, \varphi \rangle = \langle 3\delta_0 - \delta_1, \varphi \rangle, \quad \text{donc } T = 3\delta_0 - \delta_1.
+		\]
+	\end{enumerate}
+	
+	\subsection*{Ce qu’il faut retenir — Section 1}
+	
+	\begin{itemize}
+		\item $\mathcal{D}(\Omega) = C_c^\infty(\Omega)$ : fonctions $C^\infty$ à support compact — ce sont les « sondes ».
+		\item Une distribution est une forme linéaire continue sur $\mathcal{D}(\Omega)$ (continuité = séquentielle = contrôle par les dérivées de $\varphi$).
+		\item Les fonctions $L_{\text{loc}}^1$ définissent des distributions régulières ; le Dirac est une distribution, mais singulière (pas associée à une fonction).
+		\item L’ordre mesure combien de dérivées de $\varphi$ sont nécessaires dans la majoration.
+	\end{itemize}
+	
+	% ============================================================
+	% SECTION 2 : CONVERGENCE DANS D'(Ω)
+	% Contenu identique au fichier deepseek_tex_20260409_056613.tex
+	% ============================================================
+	
+	\chapter*{Convergence dans $\mathcal{D}'(\Omega)$}
+	\addcontentsline{toc}{chapter}{Convergence dans $\mathcal{D}'(\Omega)$}
+	\markboth{CONVERGENCE DANS $\mathcal{D}'(\Omega)$}{CONVERGENCE DANS $\mathcal{D}'(\Omega)$}
+	
+	\section{Définition}
+	
+	\begin{definition}[Convergence dans $\mathcal{D}'(\Omega)$]
+		Une suite $(T_n)$ de distributions converge vers $T$ dans $\mathcal{D}'(\Omega)$ si
+		\[
+		\forall \varphi \in \mathcal{D}(\Omega), \quad \langle T_n, \varphi \rangle \xrightarrow{n \to +\infty} \langle T, \varphi \rangle \quad \text{dans } \mathbb{R}.
+		\]
+		On note alors $T_n \xrightarrow{\mathcal{D}'} T$, et $T$ est appelée la limite de $(T_n)$.
+	\end{definition}
+	
+	\textbf{Nature de cette convergence.} Il s’agit d’une convergence faible : on ne demande pas que les $T_n$ se rapprochent dans un sens géométrique ou en norme. On demande seulement que leur action sur chaque fonction test converge. C’est une condition bien moins exigeante que la convergence uniforme ou $L^p$, ce qui rend $\mathcal{D}'(\Omega)$ très souple.
+	
+	Si $(T_n)$ est une suite de distributions telle que $\langle T_n, \varphi \rangle$ converge dans $\mathbb{R}$ pour toute $\varphi \in \mathcal{D}(\Omega)$, alors l’application $\varphi \mapsto \lim_n \langle T_n, \varphi \rangle$ est encore une distribution. Autrement dit, $\mathcal{D}'(\Omega)$ est complet pour la convergence faible : on ne peut pas « sortir » de l’espace des distributions en prenant des limites.
+	
+	Ce théorème est remarquable : dans les espaces de fonctions classiques ($C^0$, $L^p$), une limite de fonctions régulières peut être irrégulière et sortir de l’espace. Ici, toute limite de distributions est encore une distribution — l’espace $\mathcal{D}'(\Omega)$ est stable par passage à la limite.
+	
+	\section{Le Dirac comme limite de distributions}
+	
+	On illustre la définition par un exemple purement distributionnel, qui ne fait intervenir aucune intégrale.
+	
+	\begin{example}[$n(\delta_{1/n} - \delta_{-1/n})$ converge dans $\mathcal{D}'$]
+		Pour $n \ge 1$, posons $T_n = n(\delta_{1/n} - \delta_{-1/n})$. Chaque $T_n$ est une combinaison de deux masses de Dirac — c’est une distribution, mais pas une fonction.
+		
+		Calcul de $\langle T_n, \varphi \rangle$. Pour tout $\varphi \in \mathcal{D}(\mathbb{R})$ :
+		\[
+		\langle T_n, \varphi \rangle = n(\langle \delta_{1/n}, \varphi \rangle - \langle \delta_{-1/n}, \varphi \rangle) = n\bigl(\varphi(\tfrac{1}{n}) - \varphi(-\tfrac{1}{n})\bigr).
+		\]
+		
+		Passage à la limite. En écrivant le développement limité à l’ordre $1$ de $\varphi$ en $0$ :
+		\[
+		\varphi(\tfrac{1}{n}) = \varphi(0) + \tfrac{1}{n}\varphi'(0) + o(\tfrac{1}{n}), \quad
+		\varphi(-\tfrac{1}{n}) = \varphi(0) - \tfrac{1}{n}\varphi'(0) + o(\tfrac{1}{n}).
+		\]
+		En soustrayant :
+		\[
+		\langle T_n, \varphi \rangle = n \cdot \frac{2}{n} \varphi'(0) + o(1) = 2\varphi'(0) + o(1) \xrightarrow{n \to +\infty} 2\varphi'(0).
+		\]
+		L’application $\varphi \mapsto 2\varphi'(0)$ est bien une forme linéaire continue sur $\mathcal{D}(\mathbb{R})$, donc une distribution. On a ainsi :
+		\[
+		T_n \xrightarrow{\mathcal{D}'} T \quad \text{où} \quad \langle T, \varphi \rangle = 2\varphi'(0).
+		\]
+		La limite $T$ définie par $\langle T, \varphi \rangle = 2\varphi'(0)$ n’est associée à aucune fonction : il n’existe pas de $f$ telle que $\int f(x)\varphi(x)\,dx = 2\varphi'(0)$. C’est une distribution singulière, obtenue comme limite de distributions elles-mêmes singulières — ce que l’espace $\mathcal{D}'$ absorbe sans difficulté grâce au théorème de complétude.
+		
+		\textbf{Remarque.} Pour mémoire, on peut aussi approcher $\delta_0$ par des fonctions régulières : par exemple $f_n(x) = \frac{n}{\sqrt{\pi}} e^{-n^2 x^2}$ converge vers $\delta_0$ dans $\mathcal{D}'(\mathbb{R})$ (changement de variable $t = nx$, puis convergence dominée).
+	\end{example}
+	
+	\section{Stabilité de la limite}
+	
+	Un résultat fondamental : les opérations classiques sur les distributions sont compatibles avec la convergence dans $\mathcal{D}'$.
+	
+	Soit $(T_n)$ une suite de distributions convergeant vers $T$ dans $\mathcal{D}'(\Omega)$. Alors pour tout multi-indice $\alpha$ et toute fonction $f \in C^\infty(\Omega)$ :
+	\begin{enumerate}
+		\item[(i)] Stabilité par dérivation : $\partial^\alpha T_n \to \partial^\alpha T$.
+		\item[(ii)] Stabilité par multiplication : $f \cdot T_n \to f \cdot T$.
+	\end{enumerate}
+	
+	\textbf{Démonstration du point (i) en dimension 1.} Pour tout $\varphi \in \mathcal{D}(\mathbb{R})$ :
+	\[
+	\langle T_n', \varphi \rangle = -\langle T_n, \varphi' \rangle \xrightarrow{n \to \infty} -\langle T, \varphi' \rangle = \langle T', \varphi \rangle.
+	\]
+	La convergence $T_n \to T$ appliquée à la fonction test $\varphi'$ suffit — la dérivation « passe à la limite » gratuitement.
+	
+	Ce résultat est faux pour les fonctions classiques : une suite de fonctions $C^1$ peut converger uniformément vers une limite non dérivable. Ici, dans $\mathcal{D}'$, la dérivée de la limite est toujours la limite des dérivées.
+	
+	\begin{example}[Application : dérivée de la limite des gaussiennes]
+		On sait que $f_n \xrightarrow{\mathcal{D}'} \delta_0$. Par stabilité par dérivation : $f_n' \xrightarrow{\mathcal{D}'} \delta_0'$.
+		
+		Or $f_n'(x) = -2 n^3 x e^{-n^2 x^2}$, une suite de fonctions $C^\infty$ dont la limite au sens des distributions est $\delta_0'$ — une distribution qui n’est associée à aucune fonction.
+	\end{example}
+	
+	\subsection*{QCM}
+	
+	\textbf{Question 1.} $(T_n)$ converge vers $T$ dans $\mathcal{D}'(\Omega)$ signifie : \\
+	A. $\|T_n - T\| \to 0$ pour une certaine norme sur $\mathcal{D}'$. \\
+	B. Pour toute $\varphi \in \mathcal{D}(\Omega)$, $\langle T_n, \varphi \rangle \to \langle T, \varphi \rangle$ dans $\mathbb{R}$. \\
+	C. $T_n(x) \to T(x)$ pour presque tout $x \in \Omega$. \\
+	D. $T_n$ et $T$ ont le même support pour $n$ assez grand. \\
+	\textit{Réponses : Q1 — B}
+	
+	\textbf{Question 2.} Si $T_n \xrightarrow{\mathcal{D}'} T$, qu’est-ce qu’on peut affirmer ? \\
+	A. $T_n' \xrightarrow{\mathcal{D}'} T'$ pour tout ordre de dérivation. \\
+	B. $T_n$ ne converge pas en général. \\
+	C. $T_n$ converge seulement si les $T_n$ sont des fonctions $C^1$. \\
+	D. On ne peut rien dire sans hypothèse supplémentaire. \\
+	\textit{Réponses : Q2 — A}
+	
+	\subsection*{Exercice — Convergence vers le Dirac}
+	
+	Pour $n \ge 1$, on définit $h_n : \mathbb{R} \to \mathbb{R}$ par
+	\[
+	h_n(x) = \frac{n}{\pi(1+n^2 x^2)}.
+	\]
+	
+	\begin{enumerate}
+		\item Vérifier que $\displaystyle \int_{-\infty}^{+\infty} h_n(x)\,dx = 1$ pour tout $n$.
+		\item Montrer que $h_n \xrightarrow{\mathcal{D}'} \delta_0$ dans $\mathcal{D}'(\mathbb{R})$.
+	\end{enumerate}
+	
+	\textbf{Correction.}
+	\begin{enumerate}
+		\item Par le changement de variable $t = nx$ :
+		\[
+		\int_{-\infty}^{+\infty} \frac{n}{\pi(1+n^2 x^2)} \, dx = \int_{-\infty}^{+\infty} \frac{1}{\pi(1+t^2)} \, dt = \frac{1}{\pi} \bigl[\arctan(t)\bigr]_{-\infty}^{+\infty} = \frac{1}{\pi} \cdot \pi = 1.
+		\]
+		\item Soit $\varphi \in \mathcal{D}(\mathbb{R})$. Avec $t = nx$ :
+		\[
+		\langle T_{h_n}, \varphi \rangle = \int_{-\infty}^{+\infty} \frac{n}{\pi(1+n^2 x^2)} \varphi(x) \, dx = \int_{-\infty}^{+\infty} \frac{1}{\pi(1+t^2)} \varphi\!\left(\frac{t}{n}\right) dt.
+		\]
+		Comme $\varphi$ est continue et bornée, et $\varphi(t/n) \to \varphi(0)$ pour tout $t$, le théorème de convergence dominée (avec $\frac{1}{1+t^2}$ intégrable) donne :
+		\[
+		\langle T_{h_n}, \varphi \rangle \to \varphi(0) \int_{-\infty}^{+\infty} \frac{dt}{\pi(1+t^2)} = \varphi(0) = \langle \delta_0, \varphi \rangle.
+		\]
+		Donc $h_n \to \delta_0$.
+	\end{enumerate}
+	
+	\subsection*{Ce qu’il faut retenir — Section 2}
+	
+	\begin{itemize}
+		\item $T_n \xrightarrow{\mathcal{D}'} T$ signifie : $\langle T_n, \varphi \rangle \to \langle T, \varphi \rangle$ dans $\mathbb{R}$ pour toute fonction test $\varphi$. C’est une convergence faible.
+		\item $\mathcal{D}'(\Omega)$ est complet : toute suite « raisonnable » de distributions converge encore vers une distribution.
+		\item Toute suite de fonctions positives d’intégrale $1$ dont le support se concentre en $0$ converge vers $\delta_0$ — indépendamment de la forme (gaussienne, créneau, Cauchy...).
+		\item La convergence dans $\mathcal{D}'$ est stable par dérivation : $T_n \to T \Rightarrow \partial^\alpha T_n \to \partial^\alpha T$. C’est faux en général pour les fonctions classiques.
+	\end{itemize}
+	
+	% ============================================================
+	% SECTION 3 : DÉRIVATION DES DISTRIBUTIONS
+	% ============================================================
+	
+	% ============================================================
+	% SECTION 3 : DÉRIVATION DES DISTRIBUTIONS  (VERSION ENRICHIE)
+	% ============================================================
+	\chapter{Dérivation des distributions}
+	\markboth{DÉRIVATION DES DISTRIBUTIONS}{DÉRIVATION DES DISTRIBUTIONS}
+	
+	%----------------------------------------------------------
+	\section{Motivation — le paradigme de Schwartz}
+	%----------------------------------------------------------
+	
+	Soit $f : \mathbb{R} \to \mathbb{C}$ une fonction de classe $C^1$. Pour toute $\varphi \in \mathcal{D}(\mathbb{R})$, une intégration par parties donne
+	\[
+	\int_{-\infty}^{+\infty} f'(x)\,\varphi(x)\,dx
+	\;=\;
+	\Bigl[f(x)\varphi(x)\Bigr]_{-\infty}^{+\infty}
+	- \int_{-\infty}^{+\infty} f(x)\,\varphi'(x)\,dx
+	\;=\;
+	-\int_{-\infty}^{+\infty} f(x)\,\varphi'(x)\,dx,
+	\]
+	le crochet étant nul car $\varphi$ est à support compact.  Autrement dit,
+	\[
+	\langle T_{f'}, \varphi \rangle = - \langle T_f, \varphi' \rangle.
+	\]
+	La distribution associée à la dérivée classique $f'$ n'est autre que l'application
+	$\varphi \mapsto -\langle T_f, \varphi'\rangle$.
+	\textbf{L'idée fondatrice de Schwartz} : \emph{définir} la dérivée de n'importe quelle distribution $T$ par la même formule, sans jamais supposer que $T$ provient d'une fonction différentiable.
+	
+	%----------------------------------------------------------
+	\section{Définition de la dérivée}
+	%----------------------------------------------------------
+	
+	\begin{definition}[Dérivée d'une distribution]
+		Soit $T \in \mathcal{D}'(\mathbb{R})$.
+		\begin{enumerate}
+			\item La \textbf{dérivée} $T'$ de $T$ est la distribution définie par
+			\[
+			\langle T', \varphi \rangle = -\langle T, \varphi' \rangle,
+			\qquad \forall\,\varphi \in \mathcal{D}(\mathbb{R}).
+			\]
+			\item Plus généralement, la \textbf{dérivée d'ordre $m$} de $T$ est
+			\[
+			\langle T^{(m)}, \varphi \rangle = (-1)^m\,\langle T, \varphi^{(m)} \rangle,
+			\qquad \forall\,\varphi \in \mathcal{D}(\mathbb{R}),\; m \in \mathbb{N}.
+			\]
+		\end{enumerate}
+	\end{definition}
+	
+	\begin{remarque}
+		La définition est légitime : $\varphi \mapsto -\langle T, \varphi'\rangle$ est bien une forme linéaire continue sur $\mathcal{D}(\mathbb{R})$. En effet, si $\varphi_n \to \varphi$ dans $\mathcal{D}$, alors $\varphi_n' \to \varphi'$ dans $\mathcal{D}$, et la continuité de $T$ donne
+		$\langle T, \varphi_n'\rangle \to \langle T, \varphi'\rangle$.
+	\end{remarque}
+	
+	%----------------------------------------------------------
+	\section{Toute distribution est indéfiniment dérivable}
+	%----------------------------------------------------------
+	
+	\begin{theorem}[Dérivabilité infinie dans $\mathcal{D}'$]
+		Toute distribution $T \in \mathcal{D}'(\mathbb{R})$ admet des dérivées de tous ordres dans $\mathcal{D}'(\mathbb{R})$, et l'opérateur de dérivation $T \mapsto T'$ est un endomorphisme \emph{continu} de $\mathcal{D}'(\mathbb{R})$.
+		En d'autres termes : si $(T_n)$ est une suite de distributions convergeant vers $T$ dans $\mathcal{D}'$, alors $T_n^{(k)} \to T^{(k)}$ dans $\mathcal{D}'$ pour tout $k \geq 0$.
+	\end{theorem}
+	
+	\begin{proof}
+		\emph{Existence.} L'application $\varphi \mapsto (-1)^k\langle T, \varphi^{(k)}\rangle$ est bien linéaire et continue sur $\mathcal{D}$ : si $\varphi_n \to \varphi$ dans $\mathcal{D}$, les dérivées $\varphi_n^{(k)}$ convergent uniformément vers $\varphi^{(k)}$ (avec supports dans un compact commun), donc $\langle T, \varphi_n^{(k)}\rangle \to \langle T, \varphi^{(k)}\rangle$.
+		
+		\emph{Continuité de l'opérateur.} Si $T_n \to T$ dans $\mathcal{D}'$, alors pour toute $\varphi \in \mathcal{D}$ :
+		\[
+		\langle T_n', \varphi \rangle = -\langle T_n, \varphi' \rangle \xrightarrow{n\to\infty} -\langle T, \varphi' \rangle = \langle T', \varphi \rangle. \qedhere
+		\]
+	\end{proof}
+	
+	\begin{corollary}
+		Toute fonction continue (ou localement intégrable) est \emph{indéfiniment dérivable au sens des distributions}. Sa $k$-ième dérivée distributionnelle peut toutefois être une distribution singulière dès que $k$ dépasse la régularité classique.
+	\end{corollary}
+	
+	%----------------------------------------------------------
+	\section{Propriétés algébriques et topologiques}
+	%----------------------------------------------------------
+	
+	\begin{proposition}[Propriétés de la dérivation]
+		Soient $T, S \in \mathcal{D}'(\mathbb{R})$, $\alpha, \beta \in \mathbb{C}$, $a \in C^\infty(\mathbb{R})$, $h \in \mathbb{R}$, $\lambda \in \mathbb{R}^*$.
+		\begin{enumerate}
+			\item \textbf{Linéarité :} $(\alpha T + \beta S)' = \alpha T' + \beta S'$.
+			\item \textbf{Continuité séquentielle :} $T_n \xrightarrow{\mathcal{D}'} T \Rightarrow T_n^{(k)} \xrightarrow{\mathcal{D}'} T^{(k)}$ pour tout $k$.
+			\item \textbf{Règle de Leibniz :} $(aT)' = a'T + aT'$.
+			\item \textbf{Commutation avec les translations :} Si $\tau_h T$ est définie par $\langle \tau_h T, \varphi\rangle = \langle T, \tau_{-h}\varphi\rangle$, alors $(\tau_h T)' = \tau_h(T')$.
+			\item \textbf{Dérivée comme limite de différences finies :}
+			\[
+			T' = \lim_{h\to 0} \frac{T - \tau_h T}{h} \quad \text{dans } \mathcal{D}'(\mathbb{R}).
+			\]
+			\item \textbf{Homothétie :} Si $\langle T(\lambda x), \varphi\rangle := \frac{1}{|\lambda|}\langle T, \varphi(\cdot/\lambda)\rangle$, alors $\frac{d}{dx}T(\lambda x) = \lambda\,T'(\lambda x)$.
+		\end{enumerate}
+	\end{proposition}
+	
+	\begin{proof}
+		\emph{Leibniz (point 3).} Pour toute $\varphi \in \mathcal{D}$ :
+		\[
+		\langle (aT)', \varphi \rangle = -\langle aT, \varphi'\rangle = -\langle T, a\varphi'\rangle
+		= -\langle T, (a\varphi)' - a'\varphi\rangle = \langle T', a\varphi\rangle + \langle T, a'\varphi\rangle
+		= \langle aT', \varphi\rangle + \langle a'T, \varphi\rangle. \qedhere
+		\]
+	\end{proof}
+	
+	%----------------------------------------------------------
+	\section{Multiplication d'une distribution par une fonction \texorpdfstring{$C^\infty$}{C-infini}}
+	%----------------------------------------------------------
+	
+	\begin{definition}[Produit $aT$]
+		Soient $a \in C^\infty(\mathbb{R})$ et $T \in \mathcal{D}'(\mathbb{R})$. On définit $aT \in \mathcal{D}'(\mathbb{R})$ par
+		\[
+		\langle aT, \varphi \rangle := \langle T, a\varphi \rangle, \qquad \forall\,\varphi \in \mathcal{D}(\mathbb{R}).
+		\]
+	\end{definition}
+	
+	\begin{proposition}[Propriétés du produit avec $\delta$ et ses dérivées]
+		Soient $a \in C^\infty(\mathbb{R})$ et $n \in \mathbb{N}$.
+		\begin{enumerate}
+			\item $a\,\delta_0 = a(0)\,\delta_0$, en particulier $x\,\delta_0 = 0$.
+			\item $a\,\delta_0' = a(0)\,\delta_0' - a'(0)\,\delta_0$, en particulier $x\,\delta_0' = -\delta_0$.
+			\item \textbf{Formule générale :}
+			\[
+			a\,\delta_0^{(n)} = \sum_{k=0}^{n} \binom{n}{k} (-1)^k a^{(k)}(0)\,\delta_0^{(n-k)}.
+			\]
+			\item $x\,\delta_0^{(n)} = -n\,\delta_0^{(n-1)}$, et plus généralement $x^m\,\delta_0^{(n)} = 0$ si $m > n$.
+			\item $x^n\,\delta_0^{(n)} = (-1)^n\,n!\,\delta_0$.
+		\end{enumerate}
+	\end{proposition}
+	
+	\begin{proof}
+		\emph{Point 1.} $\langle a\delta_0, \varphi\rangle = \langle \delta_0, a\varphi\rangle = a(0)\varphi(0) = a(0)\langle\delta_0,\varphi\rangle$.
+		
+		\emph{Point 2.} $\langle a\delta_0', \varphi\rangle = \langle \delta_0', a\varphi\rangle = -(a\varphi)'(0) = -a'(0)\varphi(0) - a(0)\varphi'(0)$, ce qui donne bien $a(0)\delta_0' - a'(0)\delta_0$.
+		
+		\emph{Point 3 (formule de Leibniz).} Découle de $\langle a\delta_0^{(n)}, \varphi\rangle = \langle\delta_0^{(n)}, a\varphi\rangle = (-1)^n(a\varphi)^{(n)}(0)$ et de la formule de Leibniz pour $(a\varphi)^{(n)}$.
+		
+		\emph{Point 4.} Prendre $a(x) = x$ dans (3) : $a(0) = 0$, $a'(0) = 1$, $a^{(k)}(0) = 0$ pour $k \geq 2$, ce qui donne $x\delta_0^{(n)} = -n\delta_0^{(n-1)}$.
+	\end{proof}
+	
+	\begin{exemple}[Calculs pratiques]
+		$x^2\delta_0'' = 2\delta_0$, \quad $x^2\delta_0' = 0$, \quad $\sin(x)\,\delta_0 = 0$, \quad $\cos(x)\,\delta_0 = \delta_0$, \quad $e^x\,\delta_0' = \delta_0' - \delta_0$.
+	\end{exemple}
+	
+	%----------------------------------------------------------
+	\section{Exemples fondamentaux de dérivation}
+	%----------------------------------------------------------
+	
+	\subsection{Dérivée de la fonction de Heaviside}
+	
+	\begin{proposition}
+		Soit $H$ la fonction de Heaviside : $H(x) = 1$ si $x > 0$, $H(x) = 0$ si $x < 0$. Alors
+		\[
+		H' = \delta_0 \quad \text{dans } \mathcal{D}'(\mathbb{R}).
+		\]
+	\end{proposition}
+	
+	\begin{proof}
+		Pour $\varphi \in \mathcal{D}(\mathbb{R})$ :
+		\[
+		\langle H', \varphi \rangle = -\langle H, \varphi'\rangle = -\int_0^{+\infty}\varphi'(x)\,dx = \varphi(0) = \langle\delta_0,\varphi\rangle. \qedhere
+		\]
+	\end{proof}
+	
+	\subsection{Dérivée de la valeur absolue}
+	
+	\begin{proposition}
+		$(|x|)' = \operatorname{sgn}(x)$ et $(|x|)'' = 2\delta_0$.
+	\end{proposition}
+	
+	\begin{proof}
+		\[
+		\langle|x|',\varphi\rangle = -\int_{-\infty}^{+\infty}|x|\varphi'(x)\,dx
+		= \int_{-\infty}^0 x\varphi'(x)\,dx - \int_0^{+\infty}x\varphi'(x)\,dx.
+		\]
+		Deux intégrations par parties donnent chacune $\mp\int\operatorname{sgn}(x)\varphi\,dx$, d'où $(|x|)' = \operatorname{sgn}(x)$.
+		Puis $\operatorname{sgn}(x) = 2H(x) - 1$ implique $\operatorname{sgn}'(x) = 2H'(x) = 2\delta_0$.
+	\end{proof}
+	
+	\subsection{Dérivées successives de \texorpdfstring{$|x|$}{|x|}}
+	
+	\[
+	|x|^{(0)} = |x|, \quad
+	|x|^{(1)} = \operatorname{sgn}(x), \quad
+	|x|^{(2)} = 2\delta_0, \quad
+	|x|^{(3)} = 2\delta_0', \quad
+	|x|^{(n)} = 2\delta_0^{(n-2)} \text{ pour } n \geq 2.
+	\]
+	
+	\subsection{Dérivées successives de \texorpdfstring{$x^n H(x)$}{xn H(x)}}
+	
+	\begin{proposition}
+		Pour tout $n \in \mathbb{N}$, si on pose $f_n(x) = \dfrac{x^n}{n!}H(x)$, alors
+		\[
+		f_n' = f_{n-1}, \quad f_0' = H' = \delta_0, \quad f_n^{(k)} = f_{n-k} \text{ pour } k \leq n, \quad f_n^{(n+1)} = \delta_0.
+		\]
+	\end{proposition}
+	
+	\begin{proof}
+		\[
+		\left\langle \left(\tfrac{x^n}{n!}H\right)', \varphi\right\rangle
+		= -\int_0^{+\infty}\tfrac{x^n}{n!}\varphi'(x)\,dx
+		= \int_0^{+\infty}\tfrac{x^{n-1}}{(n-1)!}\varphi(x)\,dx, \quad \text{par IPP (crochet nul)}.
+		\]
+	\end{proof}
+	
+	\subsection{Dérivée de \texorpdfstring{$\ln|x|$}{ln|x|}}
+	
+	\begin{proposition}
+		\[
+		\frac{d}{dx}\ln|x| = \mathrm{vp}\frac{1}{x} \quad \text{dans } \mathcal{D}'(\mathbb{R}),
+		\]
+		où $\mathrm{vp}\frac{1}{x}$ désigne la valeur principale de Cauchy définie par
+		$\langle \mathrm{vp}\frac{1}{x}, \varphi\rangle = \lim_{\varepsilon\to 0^+}\int_{|x|\geq\varepsilon}\frac{\varphi(x)}{x}\,dx$.
+	\end{proposition}
+	
+	\begin{proof}
+		\begin{align*}
+			\langle T', \varphi\rangle
+			&= -\int_{-\infty}^{+\infty}\ln|x|\,\varphi'(x)\,dx \\
+			&= -\int_0^{+\infty}\ln(x)\,\varphi'(x)\,dx - \int_{-\infty}^0\ln(-x)\,\varphi'(x)\,dx.
+		\end{align*}
+		Pour le premier terme, une intégration par parties avec régularisation en $\varepsilon \to 0^+$ donne $\lim_{\varepsilon\to 0^+}(\ln\varepsilon)\varphi(\varepsilon) + \int_\varepsilon^{+\infty}\frac{\varphi(x)}{x}\,dx$. De même pour le second terme avec $-\ln\varepsilon$. Les logarithmes se compensent, et la somme converge vers $\langle\mathrm{vp}\frac{1}{x}, \varphi\rangle$.
+	\end{proof}
+	
+	\subsection{Dérivée de la partie entière \texorpdfstring{$\lfloor x\rfloor$}{[x]}}
+	
+	\begin{proposition}
+		La fonction partie entière $f(x) = \lfloor x\rfloor$ a pour dérivée le \textbf{peigne de Dirac} :
+		\[
+		\lfloor x\rfloor' = \sum_{n=-\infty}^{+\infty} \delta_n = \Delta_1.
+		\]
+	\end{proposition}
+	
+	\begin{proof}
+		$\langle f', \varphi\rangle = -\langle f, \varphi'\rangle = -\displaystyle\sum_{n=-\infty}^{+\infty} n\int_n^{n+1}\varphi'(x)\,dx = \displaystyle\sum_{n=-\infty}^{+\infty} n\bigl[\varphi(n)-\varphi(n+1)\bigr] = \displaystyle\sum_{n=-\infty}^{+\infty}\varphi(n)$ (somme télescopique à support fini).
+	\end{proof}
+	
+	%----------------------------------------------------------
+	\section{Formule des sauts — fonctions \texorpdfstring{$C^\infty$}{C-infini} par morceaux}
+	%----------------------------------------------------------
+	
+	\begin{theorem}[Formule des sauts — cas général]
+		Soit $f : \mathbb{R} \to \mathbb{C}$ une fonction $C^\infty$ sur $\mathbb{R}$ sauf en un nombre localement fini de points $(x_\nu)_{\nu\in\mathbb{Z}}$ avec $x_\nu \to \pm\infty$. On note, pour $p \geq 0$ :
+		\[
+		[f^{(p)}]_\nu := f^{(p)}(x_\nu^+) - f^{(p)}(x_\nu^-) \quad \text{(saut de la dérivée d'ordre $p$ en $x_\nu$)},
+		\]
+		et $[f^{(p)}]$ la fonction qui vaut $f^{(p)}$ entre les points de discontinuité (non définie en ceux-ci). Alors, au sens des distributions :
+		\[
+		f' = [f'] + \sum_\nu [f]_\nu\,\delta_{x_\nu},
+		\]
+		\[
+		f'' = [f''] + \sum_\nu [f']_\nu\,\delta_{x_\nu} + \sum_\nu [f]_\nu\,\delta_{x_\nu}',
+		\]
+		et plus généralement :
+		\[
+		f^{(n)} = [f^{(n)}] + \sum_{k=0}^{n-1}\sum_\nu [f^{(k)}]_\nu\,\delta_{x_\nu}^{(n-1-k)}.
+		\]
+	\end{theorem}
+	
+	\begin{proof}
+		Une intégration par parties sur chaque intervalle $(x_\nu, x_{\nu+1})$ donne, après sommation :
+		\[
+		\langle f', \varphi\rangle = -\langle f, \varphi'\rangle = \int_{-\infty}^{+\infty}[f'](x)\varphi(x)\,dx + \sum_\nu [f]_\nu\,\varphi(x_\nu).
+		\]
+		On applique la formule récursivement pour les ordres supérieurs.
+	\end{proof}
+	
+	\begin{exemple}[Fonction créneau]
+		Soit $f = \mathbf{1}_{[a,b]}$ (indicatrice de $[a,b]$). Alors $f$ a pour sauts $[f]_a = 1$ et $[f]_b = -1$. Donc
+		\[
+		f' = \delta_a - \delta_b, \qquad f'' = \delta_a' - \delta_b'.
+		\]
+	\end{exemple}
+	
+	\begin{exemple}[Fonction triangulaire]
+		Soit $f(x) = \max(1 - |x|, 0)$ (chapeau sur $[-1,1]$). Elle est $C^0$ mais pas $C^1$. On a $[f']_{-1} = 1$, $[f']_0 = -2$, $[f']_1 = 1$ ; les sauts de $f$ en ces points sont nuls. Donc
+		\[
+		f'' = [f''] + \delta_{-1} - 2\delta_0 + \delta_1 = -2\delta_0 + \delta_{-1} + \delta_1.
+		\]
+		(car $[f''] = 0$ en dehors des points de non-dérivabilité, et $f$ est nulle hors de $[-1,1]$).
+	\end{exemple}
+	
+	%----------------------------------------------------------
+	\section{Dérivée de la distribution de Dirac et de ses itérées}
+	%----------------------------------------------------------
+	
+	\begin{proposition}
+		Pour tout $m \in \mathbb{N}$ et $a \in \mathbb{R}$ :
+		\[
+		\langle \delta_a^{(m)}, \varphi \rangle = (-1)^m\,\varphi^{(m)}(a).
+		\]
+		En particulier $\delta_a^{(m)}$ est à support $\{a\}$ et est une distribution singulière pour tout $m \geq 1$.
+	\end{proposition}
+	
+	\begin{theorem}[Structure des distributions à support ponctuel]
+		Soit $T \in \mathcal{D}'(\mathbb{R})$ à support $\{0\}$. Alors il existe $N \in \mathbb{N}$ et des constantes $c_0, \dots, c_N \in \mathbb{C}$ tels que
+		\[
+		T = \sum_{k=0}^N c_k\,\delta_0^{(k)}.
+		\]
+	\end{theorem}
+	
+	\begin{remarque}
+		Ce résultat est très important : toute distribution dont le support est réduit à un point est \emph{nécessairement} une combinaison linéaire finie de la mesure de Dirac et de ses dérivées.
+	\end{remarque}
+	
+	%----------------------------------------------------------
+	\section{Annulateurs de la dérivation — noyau de $T \mapsto xT$}
+	%----------------------------------------------------------
+	
+	\begin{theorem}
+		\begin{enumerate}
+			\item $x\,T = 0$ dans $\mathcal{D}'(\mathbb{R})$ si et seulement si $T = c\,\delta_0$ pour une constante $c \in \mathbb{C}$.
+			\item $x^n T = 0$ dans $\mathcal{D}'(\mathbb{R})$ si et seulement si
+			$T = c_0\delta_0 + c_1\delta_0' + \cdots + c_{n-1}\delta_0^{(n-1)}$.
+			\item Les distributions vérifiant $x\,T = 1$ sont exactement $T = \mathrm{vp}\frac{1}{x} + c\,\delta_0$.
+			\item Les distributions vérifiant $x^n T = 1$ sont $T = \mathrm{Pf}\frac{1}{x^n} + c_0\delta_0 + \cdots + c_{n-1}\delta_0^{(n-1)}$.
+		\end{enumerate}
+	\end{theorem}
+	
+	\begin{proof}[Preuve du point 1]
+		$x\,T = 0 \Leftrightarrow \langle T, x\varphi\rangle = 0$ pour tout $\varphi \in \mathcal{D}$.
+		Le théorème de division des fonctions dérivables assure que $\psi \in \mathcal{D}$ est de la forme $x\varphi$ si et seulement si $\psi(0) = 0$.
+		Donc $T$ s'annule sur $\ker(\varphi \mapsto \varphi(0))$, qui est un hyperplan de $\mathcal{D}$. Par dualité, $T$ est proportionnelle à $\delta_0$.
+	\end{proof}
+	
+	%----------------------------------------------------------
+	\section{Formule des distributions \texorpdfstring{$\partial_j T$}{} en dimension \texorpdfstring{$n$}{n}}
+	%----------------------------------------------------------
+	
+	En dimension $n \geq 1$, si $T \in \mathcal{D}'(\mathbb{R}^n)$ et $\alpha \in \mathbb{N}^n$, on définit
+	\[
+	\langle \partial^\alpha T, \varphi \rangle = (-1)^{|\alpha|}\langle T, \partial^\alpha \varphi\rangle,
+	\qquad \forall\,\varphi \in \mathcal{D}(\mathbb{R}^n).
+	\]
+	Toutes les propriétés précédentes s'étendent \emph{sans modification}.
+	
+	\begin{exemple}[Dérivée de la fonction de Heaviside en dimension 2]
+		Soit $H_2(x,y) = H(x)H(y)$. Alors
+		\[
+		\partial_x H_2 = \delta_0(x) \otimes H(y), \quad
+		\partial_y H_2 = H(x) \otimes \delta_0(y), \quad
+		\partial_x\partial_y H_2 = \delta_0(x) \otimes \delta_0(y) = \delta_{(0,0)}.
+		\]
+	\end{exemple}
+	
+	%----------------------------------------------------------
+	\section{QCM — Dérivation des distributions}
+	%----------------------------------------------------------
+	
+	\begin{enumerate}[label=\textbf{Q\arabic*.}, leftmargin=2cm, itemsep=8pt]
+		
+		\item Quelle est la dérivée de $f(x) = x_+ := \max(x,0)$ dans $\mathcal{D}'(\mathbb{R})$ ?\\
+		A. $H(x)$\quad B. $\delta_0$\quad C. $H(-x)$\quad D. $|x|$\\
+		\textit{Réponse : \textbf{A}.} En effet $x_+ = x H(x)$, donc $(x_+)' = H(x) + x\delta_0 = H(x)$.
+		
+		\item Quelle est la valeur de $\langle \delta_0^{(3)}, \varphi \rangle$ ?\\
+		A. $\varphi^{(3)}(0)$\quad B. $-\varphi^{(3)}(0)$\quad C. $3\varphi(0)$\quad D. $\varphi''(0)$\\
+		\textit{Réponse : \textbf{B}.} $\langle \delta_0^{(3)},\varphi\rangle = (-1)^3\varphi^{(3)}(0) = -\varphi^{(3)}(0)$.
+		
+		\item Soit $f(x) = |x|^3$. Quelle est $f''$ dans $\mathcal{D}'$ ?\\
+		A. $6|x|$\quad B. $6x\,\mathrm{sgn}(x)$\quad C. $6|x| + \delta_0$\quad D. $3x^2\,\mathrm{sgn}(x)$\\
+		\textit{Réponse : \textbf{A}.} $f'(x) = 3x|x|$, $f''(x) = 6|x|$ (pas de saut car $f' \in C^0$).
+		
+		\item Quel est $x\,\delta_0''$ ?\\
+		A. $0$\quad B. $-2\delta_0$\quad C. $-\delta_0'$\quad D. $2\delta_0$\\
+		\textit{Réponse : \textbf{B}.} $x\,\delta_0^{(n)} = -n\,\delta_0^{(n-1)}$, donc $x\,\delta_0'' = -2\delta_0'$.
+		
+		Attention : $x\,\delta_0'' = -2\delta_0'$, pas $-2\delta_0$. Relire la formule $x\delta_0^{(n)} = -n\delta_0^{(n-1)}$ pour $n=2$ : résultat $-2\delta_0'$.
+		
+		\item Soit $f(x) = \mathbf{1}_{[0,1]}(x)$. Quelle est $f'$ dans $\mathcal{D}'(\mathbb{R})$ ?\\
+		A. $0$\quad B. $\delta_0 + \delta_1$\quad C. $\delta_0 - \delta_1$\quad D. $-\delta_0 + \delta_1$\\
+		\textit{Réponse : \textbf{C}.} Saut en $0$ : $+1$, saut en $1$ : $-1$.
+		
+		\item La dérivée distributionnelle de $e^{|x|}$ est :\\
+		A. $e^{|x|}\mathrm{sgn}(x)$\quad B. $e^{|x|}\mathrm{sgn}(x) + 2\delta_0$\quad C. $|x|e^{|x|}$\quad D. $e^x H(x) - e^{-x}H(-x)$\\
+		\textit{Réponse : \textbf{A}.} $e^{|x|}$ est continue donc pas de masse de Dirac ; dérivée classique $= e^{|x|}\mathrm{sgn}(x)$ partout sauf en $0$, ce qui suffit.
+		
+		\item Si $T = \displaystyle\sum_{n \in \mathbb{Z}} \delta_n$ (peigne de Dirac), quelle est $T'$ ?\\
+		A. $\displaystyle\sum_{n\in\mathbb{Z}}\delta_n'$\quad B. $0$\quad C. $T$\quad D. $\displaystyle\sum_{n\in\mathbb{Z}} n\,\delta_n$\\
+		\textit{Réponse : \textbf{A}.} La dérivée d'une série convergente de distributions est la série des dérivées.
+		
+		\item Parmi les énoncés suivants, lequel est \emph{faux} ?\\
+		A. $\delta_0' \in \mathcal{D}'(\mathbb{R})$.\\
+		B. $H \in \mathcal{D}'(\mathbb{R})$ et $H' = \delta_0$.\\
+		C. Toute distribution est indéfiniment dérivable.\\
+		D. Si $f \in C^0(\mathbb{R})$ et $f$ n'est pas $C^1$, alors $f'$ n'existe pas dans $\mathcal{D}'(\mathbb{R})$.\\
+		\textit{Réponse : \textbf{D}.} Une fonction continue est toujours dérivable dans $\mathcal{D}'$, même si elle n'est pas dérivable au sens classique.
+		
+		\item Quelle est la dérivée de $\mathrm{vp}\dfrac{1}{x}$ dans $\mathcal{D}'(\mathbb{R})$ ?\\
+		A. $-\mathrm{Pf}\dfrac{1}{x^2}$\quad B. $0$\quad C. $\dfrac{1}{x^2}$\quad D. $\mathrm{vp}\dfrac{1}{x^2}$\\
+		\textit{Réponse : \textbf{A}.} Par définition $\left(\mathrm{vp}\dfrac{1}{x}\right)' = -\mathrm{Pf}\dfrac{1}{x^2}$.
+		
+		\item Soit $T \in \mathcal{D}'(\mathbb{R})$ à support $\{0\}$. Alors $T$ est nécessairement :\\
+		A. proportionnelle à $\delta_0$.\\
+		B. une combinaison finie de $\delta_0, \delta_0', \delta_0'', \ldots$\\
+		C. nulle.\\
+		D. une mesure bornée.\\
+		\textit{Réponse : \textbf{B}.} Théorème de structure des distributions à support ponctuel.
+		
+	\end{enumerate}
+	
+	%----------------------------------------------------------
+	\section{Exercices corrigés — Dérivation}
+	%----------------------------------------------------------
+	
+	\subsection*{Exercice 1 — Dérivation de fonctions par morceaux}
+	
+	Calculer les dérivées $f'$, $f''$ et $f'''$ dans $\mathcal{D}'(\mathbb{R})$ de la fonction définie par
+	\[
+	f(x) = \begin{cases} 0 & \text{si } x < 0, \\ x^2 & \text{si } 0 \leq x \leq 1, \\ 2-x & \text{si } x > 1. \end{cases}
+	\]
+	
+	\textbf{Solution.}
+	
+	\emph{Sauts.} $f$ est continue en $0$ (les deux membres valent $0$) et continue en $1$ (les deux membres valent $1$). Donc $[f]_0 = [f]_1 = 0$.
+	
+	La dérivée classique par morceaux est $[f'](x) = 0$ si $x < 0$, $[f'](x) = 2x$ si $0 < x < 1$, $[f'](x) = -1$ si $x > 1$.
+	Les sauts de $f'$ : en $0$, $[f']_0 = 2 \cdot 0 - 0 = 0$ ; en $1$, $[f']_1 = -1 - 2 = -3$.
+	
+	Donc par la formule des sauts :
+	\[
+	f' = [f'] = \begin{cases}0 & x < 0,\\ 2x & 0 < x < 1,\\ -1 & x > 1,\end{cases}
+	\qquad
+	f'' = [f''] + [f']_1\,\delta_1 = \begin{cases}0 & x < 0,\\ 2 & 0 < x < 1,\\ 0 & x > 1,\end{cases} - 3\,\delta_1.
+	\]
+	On a $[f'']_0 = 2 - 0 = 2$, d'où
+	\[
+	f'' = 2\,\mathbf{1}_{[0,1]} - 3\,\delta_1, \qquad
+	f''' = 2(\delta_0 - \delta_1) - 3\,\delta_1' = 2\delta_0 - 2\delta_1 - 3\delta_1'.
+	\]
+	
+	\subsection*{Exercice 2 — Action de $x\,\delta_0^{(n)}$}
+	
+	Montrer que $x^2\,\delta_0'' = 2\delta_0$ et $x^3\,\delta_0'' = 0$.
+	
+	\textbf{Solution.}
+	\begin{align*}
+		\langle x^2\delta_0'', \varphi\rangle &= \langle \delta_0'', x^2\varphi\rangle = (x^2\varphi)''(0).
+	\end{align*}
+	Or $(x^2\varphi)'' = 2\varphi + 4x\varphi' + x^2\varphi''$, donc $(x^2\varphi)''|_{x=0} = 2\varphi(0)$. D'où $x^2\delta_0'' = 2\delta_0$.
+	
+	De même, $\langle x^3\delta_0'', \varphi\rangle = (x^3\varphi)''(0)$. Or $(x^3\varphi)'' = 6x\varphi + 6x^2\varphi' + x^3\varphi''$, qui s'annule en $0$. Donc $x^3\delta_0'' = 0$.
+	
+	\subsection*{Exercice 3 — Dérivée de $|x|\sin x$}
+	
+	Calculer les dérivées d'ordre $1$ et $2$ de $T = |x|\sin x$ dans $\mathcal{D}'(\mathbb{R})$.
+	
+	\textbf{Solution.}
+	$|x|\sin x$ est continue donc ses dérivées jusqu'à l'ordre où elle reste $C^k$ ne font pas apparaître de Dirac.
+	
+	$T' = |x|'\sin x + |x|\cos x = \mathrm{sgn}(x)\sin x + |x|\cos x$.
+	
+	Pour $T''$, on dérive encore. $\mathrm{sgn}(x)$ a la dérivée $2\delta_0$ :
+	\[
+	T'' = 2\delta_0 \cdot \sin(0) + \mathrm{sgn}(x)\cos x + \mathrm{sgn}(x)\cos x - |x|\sin x = 2\mathrm{sgn}(x)\cos x - |x|\sin x.
+	\]
+	(Le terme en $\delta_0$ disparaît car $\sin(0) = 0$.)
+	
+	\subsection*{Exercice 4 — Vérification par deux méthodes}
+	
+	Montrer que $\dfrac{d}{dx}(H(x)\sin x) = \delta_0 + H(x)\cos x$.
+	
+	\textbf{Méthode 1 (définition directe).}
+	\[
+	\langle(H\sin x)', \varphi\rangle = -\int_0^{+\infty}\sin(x)\varphi'(x)\,dx = \varphi(0) + \int_0^{+\infty}\cos(x)\varphi(x)\,dx
+	\]
+	par IPP (le crochet vaut $[-\sin(x)\varphi(x)]_0^{+\infty} = 0$ et $\int_0^\infty \cos(x)\varphi(x)\,dx$). D'où $\varphi(0) + \langle H\cos x, \varphi\rangle$.
+	
+	\textbf{Méthode 2 (Leibniz).}
+	$(H\sin x)' = H'\sin x + H\cos x = \delta_0 \cdot \sin(0) + H\cos x = 0 + H\cos x$.
+	
+	Attention : $\delta_0 \cdot \sin(x)$ vaut $\sin(0)\delta_0 = 0$. Les deux méthodes donnent le même résultat.
+	
+	\subsection*{Exercice 5 — Dérivée du peigne de Dirac et série trigonométrique}
+	
+	Montrer que $\dfrac{d}{dx}\Delta_a = \displaystyle\sum_{n\in\mathbb{Z}}\delta_{na}'$, et en déduire que, au sens des distributions,
+	\[
+	\sum_{n=1}^{+\infty} n\sin(nx) = -\pi\sum_{k\in\mathbb{Z}} \delta_{2k\pi}'.
+	\]
+	
+	\textbf{Solution.} La dérivation commute avec les séries convergentes dans $\mathcal{D}'$ :
+	\[
+	\Delta_a' = \left(\sum_{n\in\mathbb{Z}}\delta_{na}\right)' = \sum_{n\in\mathbb{Z}}\delta_{na}'.
+	\]
+	On sait (cours, section 4.4.5) que $\displaystyle\sum_{k=1}^{+\infty}\cos(kx) = -\tfrac{1}{2} + \pi\sum_{m\in\mathbb{Z}}\delta_{2m\pi}$.
+	En dérivant membre à membre :
+	\[
+	-\sum_{k=1}^{+\infty} k\sin(kx) = \pi\sum_{m\in\mathbb{Z}}\delta_{2m\pi}',
+	\]
+	soit $\displaystyle\sum_{n=1}^{+\infty} n\sin(nx) = -\pi\sum_{k\in\mathbb{Z}}\delta_{2k\pi}'$.
+	
+	
+	% ============================================================
+	% SECTION 4 : PRIMITIVES DES DISTRIBUTIONS (VERSION ENRICHIE)
+	% ============================================================
+	\chapter{Primitives des distributions en dimension 1}
+	\markboth{PRIMITIVES DES DISTRIBUTIONS}{PRIMITIVES DES DISTRIBUTIONS}
+	
+	%----------------------------------------------------------
+	\section{Définition et premières remarques}
+	%----------------------------------------------------------
+	
+	\begin{definition}[Primitive d'une distribution]
+		Soit $S \in \mathcal{D}'(\mathbb{R})$. On appelle \textbf{primitive} de $S$ toute distribution $T \in \mathcal{D}'(\mathbb{R})$ vérifiant
+		\[
+		T' = S.
+		\]
+	\end{definition}
+	
+	\begin{remarque}
+		Cette définition est la transposée exacte de la définition classique. Si $f \in C^0(\mathbb{R})$, ses primitives au sens classique et ses primitives au sens des distributions coïncident (à constante près).
+	\end{remarque}
+	
+	%----------------------------------------------------------
+	\section{Le noyau de la dérivation : distributions de dérivée nulle}
+	%----------------------------------------------------------
+	
+	\begin{lemma}[Caractérisation des distributions de dérivée nulle]
+		Soit $T \in \mathcal{D}'(\mathbb{R})$. Alors
+		\[
+		T' = 0 \quad \text{dans } \mathcal{D}'(\mathbb{R})
+		\iff
+		\exists\, C \in \mathbb{C}, \quad T = C
+		\quad\left(\text{i.e. } \langle T, \varphi\rangle = C\int_{-\infty}^{+\infty}\varphi(x)\,dx\right).
+		\]
+	\end{lemma}
+	
+	\begin{proof}
+		\emph{($\Leftarrow$)} Si $T = C$ (constante), alors $\langle T', \varphi\rangle = -\langle T, \varphi'\rangle = -C\int\varphi' = 0$.
+		
+		\emph{($\Rightarrow$)} Supposons $T' = 0$, c'est-à-dire $\langle T, \varphi'\rangle = 0$ pour toute $\varphi \in \mathcal{D}$.
+		
+		\textbf{Étape 1 (image de la dérivation).} Montrons que l'image de $\varphi \mapsto \varphi'$ dans $\mathcal{D}$ est précisément
+		\[
+		\mathcal{D}_0 := \left\{\psi \in \mathcal{D}\;\middle|\; \int_{-\infty}^{+\infty}\psi(x)\,dx = 0\right\}.
+		\]
+		Si $\varphi \in \mathcal{D}$, alors $\varphi' \in \mathcal{D}_0$ (intégrale d'une dérivée à support compact). Réciproquement, si $\psi \in \mathcal{D}_0$, posons $\varphi(x) = \int_{-\infty}^x\psi(t)\,dt$ : c'est $C^\infty$, nul pour $x \ll 0$, et nul pour $x \gg 0$ (car $\int\psi = 0$). Donc $\varphi \in \mathcal{D}$ et $\varphi' = \psi$.
+		
+		\textbf{Étape 2.} $T' = 0$ signifie que $T$ s'annule sur $\mathcal{D}_0$, qui est un hyperplan de $\mathcal{D}$.
+		Fixons $\theta \in \mathcal{D}$ avec $\int\theta = 1$. Toute $\varphi \in \mathcal{D}$ s'écrit
+		\[
+		\varphi = \underbrace{\left(\varphi - \left(\int\varphi\right)\theta\right)}_{\in\,\mathcal{D}_0} + \left(\int\varphi\right)\theta.
+		\]
+		Donc $\langle T, \varphi\rangle = \langle T, (\int\varphi)\theta\rangle = \langle T, \theta\rangle \cdot \int\varphi$. Posant $C = \langle T, \theta\rangle$, on obtient $T = C$.
+	\end{proof}
+	
+	%----------------------------------------------------------
+	\section{Existence et unicité d'une primitive}
+	%----------------------------------------------------------
+	
+	\begin{theorem}[Existence et unicité à une constante près]
+		Toute distribution $S \in \mathcal{D}'(\mathbb{R})$ admet au moins une primitive $T$. L'ensemble des primitives de $S$ est
+		\[
+		\{T + C \mid C \in \mathbb{C}\},
+		\]
+		où $T$ est une primitive particulière quelconque. C'est un espace affine de dimension $1$ sur $\mathbb{C}$.
+	\end{theorem}
+	
+	\begin{proof}
+		\emph{Unicité modulo constante.} Si $T_1' = T_2' = S$, alors $(T_1 - T_2)' = 0$, donc $T_1 - T_2 = C$ par le lemme précédent.
+		
+		\emph{Existence.} On construit explicitement une primitive. Reprenons les notations du lemme : fixons $\theta \in \mathcal{D}$ avec $\int\theta = 1$.
+		Pour toute $\varphi \in \mathcal{D}$, posons $\Psi_\varphi(x) = \int_{-\infty}^x\bigl(\varphi(t) - (\int\varphi)\theta(t)\bigr)\,dt \in \mathcal{D}$.
+		Définissons $T$ par
+		\[
+		\langle T, \varphi\rangle := -\langle S, \Psi_\varphi\rangle.
+		\]
+		$T$ est linéaire et continue (car $\varphi \mapsto \Psi_\varphi$ est continue dans $\mathcal{D}$). Vérifions $T' = S$ :
+		\[
+		\langle T', \varphi\rangle = -\langle T, \varphi'\rangle = \langle S, \Psi_{\varphi'}\rangle.
+		\]
+		Or $\Psi_{\varphi'} = \varphi$ (car $\int\varphi' = 0$, donc $\Psi_{\varphi'}(x) = \int_{-\infty}^x\varphi'(t)\,dt = \varphi(x)$). Donc $\langle T', \varphi\rangle = \langle S, \varphi\rangle$.
+	\end{proof}
+	
+	%----------------------------------------------------------
+	\section{Primitives des distributions usuelles}
+	%----------------------------------------------------------
+	
+	\begin{theorem}[Tableau des primitives fondamentales]
+		\mbox{}
+		
+		\begin{center}
+			\renewcommand{\arraystretch}{1.6}
+			\begin{tabular}{|l|l|l|}
+				\hline
+				\textbf{Distribution $S$} & \textbf{Primitive particulière $T$} & \textbf{Commentaire} \\
+				\hline
+				Constante $C_0$ & $C_0\,x$ & primitives classiques \\
+				$H(x)$ & $x_+ = x H(x)$ & $\int_0^x H(t)\,dt = x$ si $x > 0$ \\
+				$\delta_0$ & $H(x)$ & $H' = \delta_0$ \\
+				$\delta_0'$ & $\delta_0$ & $\delta_0' = (\delta_0)'$ \\
+				$\delta_0^{(n)}$ & $\delta_0^{(n-1)}$ & récurrence \\
+				$\delta_a$ & $H(x-a) = \tau_a H$ & translation \\
+				$\mathrm{sgn}(x)$ & $|x|$ & car $|x|' = \mathrm{sgn}(x)$ \\
+				$\mathrm{vp}\dfrac{1}{x}$ & $\ln|x|$ & car $(\ln|x|)' = \mathrm{vp}\dfrac{1}{x}$ \\
+				$-\mathrm{Pf}\dfrac{1}{x^2}$ & $\mathrm{vp}\dfrac{1}{x}$ & par définition \\
+				$\Delta_a = \displaystyle\sum_{n\in\mathbb{Z}}\delta_{na}$ & $\displaystyle\sum_{n\in\mathbb{Z}}H(x-na)$ & peigne de Heaviside \\
+				\hline
+			\end{tabular}
+		\end{center}
+		\renewcommand{\arraystretch}{1}
+	\end{theorem}
+	
+	%----------------------------------------------------------
+	\section{Primitive d'ordre \texorpdfstring{$n$}{n} de \texorpdfstring{$\delta_0$}{delta}}
+	%----------------------------------------------------------
+	
+	\begin{proposition}
+		La suite de fonctions $\displaystyle f_n(x) = \frac{x^n}{n!}H(x)$ vérifie
+		\[
+		f_n^{(n+1)} = \delta_0, \qquad f_0 = H, \qquad f_n' = f_{n-1}.
+		\]
+		En particulier, la primitive d'ordre $n$ de $\delta_0$ qui s'annule sur $]-\infty,0[$ est $f_n(x) = \dfrac{x^n}{n!}H(x)$.
+	\end{proposition}
+	
+	\begin{proof}
+		Par récurrence. $f_0' = H' = \delta_0$. Si $f_{n-1}' = f_{n-2}$, alors
+		$\left(\frac{x^n}{n!}H\right)' = \frac{x^{n-1}}{(n-1)!}H + \frac{x^n}{n!}\delta_0 = \frac{x^{n-1}}{(n-1)!}H = f_{n-1}$
+		(car $x^n\delta_0 = 0$).
+	\end{proof}
+	
+	%----------------------------------------------------------
+	\section{Structure des primitives dans \texorpdfstring{$\mathcal{D}'(\mathbb{R})$}{D'(R)}}
+	%----------------------------------------------------------
+	
+	\begin{proposition}[Primitives de distributions à support borné]
+		Soit $S \in \mathcal{D}'(\mathbb{R})$ à support compact. Alors toutes ses primitives sont à support borné à gauche (bornées inférieurement), mais pas nécessairement compactes.
+	\end{proposition}
+	
+	\begin{proposition}[Commutation avec la multiplication par $C^\infty$]
+		Si $T$ est une primitive de $S$ et $a \in C^\infty(\mathbb{R})$, alors la primitive de $aS$ \emph{n'est pas} $aT$ en général : $(aT)' = a'T + aS$.
+	\end{proposition}
+	
+	\begin{remarque}
+		C'est précisément pourquoi la résolution de $T' + a(x)T = S$ dans $\mathcal{D}'$ ne se réduit pas à la recherche d'une primitive, mais demande l'utilisation d'un facteur intégrant $e^{A(x)}$ (voir chapitre~5).
+	\end{remarque}
+	
+	%----------------------------------------------------------
+	\section{Lien avec les intégrales à paramètre}
+	%----------------------------------------------------------
+	
+	\begin{theorem}[Primitive via intégrale à paramètre]
+		Si $f \in L^1_{\text{loc}}(\mathbb{R})$, la fonction
+		\[
+		F(x) = \int_a^x f(t)\,dt
+		\]
+		est continue, localement intégrable, et vérifie $F' = T_f$ dans $\mathcal{D}'(\mathbb{R})$. C'est une primitive classique de $T_f$.
+	\end{theorem}
+	
+	\begin{exemple}
+		\begin{itemize}
+			\item Primitive de $T_f$ avec $f(x) = e^{-|x|}$ : $F(x) = \int_0^x e^{-|t|}dt$, qui vaut $1 - e^{-x}$ pour $x \geq 0$ et $e^x - 1$ pour $x < 0$.
+			\item Primitive de $\mathrm{vp}\frac{1}{x}$ : $\ln|x|$ (déjà vue).
+			\item Primitive d'ordre 2 de $\delta_0$ : $\frac{x^2}{2}H(x) = x_+^2/2$.
+		\end{itemize}
+	\end{exemple}
+	
+	%----------------------------------------------------------
+	\section{Primitives et équation \texorpdfstring{$T' = S$}{T'=S}}
+	%----------------------------------------------------------
+	
+	\begin{theorem}[Résolution de $T' = S$]
+		Pour tout $S \in \mathcal{D}'(\mathbb{R})$, la solution générale de l'équation $T' = S$ dans $\mathcal{D}'(\mathbb{R})$ est
+		\[
+		T = T_0 + C, \quad C \in \mathbb{C},
+		\]
+		où $T_0$ est une primitive particulière de $S$.
+		
+		Lorsque $S$ est une fonction localement intégrable, $T_0(x) = \int_0^x S(t)\,dt$ est une primitive particulière.
+	\end{theorem}
+	
+	\begin{exemple}[Primitive de $|x|$]
+		$|x|' = \mathrm{sgn}(x)$, donc une primitive de $\mathrm{sgn}(x)$ est $|x|$.
+		Vérification : $\langle \mathrm{sgn}', \varphi\rangle = -\int_{-\infty}^{+\infty}\mathrm{sgn}(x)\varphi'(x)\,dx = \int_{-\infty}^0\varphi'(x)\,dx - \int_0^{+\infty}\varphi'(x)\,dx = 2\varphi(0)$.
+		Donc $\mathrm{sgn}'= 2\delta_0$ et une primitive de $\mathrm{sgn}$ est bien $|x|/1 = |x|$ (modulo constante).
+	\end{exemple}
+	
+	%----------------------------------------------------------
+	\section{QCM — Primitives des distributions}
+	%----------------------------------------------------------
+	
+	\begin{enumerate}[label=\textbf{Q\arabic*.}, leftmargin=2cm, itemsep=8pt]
+		
+		\item Quelle est la primitive de $\delta_0$ s'annulant sur $]-\infty, 0[$ ?\\
+		A. $\delta_0'$\quad B. $H(x)$\quad C. $H(x) + 1$\quad D. $x\,\delta_0$\\
+		\textit{Réponse : \textbf{B}.} $H' = \delta_0$ et $H(x) = 0$ pour $x < 0$.
+		
+		\item Quelle est la solution générale de $T' = 0$ dans $\mathcal{D}'(\mathbb{R})$ ?\\
+		A. $T = 0$\quad B. $T = \delta_0$\quad C. $T = C$ (constante)\quad D. $T = C\,x$\\
+		\textit{Réponse : \textbf{C}.} Lemme fondamental du calcul variationnel dans $\mathcal{D}'$.
+		
+		\item Si $T'' = 0$ dans $\mathcal{D}'(\mathbb{R})$, quelle est la forme générale de $T$ ?\\
+		A. $T = C$\quad B. $T = Cx + D$\quad C. $T = C\,\delta_0$\quad D. $T = H$\\
+		\textit{Réponse : \textbf{B}.} $T' = A$ (constante), donc $T = Ax + B$.
+		
+		\item Parmi les distributions suivantes, laquelle est une primitive de $2\delta_0$ ?\\
+		A. $2H(x)$\quad B. $\delta_0'$\quad C. $2\delta_0'$\quad D. $H(-x)$\\
+		\textit{Réponse : \textbf{A}.} $(2H)' = 2\delta_0$.
+		
+		\item La primitive de $\delta_0^{(n)}$ la plus naturelle est :\\
+		A. $\delta_0^{(n+1)}$\quad B. $\delta_0^{(n-1)}$\quad C. $\frac{x^n}{n!}H$\quad D. $n!\,\delta_0$\\
+		\textit{Réponse : \textbf{B}.} $(\delta_0^{(n-1)})' = \delta_0^{(n)}$ par définition.
+		
+		\item Combien y a-t-il de primitives de $\delta_0 + \delta_1$ dans $\mathcal{D}'(\mathbb{R})$ ?\\
+		A. Aucune\quad B. Exactement une\quad C. Une infinité\quad D. Deux\\
+		\textit{Réponse : \textbf{C}.} Une primitive particulière est $H(x) + H(x-1)$ ; l'ensemble des primitives est $H(x) + H(x-1) + C$.
+		
+		\item Quelle est la primitive de $\mathrm{sgn}(x)$ dans $\mathcal{D}'(\mathbb{R})$ ?\\
+		A. $2\delta_0$\quad B. $|x| + C$\quad C. $H(x) + C$\quad D. $x\,H(x) + C$\\
+		\textit{Réponse : \textbf{B}.} $|x|' = \mathrm{sgn}(x)$.
+		
+		\item Soit $f(x) = x^2 H(x)$. Quelle est sa dérivée seconde dans $\mathcal{D}'$ ?\\
+		A. $2H(x)$\quad B. $2H(x) + \delta_0$\quad C. $2H(x) + 2\delta_0$\quad D. $2x\,\delta_0 + 2H$\\
+		\textit{Réponse : \textbf{A}.} $f' = 2xH(x) + x^2\delta_0 = 2xH(x)$ ; $f'' = 2H(x) + 2x\delta_0 = 2H(x)$.
+		
+		\item La distribution $\ln|x|$ est une primitive de :\\
+		A. $\dfrac{1}{x^2}$\quad B. $\mathrm{Pf}\dfrac{1}{x^2}$\quad C. $\mathrm{vp}\dfrac{1}{x}$\quad D. $0$\\
+		\textit{Réponse : \textbf{C}.} $(\ln|x|)' = \mathrm{vp}\dfrac{1}{x}$.
+		
+		\item Dans $\mathcal{D}'(\mathbb{R})$, l'équation $T'' = \delta_0$ a pour solution générale :\\
+		A. $T = H(x) + C$\quad B. $T = xH(x) + Cx + D$\quad C. $T = \frac{x^2}{2}H(x) + Cx + D$\quad D. $T = \delta_0' + Cx + D$\\
+		\textit{Réponse : \textbf{B}.} $T' = H(x) + C$ (primitive de $\delta_0$ est $H$, plus constante) ; $T = xH(x) + Cx + D$.
+		
+	\end{enumerate}
+	
+	%----------------------------------------------------------
+	\section{Exercices corrigés — Primitives}
+	%----------------------------------------------------------
+	
+	\subsection*{Exercice 1 — Primitives successives de $\delta_0$}
+	
+	Trouver, pour chaque $n \in \{1, 2, 3\}$, la primitive d'ordre $n$ de $\delta_0$ qui s'annule sur $]-\infty, 0[$.
+	
+	\textbf{Solution.}
+	\begin{itemize}
+		\item Ordre 1 : $T_1 = H(x)$. Vérification : $H' = \delta_0$, et $H(x) = 0$ pour $x < 0$. \checkmark
+		\item Ordre 2 : $T_2 = xH(x)$. Vérification : $T_2' = H(x) + x\delta_0 = H(x)$, et $T_2'' = \delta_0$. Et $T_2(x) = 0$ pour $x < 0$. \checkmark
+		\item Ordre 3 : $T_3 = \dfrac{x^2}{2}H(x)$.
+		$T_3' = xH(x) + \dfrac{x^2}{2}\delta_0 = xH(x)$, $T_3'' = H(x)$, $T_3''' = \delta_0$. \checkmark
+	\end{itemize}
+	En général : $T_n = \dfrac{x^n}{n!}H(x)$ pour $n \geq 0$.
+	
+	\subsection*{Exercice 2 — Résolution de $T' = H - 1$}
+	
+	Trouver la solution générale de $T' = H(x) - 1$ dans $\mathcal{D}'(\mathbb{R})$.
+	
+	\textbf{Solution.} On cherche une primitive particulière de $f(x) = H(x) - 1$.
+	$f(x) = \begin{cases}-1 & x < 0,\\ 0 & x > 0.\end{cases}$
+	Une primitive (au sens classique, donc aussi distributionnel) est $F(x) = \int_0^x f(t)\,dt = \begin{cases}-x & x < 0,\\ 0 & x > 0.\end{cases} = -x\,H(-x)$.
+	
+	On peut aussi écrire $F(x) = -x + xH(x) = x(H(x) - 1)$.
+	Vérification : $F'(x) = H(x) - 1 + x\delta_0 = H(x) - 1$. \checkmark
+	
+	Solution générale : $T = -xH(-x) + C$.
+	
+	\subsection*{Exercice 3 — Équation de la chaleur et primitive en $t$}
+	
+	Soit $\Gamma(x,t) = \dfrac{1}{2\sqrt{\pi t}} e^{-x^2/(4t)}$ pour $t > 0$, $x \in \mathbb{R}$.
+	
+	Montrer que $\Gamma(\cdot, t) \xrightarrow{\mathcal{D}'} \delta_0$ lorsque $t \to 0^+$, et en déduire que la distribution $E(x,t) = H(t)\Gamma(x,t)$ vérifie $\partial_t E - \partial_x^2 E = \delta_{(0,0)}$ dans $\mathcal{D}'(\mathbb{R}^2)$.
+	
+	\textbf{Solution.}
+	\emph{Convergence vers $\delta_0$.} Pour $\varphi \in \mathcal{D}(\mathbb{R})$, par le changement $u = x/(2\sqrt{t})$ :
+	\[
+	\int_{-\infty}^{+\infty}\Gamma(x,t)\varphi(x)\,dx = \frac{1}{\sqrt{\pi}}\int_{-\infty}^{+\infty}e^{-u^2}\varphi(2u\sqrt{t})\,du \xrightarrow{t\to 0^+} \frac{\varphi(0)}{\sqrt{\pi}}\int_{-\infty}^{+\infty}e^{-u^2}\,du = \varphi(0).
+	\]
+	Convergence dominée justifiée car $|\varphi(2u\sqrt{t})| \leq \|\varphi\|_\infty$ et $e^{-u^2}$ est intégrable.
+	
+	\emph{Équation de la chaleur.} Pour $t > 0$, $\Gamma$ vérifie $\partial_t\Gamma = \partial_x^2\Gamma$ (calcul classique). Donc
+	\[
+	\partial_t E - \partial_x^2 E = \Gamma(x,0^+)\delta_0(t) = \delta_0(x)\delta_0(t) = \delta_{(0,0)}.
+	\]
+	(En utilisant la formule des sauts en $t = 0$ et la convergence $\Gamma(\cdot,t) \to \delta_0$.)
+	
+	\subsection*{Exercice 4 — Primitives de la valeur principale}
+	
+	Montrer que $x\,\mathrm{vp}\dfrac{1}{x} = 1$, et en déduire que la primitive de $1$ dans $\mathcal{D}'(\mathbb{R})$ est $x + C$.
+	
+	\textbf{Solution.}
+	\[
+	\left\langle x\,\mathrm{vp}\frac{1}{x}, \varphi\right\rangle = \left\langle \mathrm{vp}\frac{1}{x}, x\varphi\right\rangle = \lim_{\varepsilon\to 0^+}\int_{|t|\geq\varepsilon}\frac{t\varphi(t)}{t}\,dt = \lim_{\varepsilon\to 0^+}\int_{|t|\geq\varepsilon}\varphi(t)\,dt = \int_{-\infty}^{+\infty}\varphi(t)\,dt = \langle 1, \varphi\rangle.
+	\]
+	Donc $x\,\mathrm{vp}\frac{1}{x} = 1$. La primitive de $1$ (fonction constante) est $x$ (classiquement), ce qui se vérifie aisément dans $\mathcal{D}'$.
+	
+	\subsection*{Exercice 5 — Structure des primitives du peigne de Dirac}
+	
+	Déterminer la primitive particulière $\Sigma(x)$ du peigne de Dirac $\Delta_1 = \displaystyle\sum_{n\in\mathbb{Z}}\delta_n$ qui s'annule sur $]-\infty, 0[$.
+	
+	\textbf{Solution.}
+	Puisque $H(x-n)' = \delta_n$ pour tout $n \in \mathbb{Z}$, et que la dérivée commute avec les séries convergentes dans $\mathcal{D}'$, on a
+	\[
+	\Sigma(x) = \sum_{n\in\mathbb{Z}} H(x - n).
+	\]
+	Pour $x \in [k, k+1)$ avec $k \in \mathbb{Z}$, la somme vaut $k+1$ (les termes $H(x-n)$ avec $n \leq k$ valent $1$, les autres $0$). Donc $\Sigma(x) = \lfloor x \rfloor + 1$ pour $x \geq 0$.
+	
+	Vérification : $\lfloor x \rfloor' = \Delta_1$. \checkmark
+	
+	\subsection*{Ce qu'il faut retenir — Section 4}
+	
+	\begin{itemize}
+		\item $T' = 0$ dans $\mathcal{D}'(\mathbb{R})$ si et seulement si $T$ est une constante.
+		\item Toute distribution admet une infinité de primitives, formant un espace affine de dimension $1$.
+		\item La primitive d'ordre $n$ de $\delta_0$ s'annulant sur $]-\infty, 0[$ est $\dfrac{x^n}{n!}H(x)$.
+		\item Les opérations de dérivation et de recherche de primitive dans $\mathcal{D}'$ sont inverses l'une de l'autre, modulo des constantes additives.
+		\item La primitive de $\mathrm{vp}\frac{1}{x}$ est $\ln|x|$ ; celle de $-\mathrm{Pf}\frac{1}{x^2}$ est $\mathrm{vp}\frac{1}{x}$.
+	\end{itemize}
+	
+	% ============================================================
+\end{document}

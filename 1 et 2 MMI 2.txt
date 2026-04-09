@@ -1,0 +1,748 @@
+% ============================================================
+%  EXPOSÉ : NOTION DE DISTRIBUTION & DÉRIVATION DES DISTRIBUTIONS
+%  Public   : L1 Génie Mathématique et Modélisation
+%  Auteurs  : Groupe MMI
+%  Couleurs : Noir / Blanc / Gris (compatible impression)
+% ============================================================
+
+\documentclass[12pt,a4paper]{article}
+
+% ── Encodage & langue ──────────────────────────────────────
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{babel}
+
+% ── Mise en page ───────────────────────────────────────────
+\usepackage[top=2.5cm, bottom=2.5cm, left=2.8cm, right=2.8cm]{geometry}
+\usepackage{parskip}          % espace entre paragraphes, pas d'indentation
+\setlength{\parindent}{0pt}
+
+% ── Maths ──────────────────────────────────────────────────
+\usepackage{amsmath, amsthm, amssymb, mathtools}
+
+% ── Tableaux & boîtes ──────────────────────────────────────
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage[most]{tcolorbox}   % boîtes colorées
+
+% ── En-têtes / pieds de page ───────────────────────────────
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+
+% ── Hyperliens & table des matières ────────────────────────
+\usepackage[hidelinks]{hyperref}
+
+% ── Divers ─────────────────────────────────────────────────
+\usepackage{enumitem}
+
+
+% ============================================================
+%  PALETTE GRISE (impression)
+% ============================================================
+\definecolor{GrisFonce}{gray}{0.20}   % titres de section
+\definecolor{GrisMoyen}{gray}{0.45}   % filets, numéros
+\definecolor{GrisClair}{gray}{0.88}   % fond des boîtes
+\definecolor{GrisTresClair}{gray}{0.95}
+
+% ============================================================
+%  BOÎTES THÉMATIQUES
+% ============================================================
+
+% --- Notion / Définition ---
+\tcbset{
+  notionStyle/.style={
+    enhanced, breakable,
+    colback=GrisTresClair, colframe=GrisFonce,
+    fonttitle=\bfseries\sffamily,
+    title={#1},
+    left=6pt, right=6pt, top=4pt, bottom=4pt,
+    arc=3pt,
+  }
+}
+\newenvironment{notion}[1]{%
+  \begin{tcolorbox}[notionStyle={Définition — #1}]
+}{%
+  \end{tcolorbox}
+}
+
+% --- Théorème / Résultat ---
+\tcbset{
+  theoStyle/.style={
+    enhanced, breakable,
+    colback=white, colframe=GrisFonce,
+    fonttitle=\bfseries\sffamily,
+    title={#1},
+    borderline west={3pt}{0pt}{GrisFonce},
+    frame hidden,
+    left=10pt, right=6pt, top=4pt, bottom=4pt,
+  }
+}
+\newenvironment{theoreme}[1]{%
+  \begin{tcolorbox}[theoStyle={Théorème — #1}]
+}{%
+  \end{tcolorbox}
+}
+
+% --- Démonstration ---
+\newenvironment{demo}{%
+  \begin{tcolorbox}[
+    enhanced, breakable,
+    colback=white, colframe=GrisMoyen,
+    fonttitle=\itshape\sffamily,
+    title={Démonstration},
+    borderline west={1.5pt}{0pt}{GrisMoyen},
+    frame hidden,
+    left=10pt, right=6pt, top=4pt, bottom=4pt,
+  ]
+}{%
+  \hfill$\square$
+  \end{tcolorbox}
+}
+
+% --- Exemple ---
+\newenvironment{exemple}[1]{%
+  \begin{tcolorbox}[
+    enhanced, breakable,
+    colback=GrisClair, colframe=GrisMoyen,
+    fonttitle=\bfseries\sffamily,
+    title={Exemple — #1},
+    arc=3pt,
+    left=6pt, right=6pt, top=4pt, bottom=4pt,
+  ]
+}{%
+  \end{tcolorbox}
+}
+
+% --- QCM ---
+\newenvironment{qcm}[1]{%
+  \begin{tcolorbox}[
+    enhanced, breakable,
+    colback=white, colframe=black,
+    fonttitle=\bfseries\sffamily,
+    title={QCM — #1},
+    arc=0pt,
+    left=6pt, right=6pt, top=4pt, bottom=4pt,
+  ]
+}{%
+  \end{tcolorbox}
+}
+
+% --- Exercice ---
+\newenvironment{exercice}[1]{%
+  \begin{tcolorbox}[
+    enhanced, breakable,
+    colback=white, colframe=GrisFonce,
+    fonttitle=\bfseries\sffamily,
+    title={Exercice — #1},
+    arc=3pt,
+    left=6pt, right=6pt, top=4pt, bottom=4pt,
+  ]
+}{%
+  \end{tcolorbox}
+}
+
+% --- Correction ---
+\newenvironment{correction}{%
+  \medskip\textbf{Correction.}\quad\itshape
+}{%
+  \normalfont\medskip
+}
+
+% --- Remarque ---
+\newenvironment{remarque}{%
+  \smallskip\textit{Remarque.}\enspace
+}{%
+  \smallskip
+}
+
+% ============================================================
+%  NUMÉROTATION DES THÉORÈMES (commune)
+% ============================================================
+\newcounter{thmcount}[section]
+\renewcommand{\thethmcount}{\thesection.\arabic{thmcount}}
+
+% ============================================================
+%  EN-TÊTES
+% ============================================================
+\pagestyle{fancy}
+\fancyhf{}
+\setlength{\headheight}{14pt}
+\fancyhead[L]{\small\sffamily\color{GrisMoyen} Exposé MMI — Distributions}
+\fancyhead[R]{\small\sffamily\color{GrisMoyen} Génie Mathématique \& Modélisation}
+\fancyfoot[C]{\small\sffamily\color{GrisMoyen} Page \thepage\ / \pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% ============================================================
+%  RACCOURCIS MATHÉMATIQUES
+% ============================================================
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Ck}{C^k(\Omega)}
+\newcommand{\Czero}{C^0(\Omega)}
+\newcommand{\Cinf}{C^\infty(\Omega)}
+\newcommand{\Ccinf}{C^\infty_c(\Omega)}
+\newcommand{\D}{\mathcal{D}(\Omega)}       % espace test
+\newcommand{\Dp}{\mathcal{D}'(\Omega)}     % espace des distributions
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\duality}[2]{\langle #1,\, #2 \rangle}
+
+
+% ============================================================
+\begin{document}
+% ============================================================
+
+% ── Page de titre ──────────────────────────────────────────
+\begin{center}
+  {\LARGE\bfseries\sffamily Théorie des Distributions}\\[0.4em]
+  {\large\sffamily Points 1 \& 3 : Notion de distribution — Dérivation}\\[1.2em]
+  {\sffamily\color{GrisMoyen}
+    Exposé de mathématiques · Première année, Génie Mathématique et Modélisation\\
+    \today
+  }
+\end{center}
+
+\vspace{0.5em}
+\hrule height 0.6pt
+\vspace{1em}
+
+% ── Préambule ──────────────────────────────────────────────
+\section*{Préambule}
+
+Dans tout ce document, $\Omega$ désigne un \textbf{ouvert} de $\R^d$
+(avec $d \ge 1$ entier), et $k$ est un entier naturel ou le symbole $\infty$.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{ll}
+\toprule
+\textbf{Notation} & \textbf{Signification} \\
+\midrule
+$\Czero$ & Espace des fonctions \emph{continues} sur $\Omega$ \\
+$\Ck$ & Fonctions $k$ fois dérivables à dérivées $k$-ièmes continues sur $\Omega$ \\
+$\Cinf$ & Fonctions \emph{infiniment dérivables} sur $\Omega$ \\
+$\Ccinf$ & Fonctions infiniment dérivables à \emph{support compact} dans $\Omega$ \\
+$\D$ & Espace des fonctions test $= \Ccinf$ \\
+$\Dp$ & Espace des distributions sur $\Omega$ \\
+$\duality{T}{\varphi}$ & Crochet de dualité : action de $T$ sur $\varphi$ \\
+$\supp(f)$ & Support de la fonction $f$ \\
+$\alpha \in \N^d$ & Multi-indice : $\alpha = (\alpha_1,\dots,\alpha_d)$, $|\alpha|=\alpha_1+\cdots+\alpha_d$ \\
+$\partial^\alpha f$ & Dérivée partielle $\dfrac{\partial^{|\alpha|} f}{\partial x_1^{\alpha_1}\cdots\partial x_d^{\alpha_d}}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Idée générale.} Les fonctions classiques ne permettent pas toujours de dériver librement (fonction de Heaviside, « impulsion » de Dirac…). La théorie des distributions, développée par Laurent Schwartz dans les années 1950, étend la notion de fonction et permet de \emph{dériver tout objet mathématique raisonnable}.
+
+\newpage
+\tableofcontents
+\newpage
+
+% ============================================================
+% 
+\section{Notion de distribution}────────────────────────────────────────────────────────────
+\subsection{L'espace des fonctions test}
+% ────────────────────────────────────────────────────────────
+ 
+\begin{notion}{Fonctions test — $\D$}
+L'espace des \textbf{fonctions test} est
+\[
+  \D = \Ccinf
+  = \bigl\{\, \varphi \in C^\infty(\Omega) \;\bigm|\; \supp(\varphi)
+    \text{ est compact et contenu dans } \Omega \bigr\}.
+\]
+\end{notion}
+ 
+\textbf{Intuition.} Une fonction test est infiniment régulière et s'annule au-delà d'un certain rayon. On peut la voir comme une « sonde » qu'on applique à un objet mathématique pour mesurer ses propriétés locales sans perturber ce qui se passe loin.
+ 
+\begin{notion}{Convergence dans $\D$}
+Une suite $(\varphi_n) \subset \D$ \textbf{converge vers $\varphi$ dans $\D$} si :
+\begin{enumerate}[label=(\roman*), itemsep=2pt]
+  \item Il existe un compact $K \subset \Omega$ tel que $\supp(\varphi_n) \subset K$ pour tout $n$.
+  \item Pour tout multi-indice $\alpha \in \N^d$, $\partial^\alpha \varphi_n \to \partial^\alpha \varphi$ \emph{uniformément} sur $K$.
+\end{enumerate}
+\end{notion}
+ 
+% ────────────────────────────────────────────────────────────
+\subsection{Définition d'une distribution}
+% ────────────────────────────────────────────────────────────
+ 
+Il existe deux formulations équivalentes, que l'on présente toutes les deux.
+ 
+\begin{notion}{Distribution — Définition séquentielle}
+Une \textbf{distribution} sur $\Omega$ est une forme linéaire $T : \D \to \R$ telle que :
+\[
+  \varphi_n \xrightarrow{\D} \varphi
+  \implies
+  \br{T}{\varphi_n} \to \br{T}{\varphi} \quad \text{dans } \R.
+\]
+\end{notion}
+ 
+\begin{notion}{Distribution — Définition par majoration}
+Une forme linéaire $T : \D \to \R$ est une distribution si et seulement si, pour tout compact $K \subset \Omega$, il existe $C_K > 0$ et $m \in \N$ tels que
+\[
+  \bigl|\br{T}{\varphi}\bigr|
+  \leq C_K \sum_{|\alpha| \leq m} \sup_{x \in K} |\partial^\alpha \varphi(x)|,
+  \quad \forall\, \varphi \in \D \text{ avec } \supp(\varphi) \subset K.
+\]
+\end{notion}
+ 
+\begin{attention}
+\textbf{Subtilité entre les deux définitions.}
+\begin{itemize}[itemsep=3pt]
+  \item La \textbf{définition séquentielle} dit : « si les fonctions test convergent, leurs images convergent ». Elle est intuitive — c'est la continuité au sens des suites.
+  \item La \textbf{définition par majoration} dit : « l'action de $T$ est contrôlée par les dérivées de $\varphi$ jusqu'à un certain ordre $m$ ». Elle est plus quantitative et utile en pratique pour vérifier qu'une forme est bien une distribution.
+  \item Les deux sont \textbf{équivalentes} car la topologie de $\D$ est métrisable sur chaque compact. En pratique, on utilise souvent la majoration pour les démonstrations.
+  \item L'entier $m$ s'appelle \textbf{l'ordre} de la distribution. Si $m$ peut être choisi indépendant de $K$, on dit que $T$ est d'ordre $m$.
+\end{itemize}
+\end{attention}
+ 
+L'ensemble de toutes les distributions sur $\Omega$ se note $\Dp$.
+ 
+% ────────────────────────────────────────────────────────────
+\subsection{Les exemples fondamentaux}
+% ────────────────────────────────────────────────────────────
+ 
+\begin{exemple}{Distribution régulière}
+Toute fonction $f \in L^1_{\mathrm{loc}}(\Omega)$ (localement intégrable) définit une distribution $T_f$ via
+\[
+  \br{T_f}{\varphi} = \int_\Omega f(x)\,\varphi(x)\,\mathrm{d}x, \quad \forall\,\varphi \in \D.
+\]
+La majoration $|\br{T_f}{\varphi}| \leq \|f\|_{L^1(K)}\|\varphi\|_\infty$ montre que $T_f$ est d'ordre $0$.
+ 
+On dit que $f$ est \emph{identifiée} à $T_f$, et que $T_f$ est une \textbf{distribution régulière}. Ainsi les fonctions classiques sont des distributions, mais pas l'inverse.
+\end{exemple}
+ 
+\begin{exemple}{La distribution de Dirac $\delta_a$}
+Pour $a \in \Omega$, le \textbf{Dirac en $a$} est défini par
+\[
+  \br{\delta_a}{\varphi} = \varphi(a), \quad \forall\,\varphi \in \D.
+\]
+\textbf{Vérification rapide (majoration) :}
+\[
+  |\br{\delta_a}{\varphi}| = |\varphi(a)| \leq \sup_{x \in K} |\varphi(x)|,
+\]
+ce qui correspond à la majoration avec $C_K = 1$ et $m = 0$. Donc $\delta_a \in \Dp$, d'ordre $0$.
+ 
+\textbf{Attention.} $\delta_a$ n'est \emph{pas} une distribution régulière : il n'existe aucune fonction $f$ telle que $\int_\Omega f(x)\varphi(x)\,\mathrm{d}x = \varphi(a)$ pour toute $\varphi \in \D$.
+\end{exemple}
+ 
+\begin{exemple}{La fonction de Heaviside}
+La \textbf{fonction de Heaviside} $H : \R \to \R$, définie par $H(x) = 1$ si $x > 0$ et $H(x) = 0$ sinon, est dans $L^1_{\mathrm{loc}}(\R)$. Elle définit donc une distribution régulière :
+\[
+  \br{T_H}{\varphi} = \int_0^{+\infty} \varphi(x)\,\mathrm{d}x.
+\]
+Elle n'est pas dérivable en $0$ au sens classique. On verra en section 3 que sa dérivée \emph{au sens des distributions} est $\delta_0$ — c'est l'un des résultats les plus frappants de la théorie.
+\end{exemple}
+ 
+% ── QCM ────────────────────────────────────────────────────
+\bigskip
+\begin{qcm}
+\textbf{Question 1.} Parmi les affirmations suivantes, laquelle est vraie ?
+\begin{enumerate}[label=\Alph*., itemsep=2pt]
+  \item Toute distribution est une fonction.
+  \item Toute fonction localement intégrable est une distribution.
+  \item La distribution de Dirac est une distribution régulière.
+  \item L'espace $\D$ contient toutes les fonctions continues.
+\end{enumerate}
+ 
+\medskip
+\textbf{Question 2.} Soit $\varphi \in \mathcal{D}(\R)$ avec $\varphi(2) = -3$ et $\varphi(0) = 7$. Calculer $\br{\delta_2}{\varphi}$.
+\begin{enumerate}[label=\Alph*., itemsep=2pt]
+  \item $7$
+  \item $-3$
+  \item $0$
+  \item $\varphi'(2)$
+\end{enumerate}
+ 
+\smallskip
+\textit{\color{GrisMoyen}Réponses : Q1 — B \quad Q2 — B}
+\end{qcm}
+ 
+% ── Exercice corrigé ───────────────────────────────────────
+\bigskip
+\begin{exercice}{Vérifier qu'une forme est une distribution}
+Soit $T : \mathcal{D}(\R) \to \R$ définie par
+\[
+  \br{T}{\varphi} = 3\varphi(0) - \varphi(1).
+\]
+\begin{enumerate}[itemsep=4pt]
+  \item Vérifier que $T$ est linéaire.
+  \item Vérifier que $T$ est une distribution en utilisant la définition par majoration.
+  \item Quel est l'ordre de $T$ ?
+  \item Exprimer $T$ comme combinaison de distributions connues.
+\end{enumerate}
+\end{exercice}
+ 
+\begin{correction}
+\textbf{1. Linéarité.} Pour $\lambda, \mu \in \R$ et $\varphi, \psi \in \mathcal{D}(\R)$ :
+\[
+  \br{T}{\lambda\varphi + \mu\psi}
+  = 3(\lambda\varphi+\mu\psi)(0) - (\lambda\varphi+\mu\psi)(1)
+  = \lambda\bigl(3\varphi(0)-\varphi(1)\bigr) + \mu\bigl(3\psi(0)-\psi(1)\bigr)
+  = \lambda\br{T}{\varphi} + \mu\br{T}{\psi}. \checkmark
+\]
+ 
+\textbf{2. Majoration.} Soit $K \subset \R$ compact avec $\supp(\varphi) \subset K$. Alors :
+\[
+  |\br{T}{\varphi}|
+  = |3\varphi(0) - \varphi(1)|
+  \leq 3|\varphi(0)| + |\varphi(1)|
+  \leq 4\sup_{x \in K}|\varphi(x)|.
+\]
+C'est bien la majoration avec $C_K = 4$ et $m = 0$. Donc $T \in \mathcal{D}'(\R)$. \checkmark
+ 
+\textbf{3.} La majoration tient avec $m = 0$ (aucune dérivée de $\varphi$ n'intervient) : $T$ est d'ordre $\mathbf{0}$.
+ 
+\textbf{4.} On reconnaît directement :
+\[
+  \br{T}{\varphi} = 3\br{\delta_0}{\varphi} - \br{\delta_1}{\varphi}
+  = \br{3\delta_0 - \delta_1}{\varphi},
+  \quad \text{donc } T = 3\delta_0 - \delta_1.
+\]
+\end{correction}
+ 
+% ── Synthèse ───────────────────────────────────────────────
+\bigskip
+\begin{tcolorbox}[enhanced, colback=GrisClair, colframe=GrisFonce,
+  fonttitle=\bfseries\sffamily, title={Ce qu'il faut retenir — Section 1},
+  arc=3pt, left=6pt, right=6pt]
+\begin{itemize}[itemsep=4pt]
+  \item $\D = C^\infty_c(\Omega)$ : fonctions $C^\infty$ à support compact — ce sont les « sondes ».
+  \item Une distribution est une forme linéaire \textbf{continue} sur $\D$
+        (continuité = séquentielle = contrôle par les dérivées de $\varphi$).
+  \item Les fonctions $L^1_{\mathrm{loc}}$ sont des distributions (régulières) ; le Dirac non.
+  \item L'\textbf{ordre} mesure combien de dérivées de $\varphi$ sont nécessaires dans la majoration.
+\end{itemize}
+\end{tcolorbox}
+\newpage
+
+% ============================================================
+\section{Dérivation des distributions}
+% ============================================================
+
+% ────────────────────────────────────────────────────────────
+\subsection{Motivation par l'intégration par parties}
+% ────────────────────────────────────────────────────────────
+
+L'idée clé de la dérivation au sens des distributions vient d'un résultat classique d'analyse : \textbf{l'intégration par parties}.
+
+\textbf{Rappel.} Si $f$ est de classe $C^1$ sur $\R$ et $\varphi \in \D(\R)$, alors
+\[
+  \int_{-\infty}^{+\infty} f'(x)\,\varphi(x)\,\mathrm{d}x
+  = \Bigl[f(x)\varphi(x)\Bigr]_{-\infty}^{+\infty}
+    - \int_{-\infty}^{+\infty} f(x)\,\varphi'(x)\,\mathrm{d}x.
+\]
+Comme $\varphi$ est à support compact, le terme entre crochets est nul. On obtient donc :
+\[
+  \boxed{\duality{T_{f'}}{\varphi} = -\duality{T_f}{\varphi'}.}
+\]
+Cette égalité, vraie pour les fonctions $C^1$, sert de \textbf{définition} pour la dérivée d'une distribution quelconque.
+
+% ────────────────────────────────────────────────────────────
+\subsection{Définition et théorème fondamental}
+% ────────────────────────────────────────────────────────────
+
+\begin{notion}{Dérivée d'une distribution}
+Soit $T \in \Dp$ et $\alpha \in \N^d$ un multi-indice. On définit la \textbf{dérivée} $\partial^\alpha T$ par
+\[
+  \duality{\partial^\alpha T}{\varphi}
+  = (-1)^{|\alpha|}\,\duality{T}{\partial^\alpha\varphi},
+  \quad \forall\,\varphi \in \D.
+\]
+En dimension 1, la \textbf{dérivée au sens des distributions} de $T$ est
+\[
+  \duality{T'}{\varphi} = -\duality{T}{\varphi'}, \quad \forall\,\varphi \in \D.
+\]
+\end{notion}
+
+\begin{theoreme}{Toute distribution est indéfiniment dérivable}
+\stepcounter{thmcount}
+Soit $T \in \Dp$. Alors $\partial^\alpha T \in \Dp$ pour tout multi-indice $\alpha$. En particulier, \textbf{toute distribution admet des dérivées de tous les ordres}.
+\end{theoreme}
+
+\begin{demo}
+Montrons que $T' = \partial^{(1)} T$ est bien une distribution (le cas général est analogue).
+
+\textbf{Linéarité :}
+\[
+  \duality{T'}{\lambda\varphi + \mu\psi}
+  = -\duality{T}{(\lambda\varphi + \mu\psi)'}
+  = -\duality{T}{\lambda\varphi' + \mu\psi'}
+  = -\lambda\duality{T}{\varphi'} - \mu\duality{T}{\psi'}
+  = \lambda\duality{T'}{\varphi} + \mu\duality{T'}{\psi}.
+\]
+
+\textbf{Continuité :} Si $\varphi_n \to \varphi$ dans $\D$, alors $\varphi_n' \to \varphi'$ dans $\D$ (la dérivation est continue sur $\D$). Par continuité de $T$ :
+\[
+  \duality{T'}{\varphi_n} = -\duality{T}{\varphi_n'} \longrightarrow -\duality{T}{\varphi'} = \duality{T'}{\varphi}.
+\]
+Donc $T' \in \Dp$.
+\end{demo}
+
+\begin{remarque}
+C'est là la force des distributions : une fonction peu régulière (voire discontinue) admet une dérivée \emph{au sens des distributions}, ce qui n'est pas le cas au sens classique.
+\end{remarque}
+
+% ────────────────────────────────────────────────────────────
+\subsection{Exemples fondamentaux}
+% ────────────────────────────────────────────────────────────
+
+\begin{exemple}{Dérivée de la fonction de Heaviside}
+On montre que $H' = \delta_0$ au sens des distributions.
+
+Pour tout $\varphi \in \D(\R)$ :
+\[
+  \duality{H'}{\varphi}
+  = -\duality{T_H}{\varphi'}
+  = -\int_{-\infty}^{+\infty} H(x)\,\varphi'(x)\,\mathrm{d}x
+  = -\int_0^{+\infty} \varphi'(x)\,\mathrm{d}x.
+\]
+Or (théorème fondamental du calcul) :
+\[
+  -\int_0^{+\infty} \varphi'(x)\,\mathrm{d}x
+  = -\Bigl[\varphi(x)\Bigr]_0^{+\infty}
+  = -\bigl(\underbrace{\varphi(+\infty)}_{=0} - \varphi(0)\bigr)
+  = \varphi(0)
+  = \duality{\delta_0}{\varphi}.
+\]
+Conclusion : $\boxed{H' = \delta_0}$ au sens des distributions.
+\end{exemple}
+
+\begin{exemple}{Dérivée de $|x|$}
+On calcule la dérivée de $f(x) = |x|$ au sens des distributions (sur $\R$).
+
+On sait que $|x| = x \cdot H(x) - x \cdot H(-x)$. En fait, une approche plus directe : pour $\varphi \in \D(\R)$,
+\[
+  \duality{T_{|x|}'}\,{\varphi}
+  = -\int_{-\infty}^{+\infty} |x|\,\varphi'(x)\,\mathrm{d}x
+  = -\int_0^{+\infty} x\,\varphi'(x)\,\mathrm{d}x - \int_{-\infty}^0 (-x)\,\varphi'(x)\,\mathrm{d}x.
+\]
+Intégration par parties sur chaque morceau :
+\[
+  -\int_0^{+\infty} x\,\varphi'(x)\,\mathrm{d}x
+  = -\Bigl[x\varphi(x)\Bigr]_0^{+\infty} + \int_0^{+\infty} \varphi(x)\,\mathrm{d}x
+  = \int_0^{+\infty} \varphi(x)\,\mathrm{d}x,
+\]
+\[
+  \int_{-\infty}^0 x\,\varphi'(x)\,\mathrm{d}x
+  = \Bigl[x\varphi(x)\Bigr]_{-\infty}^0 - \int_{-\infty}^0 \varphi(x)\,\mathrm{d}x
+  = -\int_{-\infty}^0 \varphi(x)\,\mathrm{d}x.
+\]
+Donc :
+\[
+  \duality{T_{|x|}'}{\varphi}
+  = \int_0^{+\infty} \varphi(x)\,\mathrm{d}x - \int_{-\infty}^0 \varphi(x)\,\mathrm{d}x
+  = \duality{T_{\mathrm{sgn}}}{\varphi},
+\]
+où $\mathrm{sgn}(x) = +1$ si $x > 0$ et $-1$ si $x < 0$. Donc $\boxed{|x|' = \mathrm{sgn}}$ au sens des distributions.
+\end{exemple}
+
+\begin{exemple}{Dérivée de $\delta_0$ (distribution singulière)}
+La dérivée de la distribution de Dirac est définie par
+\[
+  \duality{\delta_0'}{\varphi} = -\duality{\delta_0}{\varphi'} = -\varphi'(0).
+\]
+Plus généralement :
+\[
+  \duality{\delta_0^{(n)}}{\varphi} = (-1)^n\,\varphi^{(n)}(0).
+\]
+$\delta_0'$ est souvent interprétée physiquement comme un dipôle.
+\end{exemple}
+
+% ── QCM Section 3 ──────────────────────────────────────────
+\bigskip
+\begin{qcm}{Dérivation des distributions}
+
+\textbf{Question 1.} Soit $T \in \Dp$. La dérivée $T'$ est définie par :
+\begin{enumerate}[label=\Alph*.]
+  \item $\duality{T'}{\varphi} = \duality{T}{\varphi'}$
+  \item $\duality{T'}{\varphi} = -\duality{T}{\varphi'}$
+  \item $\duality{T'}{\varphi} = \duality{T}{\varphi}$
+  \item $T'$ n'est pas toujours définie.
+\end{enumerate}
+
+\medskip
+\textbf{Question 2.} Quelle est la dérivée de la fonction de Heaviside $H$ au sens des distributions ?
+\begin{enumerate}[label=\Alph*.]
+  \item La fonction nulle.
+  \item La distribution de Dirac $\delta_0$.
+  \item La fonction valant $1$ sur $\R$.
+  \item Elle n'existe pas.
+\end{enumerate}
+
+\medskip
+\textbf{Question 3.} Soit $\varphi \in \D(\R)$ avec $\varphi(0) = 2$ et $\varphi'(0) = 5$. Calculer $\duality{\delta_0'}{\varphi}$.
+\begin{enumerate}[label=\Alph*.]
+  \item $2$
+  \item $-2$
+  \item $5$
+  \item $-5$
+\end{enumerate}
+
+\medskip
+\textbf{Question 4.} Combien de fois une distribution peut-elle être dérivée ?
+\begin{enumerate}[label=\Alph*.]
+  \item Au plus autant de fois que la fonction sous-jacente est dérivable.
+  \item Une seule fois.
+  \item Une infinité de fois.
+  \item Cela dépend du type de distribution.
+\end{enumerate}
+
+\medskip
+\textbf{Réponses :} \textcolor{GrisMoyen}{Q1 : B \quad Q2 : B \quad Q3 : D \quad Q4 : C}
+\end{qcm}
+
+\newpage
+
+% ============================================================
+\section*{Exercices corrigés}
+\addcontentsline{toc}{section}{Exercices corrigés}
+% ============================================================
+
+\begin{exercice}{Vérification qu'une forme linéaire est une distribution}
+Soit $T : \D(\R) \to \R$ définie par
+\[
+  \duality{T}{\varphi} = \varphi(0) + \varphi'(0).
+\]
+\begin{enumerate}
+  \item Vérifier que $T$ est linéaire.
+  \item Vérifier que $T$ est continue sur $\D(\R)$.
+  \item En déduire que $T \in \mathcal{D}'(\R)$.
+  \item Exprimer $T$ comme combinaison de distributions connues.
+\end{enumerate}
+\end{exercice}
+
+\begin{correction}
+
+\textbf{1. Linéarité.} Pour tous $\lambda, \mu \in \R$ et $\varphi, \psi \in \D(\R)$ :
+\begin{align*}
+  \duality{T}{\lambda\varphi + \mu\psi}
+  &= (\lambda\varphi + \mu\psi)(0) + (\lambda\varphi + \mu\psi)'(0)\\
+  &= \lambda\varphi(0) + \mu\psi(0) + \lambda\varphi'(0) + \mu\psi'(0)\\
+  &= \lambda\bigl(\varphi(0)+\varphi'(0)\bigr) + \mu\bigl(\psi(0)+\psi'(0)\bigr)\\
+  &= \lambda\duality{T}{\varphi} + \mu\duality{T}{\psi}.
+\end{align*}
+Donc $T$ est linéaire. \checkmark
+
+\textbf{2. Continuité.} Soit $(\varphi_n)$ une suite convergeant vers $\varphi$ dans $\D(\R)$. Par définition de la convergence dans $\D$, $\varphi_n \to \varphi$ et $\varphi_n' \to \varphi'$ uniformément. En particulier :
+\[
+  \varphi_n(0) \to \varphi(0) \quad \text{et} \quad \varphi_n'(0) \to \varphi'(0).
+\]
+Donc $\duality{T}{\varphi_n} = \varphi_n(0) + \varphi_n'(0) \to \varphi(0) + \varphi'(0) = \duality{T}{\varphi}$. \checkmark
+
+\textbf{3.} $T$ est linéaire et continue sur $\D(\R)$, donc $T \in \mathcal{D}'(\R)$.
+
+\textbf{4.} On reconnaît :
+\[
+  \duality{T}{\varphi} = \duality{\delta_0}{\varphi} + \duality{\delta_0}{\varphi'}
+  = \duality{\delta_0}{\varphi} - \duality{\delta_0'}{\varphi}
+  = \duality{\delta_0 - \delta_0'}{\varphi}.
+\]
+Donc $T = \delta_0 - \delta_0'$.
+\end{correction}
+
+\bigskip
+
+\begin{exercice}{Calcul de dérivées au sens des distributions}
+\begin{enumerate}
+  \item Calculer la dérivée de $f(x) = x\,H(x)$ au sens des distributions.
+  \item En déduire la dérivée seconde de $f$.
+  \item Calculer $\duality{\delta_0''}{\varphi}$ pour $\varphi \in \D(\R)$.
+\end{enumerate}
+\end{exercice}
+
+\begin{correction}
+
+\textbf{1. Dérivée de $f(x) = x\,H(x)$.}
+
+Pour $\varphi \in \D(\R)$ :
+\[
+  \duality{T_f'}{\varphi}
+  = -\duality{T_f}{\varphi'}
+  = -\int_{-\infty}^{+\infty} x\,H(x)\,\varphi'(x)\,\mathrm{d}x
+  = -\int_0^{+\infty} x\,\varphi'(x)\,\mathrm{d}x.
+\]
+Intégration par parties :
+\[
+  -\int_0^{+\infty} x\,\varphi'(x)\,\mathrm{d}x
+  = -\Bigl[x\varphi(x)\Bigr]_0^{+\infty} + \int_0^{+\infty} \varphi(x)\,\mathrm{d}x
+  = \int_0^{+\infty} \varphi(x)\,\mathrm{d}x
+  = \duality{T_H}{\varphi}.
+\]
+Donc $\boxed{(xH)' = H}$ au sens des distributions.
+
+\textbf{2. Dérivée seconde.}
+
+En dérivant le résultat précédent :
+\[
+  (xH)'' = H' = \delta_0.
+\]
+
+\textbf{3. Calcul de $\duality{\delta_0''}{\varphi}$.}
+
+Par définition :
+\[
+  \duality{\delta_0''}{\varphi}
+  = (-1)^2\,\varphi''(0)
+  = \varphi''(0).
+\]
+\end{correction}
+
+\bigskip
+
+\begin{exercice}{Distribution engendrée par une série}
+On pose, pour $\varphi \in \D(\R)$,
+\[
+  \duality{T}{\varphi} = \sum_{n=1}^{+\infty} \frac{1}{n^2}\,\varphi^{(n)}(0).
+\]
+(Le terme $\varphi^{(n)}(0)$ désigne la dérivée d'ordre $n$ de $\varphi$ en $0$.)
+\begin{enumerate}
+  \item Admettre que cette somme est bien définie pour toute $\varphi \in \D(\R)$ et que $T$ est une distribution.
+  \item Exprimer $T$ à l'aide de dérivées de $\delta_0$.
+\end{enumerate}
+\end{exercice}
+
+\begin{correction}
+
+\textbf{2.} On sait que $\duality{\delta_0^{(n)}}{\varphi} = (-1)^n\varphi^{(n)}(0)$, soit $\varphi^{(n)}(0) = (-1)^n\duality{\delta_0^{(n)}}{\varphi}$. Donc :
+\[
+  \duality{T}{\varphi}
+  = \sum_{n=1}^{+\infty} \frac{(-1)^n}{n^2}\,\duality{\delta_0^{(n)}}{\varphi}
+  = \duality{\sum_{n=1}^{+\infty} \frac{(-1)^n}{n^2}\,\delta_0^{(n)}}{\varphi}.
+\]
+Ainsi $T = \displaystyle\sum_{n=1}^{+\infty} \frac{(-1)^n}{n^2}\,\delta_0^{(n)}$.
+\end{correction}
+
+% ============================================================
+\section*{Synthèse — Ce qu'il faut retenir}
+\addcontentsline{toc}{section}{Synthèse}
+% ============================================================
+
+\begin{tcolorbox}[
+  enhanced, breakable,
+  colback=GrisClair, colframe=GrisFonce,
+  fonttitle=\bfseries\sffamily\large,
+  title={Récapitulatif},
+  arc=3pt,
+]
+\textbf{Section 1 — Notion de distribution}
+\begin{itemize}[leftmargin=1.5em]
+  \item $\D = \Ccinf$ est l'espace des fonctions test : $C^\infty$ à support compact.
+  \item Une distribution est une forme linéaire \emph{continue} sur $\D$.
+  \item Toute fonction $f \in L^1_{\mathrm{loc}}(\Omega)$ définit une distribution via $\duality{T_f}{\varphi} = \int f\varphi$.
+  \item La distribution de Dirac $\delta_a$ est définie par $\duality{\delta_a}{\varphi} = \varphi(a)$ ; elle n'est \emph{pas} une fonction.
+\end{itemize}
+
+\medskip
+\textbf{Section 3 — Dérivation des distributions}
+\begin{itemize}[leftmargin=1.5em]
+  \item La définition vient de l'intégration par parties : $\duality{T'}{\varphi} = -\duality{T}{\varphi'}$.
+  \item Toute distribution est indéfiniment dérivable.
+  \item Résultats clés : $H' = \delta_0$, $|x|' = \mathrm{sgn}$, $\delta_0^{(n)}[\varphi] = (-1)^n\varphi^{(n)}(0)$.
+\end{itemize}
+\end{tcolorbox}
+
+% ============================================================
+\end{document}
+% ============================================================

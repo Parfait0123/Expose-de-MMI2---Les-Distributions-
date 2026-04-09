@@ -1,0 +1,40 @@
+\babel@toc {french}{}\relax 
+\contentsline {chapter}{Notion de distribution}{1}{chapter*.1}%
+\contentsline {section}{Contexte}{1}{section*.2}%
+\contentsline {section}{\numberline {0.1}L’espace des fonctions test}{2}{section.0.1}%
+\contentsline {section}{\numberline {0.2}Définition d’une distribution}{2}{section.0.2}%
+\contentsline {section}{\numberline {0.3}Les exemples fondamentaux}{3}{section.0.3}%
+\contentsline {chapter}{Convergence dans $\mathcal {D}'(\Omega )$}{5}{chapter*.3}%
+\contentsline {section}{\numberline {0.4}Définition}{5}{section.0.4}%
+\contentsline {section}{\numberline {0.5}Le Dirac comme limite de distributions}{5}{section.0.5}%
+\contentsline {section}{\numberline {0.6}Stabilité de la limite}{6}{section.0.6}%
+\contentsline {chapter}{\numberline {1}Dérivation des distributions}{8}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Motivation — le paradigme de Schwartz}{8}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Définition de la dérivée}{8}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Toute distribution est indéfiniment dérivable}{8}{section.1.3}%
+\contentsline {section}{\numberline {1.4}Propriétés algébriques et topologiques}{9}{section.1.4}%
+\contentsline {section}{\numberline {1.5}Multiplication d'une distribution par une fonction $C^\infty $}{9}{section.1.5}%
+\contentsline {section}{\numberline {1.6}Exemples fondamentaux de dérivation}{10}{section.1.6}%
+\contentsline {subsection}{\numberline {1.6.1}Dérivée de la fonction de Heaviside}{10}{subsection.1.6.1}%
+\contentsline {subsection}{\numberline {1.6.2}Dérivée de la valeur absolue}{10}{subsection.1.6.2}%
+\contentsline {subsection}{\numberline {1.6.3}Dérivées successives de $|x|$}{11}{subsection.1.6.3}%
+\contentsline {subsection}{\numberline {1.6.4}Dérivées successives de $x^n H(x)$}{11}{subsection.1.6.4}%
+\contentsline {subsection}{\numberline {1.6.5}Dérivée de $\ln |x|$}{11}{subsection.1.6.5}%
+\contentsline {subsection}{\numberline {1.6.6}Dérivée de la partie entière $\lfloor x\rfloor $}{12}{subsection.1.6.6}%
+\contentsline {section}{\numberline {1.7}Formule des sauts — fonctions $C^\infty $ par morceaux}{12}{section.1.7}%
+\contentsline {section}{\numberline {1.8}Dérivée de la distribution de Dirac et de ses itérées}{13}{section.1.8}%
+\contentsline {section}{\numberline {1.9}Annulateurs de la dérivation — noyau de $T \DOTSB \mapstochar \rightarrow xT$}{13}{section.1.9}%
+\contentsline {section}{\numberline {1.10}Formule des distributions $\partial _j T$ en dimension $n$}{13}{section.1.10}%
+\contentsline {section}{\numberline {1.11}QCM — Dérivation des distributions}{14}{section.1.11}%
+\contentsline {section}{\numberline {1.12}Exercices corrigés — Dérivation}{15}{section.1.12}%
+\contentsline {chapter}{\numberline {2}Primitives des distributions en dimension 1}{18}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Définition et premières remarques}{18}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Le noyau de la dérivation : distributions de dérivée nulle}{18}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Existence et unicité d'une primitive}{19}{section.2.3}%
+\contentsline {section}{\numberline {2.4}Primitives des distributions usuelles}{19}{section.2.4}%
+\contentsline {section}{\numberline {2.5}Primitive d'ordre $n$ de $\delta _0$}{20}{section.2.5}%
+\contentsline {section}{\numberline {2.6}Structure des primitives dans $\mathcal {D}'(\PazoBB {R})$}{20}{section.2.6}%
+\contentsline {section}{\numberline {2.7}Lien avec les intégrales à paramètre}{21}{section.2.7}%
+\contentsline {section}{\numberline {2.8}Primitives et équation $T' = S$}{21}{section.2.8}%
+\contentsline {section}{\numberline {2.9}QCM — Primitives des distributions}{21}{section.2.9}%
+\contentsline {section}{\numberline {2.10}Exercices corrigés — Primitives}{22}{section.2.10}%
