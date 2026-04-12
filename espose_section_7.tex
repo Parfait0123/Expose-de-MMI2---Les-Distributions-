@@ -1,0 +1,368 @@
+% ============================================================
+%  EXPOSÉ MMI — SECTION 7 : APPLICATIONS AUX EDP LINÉAIRES
+%  Public : L1 Génie Mathématique et Modélisation
+%  Format : noir / blanc / gris (impression)
+% ============================================================
+
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{babel}
+\usepackage[top=2.5cm, bottom=2.5cm, left=2.8cm, right=2.8cm]{geometry}
+\usepackage{parskip}
+\setlength{\parindent}{0pt}
+\usepackage{amsmath, amssymb, mathtools}
+\usepackage{booktabs, array}
+\usepackage[most]{tcolorbox}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage[hidelinks]{hyperref}
+\usepackage{enumitem}
+\setlength{\headheight}{14pt}
+
+% ── Palette ────────────────────────────────────────────────
+\definecolor{GrisFonce}{gray}{0.20}
+\definecolor{GrisMoyen}{gray}{0.45}
+\definecolor{GrisClair}{gray}{0.88}
+\definecolor{GrisTresClair}{gray}{0.95}
+
+% ── Boîtes ─────────────────────────────────────────────────
+\newenvironment{notion}[1]{%
+  \begin{tcolorbox}[enhanced, breakable,
+    colback=GrisTresClair, colframe=GrisFonce,
+    fonttitle=\bfseries\sffamily, title={Définition — #1},
+    left=6pt, right=6pt, top=4pt, bottom=4pt, arc=3pt]
+}{%
+  \end{tcolorbox}}
+
+\newenvironment{attention}{%
+  \begin{tcolorbox}[enhanced, breakable,
+    colback=white, colframe=black,
+    fonttitle=\bfseries\sffamily, title={À retenir},
+    borderline west={2pt}{0pt}{black}, frame hidden,
+    left=10pt, right=6pt, top=4pt, bottom=4pt]
+}{%
+  \end{tcolorbox}}
+
+\newenvironment{exemple}[1]{%
+  \begin{tcolorbox}[enhanced, breakable,
+    colback=GrisClair, colframe=GrisMoyen,
+    fonttitle=\bfseries\sffamily, title={Exemple — #1},
+    left=6pt, right=6pt, top=4pt, bottom=4pt, arc=3pt]
+}{%
+  \end{tcolorbox}}
+
+\newenvironment{qcm}{%
+  \begin{tcolorbox}[enhanced, breakable,
+    colback=white, colframe=black,
+    fonttitle=\bfseries\sffamily, title={QCM},
+    arc=0pt, left=6pt, right=6pt, top=4pt, bottom=4pt]
+}{%
+  \end{tcolorbox}}
+
+\newenvironment{exercice}[1]{%
+  \begin{tcolorbox}[enhanced, breakable,
+    colback=white, colframe=GrisFonce,
+    fonttitle=\bfseries\sffamily, title={Exercice — #1},
+    left=6pt, right=6pt, top=4pt, bottom=4pt, arc=3pt]
+}{%
+  \end{tcolorbox}}
+
+\newenvironment{correction}{%
+  \medskip\textbf{Correction.}\enspace\itshape
+}{\normalfont\medskip}
+
+% ── Raccourcis ─────────────────────────────────────────────
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\D}{\mathcal{D}(\Omega)}
+\newcommand{\Dp}{\mathcal{D}'(\Omega)}
+\newcommand{\Ccinf}{C^\infty_c(\Omega)}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\br}[2]{\langle #1,\, #2 \rangle}
+\newcommand{\sgn}{\operatorname{sgn}}
+
+% ── En-têtes ───────────────────────────────────────────────
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\sffamily\color{GrisMoyen}Exposé MMI — Distributions}
+\fancyhead[R]{\small\sffamily\color{GrisMoyen}Section 7}
+\fancyfoot[C]{\small\sffamily\color{GrisMoyen}Page \thepage\ / \pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% ============================================================
+\begin{document}
+% ============================================================
+
+\begin{center}
+  {\LARGE\bfseries\sffamily Applications aux équations différentielles linéaires}\\[0.4em]
+  {\large\sffamily Section 7 : Coefficients constants — Solutions fondamentales}\\[0.8em]
+  {\sffamily\color{GrisMoyen}Exposé MMI · Génie Mathématique et Modélisation}
+\end{center}
+\vspace{0.3em}\hrule height 0.5pt\vspace{1.2em}
+
+
+\subsection*{7.1 \quad Cadre général}
+% ────────────────────────────────────────────────────────────
+
+\begin{notion}{Opérateur différentiel à coefficients constants}
+Soit $P \in \C[X_1,\ldots,X_d]$ un polynôme de degré $m$,
+$P = \sum_{|\alpha|\leq m} a_\alpha X^\alpha$.
+L'opérateur différentiel associé est
+\[
+  P(\partial) : T \;\longmapsto\; P(\partial)T
+  := \sum_{|\alpha|\leq m} a_\alpha\,\partial^\alpha T.
+\]
+Une \textbf{EDP linéaire à coefficients constants} est une équation de la forme
+$P(\partial)T = F$ avec $F \in \mathcal{D}'(\Omega)$ donné et
+$T \in \mathcal{D}'(\Omega)$ inconnu.
+\end{notion}
+
+\begin{tcolorbox}[enhanced, breakable,
+  colback=white, colframe=GrisFonce,
+  fonttitle=\bfseries\sffamily,
+  title={Proposition — Structure de l'ensemble des solutions},
+  borderline west={3pt}{0pt}{GrisFonce}, frame hidden,
+  left=10pt, right=6pt, top=4pt, bottom=4pt]
+L'ensemble des solutions de $P(\partial)T = F$ est soit vide, soit un
+\textbf{sous-espace affine} $T_0 + \ker P(\partial)$, où $T_0$ est une solution
+particulière et $\ker P(\partial) = \{T \in \mathcal{D}' : P(\partial)T = 0\}$.
+\end{tcolorbox}
+
+\begin{attention}
+\begin{itemize}[itemsep=4pt]
+  \item $P(\partial)$ agit linéairement sur $\mathcal{D}'(\Omega)$ : les distributions
+        généralisent le cadre classique.
+  \item La structure affine des solutions est identique à celle de l'algèbre linéaire :
+        solution générale $=$ solution particulière $+$ noyau.
+\end{itemize}
+\end{attention}
+
+% ────────────────────────────────────────────────────────────
+\subsection*{7.2 \quad Solution fondamentale}
+% ────────────────────────────────────────────────────────────
+
+\begin{notion}{Solution fondamentale (élémentaire)}
+Une distribution $E \in \mathcal{D}'(\R^d)$ est une \textbf{solution fondamentale}
+de $P(\partial)$ si
+\[
+  P(\partial)E = \delta_0.
+\]
+On dit aussi \emph{solution élémentaire} ou \emph{fonction de Green} de $P(\partial)$.
+\end{notion}
+
+\begin{tcolorbox}[enhanced, breakable,
+  colback=white, colframe=GrisFonce,
+  fonttitle=\bfseries\sffamily,
+  title={Théorème fondamental — Malgrange–Ehrenpreis (1955)},
+  borderline west={3pt}{0pt}{GrisFonce}, frame hidden,
+  left=10pt, right=6pt, top=4pt, bottom=4pt]
+Tout opérateur différentiel à coefficients constants $P(\partial) \neq 0$ admet une
+\textbf{solution fondamentale} dans $\mathcal{D}'(\R^d)$.
+\end{tcolorbox}
+
+\medskip
+\textit{Remarque.} La démonstration utilise la transformée de Fourier et des propriétés
+des fonctions holomorphes. Elle est admise dans ce cours.
+
+\begin{tcolorbox}[enhanced, breakable,
+  colback=white, colframe=GrisFonce,
+  fonttitle=\bfseries\sffamily,
+  title={Théorème — Résolution par convolution},
+  borderline west={3pt}{0pt}{GrisFonce}, frame hidden,
+  left=10pt, right=6pt, top=4pt, bottom=4pt]
+Soit $E$ une solution fondamentale de $P(\partial)$, et soit
+$F \in \mathcal{D}'(\R^d)$ à \textbf{support compact}. Alors $u := E * F$ est une
+solution de $P(\partial)u = F$.
+\end{tcolorbox}
+
+\medskip
+\textit{Démonstration.}
+En utilisant le fait que la dérivation commute avec la convolution :
+\[
+  P(\partial)(E * F) = \bigl(P(\partial)E\bigr) * F = \delta_0 * F = F.
+  \hfill\square
+\]
+
+\begin{tcolorbox}[enhanced, breakable,
+  colback=white, colframe=GrisFonce,
+  fonttitle=\bfseries\sffamily,
+  title={Théorème — Unicité et régularité},
+  borderline west={3pt}{0pt}{GrisFonce}, frame hidden,
+  left=10pt, right=6pt, top=4pt, bottom=4pt]
+\begin{enumerate}[label=(\roman*), itemsep=4pt]
+  \item Parmi les solutions à support compact, $E * F$ est l'\textbf{unique solution}
+        de $P(\partial)u = F$.
+  \item Si $E \in C^\infty(\R^d \setminus \{0\})$ et si $F \in C^\infty(\Omega)$,
+        alors toute solution $T \in \mathcal{D}'(\Omega)$ de $P(\partial)T = T_F$
+        est en fait une fonction $C^\infty$ \emph{(régularité elliptique)}.
+\end{enumerate}
+\end{tcolorbox}
+
+\begin{attention}
+C'est là la force des distributions : une \textbf{solution fondamentale} $E$ concentre
+toute l'information du système. La formule $u = E * F$ signifie que l'on superpose
+les réponses impulsionnelles pondérées par la source $F$ — c'est l'intuition physique
+de la convolution. Le théorème de Malgrange–Ehrenpreis garantit l'\textbf{existence}
+de $E$ sans la calculer : on la cherche au cas par cas.
+\end{attention}
+
+% ────────────────────────────────────────────────────────────
+\subsection*{7.3 \quad Exemples fondamentaux}
+% ────────────────────────────────────────────────────────────
+
+\begin{exemple}{Équation de transport : $u' - \lambda u = f$}
+\textbf{Opérateur :} $P(\partial) = \partial_x - \lambda$.
+\textbf{Solution fondamentale :} $E(x) = e^{\lambda x}H(x)$.
+
+\medskip
+\textbf{Vérification} (formule des sauts + règle de Leibniz) :
+\[
+  E' - \lambda E
+  = \bigl(e^{\lambda x}H\bigr)' - \lambda e^{\lambda x}H
+  = \lambda e^{\lambda x}H + e^{\lambda \cdot 0}\,\delta_0 - \lambda e^{\lambda x}H
+  = \delta_0. \quad\checkmark
+\]
+
+\textbf{Interprétation.} $E(x)$ est nulle pour $x < 0$ (avant l'impulsion) et
+exponentielle pour $x > 0$ — c'est la \emph{réponse causale} du système.
+\end{exemple}
+
+\begin{exemple}{Laplacien en dimension $d \geq 2$ : $-\Delta u = f$}
+\textbf{Solutions fondamentales :}
+\[
+  E(x) = \frac{1}{2\pi}\ln|x| \qquad (d = 2),
+  \qquad
+  E(x) = \frac{-1}{(d-2)\,S_{d-1}\,|x|^{d-2}} \qquad (d \geq 3),
+\]
+où $S_{d-1}$ est l'aire de la sphère unité $S^{d-1}$. En dimension $3$ :
+\[
+  E(x) = \frac{1}{4\pi|x|}.
+\]
+
+\textbf{Interprétation physique.} C'est le \textbf{potentiel de Coulomb} : le
+potentiel électrique créé par une charge ponctuelle unitaire. La théorie des
+distributions formalise ce que les physiciens utilisaient intuitivement.
+
+\medskip
+\textbf{Régularité.} Ces solutions sont $C^\infty$ hors de $0$, donc toute
+solution de $-\Delta u = f$ avec $f \in C^\infty$ est aussi $C^\infty$
+(régularité elliptique — conséquence du Théorème 7.3\,(ii)).
+\end{exemple}
+
+\begin{exemple}{Équation des ondes en dimension $1+1$ : $\partial_t^2 u - \partial_x^2 u = f$}
+\textbf{Solution fondamentale :}
+\[
+  E(x,t) = \tfrac{1}{2}\,H(t - |x|)
+  = \begin{cases} \tfrac{1}{2} & \text{si } t > |x|, \\ 0 & \text{sinon.} \end{cases}
+\]
+
+\textbf{Interprétation.} $E$ est nulle hors du cône $\{t > |x|\}$ et vaut $\tfrac{1}{2}$
+à l'intérieur. L'information se propage exactement à la vitesse $1$ dans les deux
+directions — c'est le \textbf{principe de Huygens} en dimension $1$.
+
+\medskip
+\textbf{Vérification.} Pour $\varphi \in \mathcal{D}(\R^2)$, un calcul direct par
+Fubini et intégrations par parties donne
+$\br{(\partial_t^2 - \partial_x^2)E}{\varphi} = \varphi(0,0)$.
+\end{exemple}
+
+% ── QCM ────────────────────────────────────────────────────
+\bigskip
+\begin{qcm}
+\textbf{Question 1.} Laquelle des affirmations suivantes est vraie ?
+\begin{enumerate}[label=\Alph*., itemsep=2pt]
+  \item $E$ est toujours $C^\infty$ sur $\R^d$ entier.
+  \item $E$ vérifie $P(\partial)E = \delta_0$.
+  \item $E$ est unique pour tout opérateur $P(\partial)$.
+  \item $E$ n'existe que si $P(\partial)$ est d'ordre $1$.
+\end{enumerate}
+
+\medskip
+\textbf{Question 2.} Soit $E$ une solution fondamentale de $P(\partial)$ et
+$F \in \mathcal{D}'(\R^d)$ à support compact. Quelle expression est une solution
+de $P(\partial)u = F$ ?
+\begin{enumerate}[label=\Alph*., itemsep=2pt]
+  \item $u = E + F$
+  \item $u = P(\partial)F$
+  \item $u = E * F$
+  \item $u = F * F$
+\end{enumerate}
+
+\medskip
+\textbf{Question 3.} Quelle est la solution fondamentale du Laplacien $-\Delta$
+en dimension $3$ ?
+\begin{enumerate}[label=\Alph*., itemsep=2pt]
+  \item $E(x) = \dfrac{\ln|x|}{2\pi}$
+  \item $E(x) = \dfrac{1}{4\pi|x|}$
+  \item $E(x) = e^{-|x|}$
+  \item $E(x) = |x|$
+\end{enumerate}
+
+\smallskip
+\textit{\color{GrisMoyen}Réponses : Q1 — B \quad Q2 — C \quad Q3 — B}
+\end{qcm}
+
+% ── Exercice corrigé ───────────────────────────────────────
+\bigskip
+\begin{exercice}{Calculer des solutions fondamentales}
+\begin{enumerate}[itemsep=5pt]
+  \item Montrer que $E(x) = e^{\lambda x}H(x)$ est une solution fondamentale
+        de l'opérateur $P(\partial) = \partial_x - \lambda$,
+        c'est-à-dire que $E' - \lambda E = \delta_0$ dans $\mathcal{D}'(\R)$.
+  \item En déduire qu'une solution particulière de $u' - \lambda u = g$
+        (avec $g \in L^1(\R)$ à support compact) est $u = E * g$.
+        Écrire explicitement cette convolution.
+  \item Vérifier que $(T_{|x|})'' = 2\delta_0$ en appliquant deux fois
+        la formule des sauts.
+\end{enumerate}
+\end{exercice}
+
+\begin{correction}
+\textbf{1.} $E$ est $C^1$ par morceaux avec saut $[E(0)] = e^0 = 1$ en $0$.
+Par la formule des sauts :
+\[
+  \bigl(e^{\lambda x}H\bigr)'
+  = \lambda e^{\lambda x}H + [E(0)]\,\delta_0
+  = \lambda e^{\lambda x}H + \delta_0.
+\]
+Donc $E' - \lambda E = \delta_0$. $\checkmark$
+
+\medskip
+\textbf{2.} Par le Théorème de résolution par convolution, $u = E * g$ est solution.
+Explicitement :
+\[
+  (E * g)(x)
+  = \int_{-\infty}^{x} e^{\lambda(x-y)}\,g(y)\,\mathrm{d}y.
+\]
+C'est la formule de variation de la constante, retrouvée par la théorie des distributions.
+
+\medskip
+\textbf{3.} $f(x) = |x|$ est continue (saut nul en $0$), $C^1$ par morceaux avec
+$f'(x) = \sgn(x)$. La formule des sauts donne $(T_{|x|})' = T_{\sgn}$.
+Puis $g(x) = \sgn(x)$ a un saut $[g(0)] = 1-(-1) = 2$ en $0$, donc
+$(T_{\sgn})' = 0 + 2\delta_0$. Ainsi $(T_{|x|})'' = 2\delta_0$. $\checkmark$
+\end{correction}
+
+% ── Synthèse globale ───────────────────────────────────────
+\bigskip
+\begin{tcolorbox}[enhanced, colback=GrisClair, colframe=GrisFonce,
+  fonttitle=\bfseries\sffamily, title={Ce qu'il faut retenir — Section 7},
+  arc=3pt, left=6pt, right=6pt]
+\begin{itemize}[itemsep=4pt]
+  \item La \textbf{solution fondamentale} $E$ vérifie $P(\partial)E = \delta_0$
+        et existe toujours (Malgrange–Ehrenpreis 1955).
+  \item \textbf{Résolution par convolution :} $u = E * F$ résout $P(\partial)u = F$
+        (pour $F$ à support compact).
+  \item Résultats clés :
+        $H' = \delta_0$,\quad
+        $E_{\text{transport}}(x) = e^{\lambda x}H(x)$,\quad
+        $E_{-\Delta}(x) = \dfrac{1}{4\pi|x|}$ (dim.\,3),\quad
+        $E_{\text{ondes}}(x,t) = \tfrac{1}{2}H(t-|x|)$.
+  \item La dérivée au sens des distributions \textbf{prolonge} la dérivée classique :
+        si $f$ est $C^1$, alors $T_{f'} = (T_f)'$.
+\end{itemize}
+\end{tcolorbox}
+
+\end{document}

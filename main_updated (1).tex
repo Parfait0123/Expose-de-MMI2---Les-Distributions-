@@ -4,10 +4,6 @@
 % ============================================================
 \documentclass[12pt,a4paper,openany]{book}
 
-\usepackage{hyperref}
-
-
-
 % ----- Encodage & langue -----
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -257,14 +253,6 @@
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta, positioning, patterns, decorations.pathmorphing, shadows , shadings, fadings}
 
-\hypersetup{
-	pdftitle={Théorie des Distributions},
-	pdfauthor={BOTCHI Parfait},
-	pdfsubject={Exposé de Méthode Mathématique de l'Ingénieur II (MMI 2)},
-	pdfkeywords={Distributions, Dirac, UNSTIM, ENSGMM},
-	pdfencoding=auto, 
-	hidelinks
-}
 
 % ----- Hyperliens (tout en noir) -----
 \usepackage{hyperref}
@@ -281,278 +269,278 @@
 
 % ============================================================
 \begin{document}
-	\begin{titlepage}
-		\thispagestyle{empty}
+\begin{titlepage}
+	\thispagestyle{empty}
+	
+	\definecolor{unstimPrimary}{RGB}{0, 51, 102}
+	\definecolor{unstimAccent}{RGB}{212, 175, 55}
+	\definecolor{unstimGray}{RGB}{60, 60, 60}
+	
+	\begin{tikzpicture}[remember picture, overlay]
 		
-		\definecolor{unstimPrimary}{RGB}{0, 51, 102}
-		\definecolor{unstimAccent}{RGB}{212, 175, 55}
-		\definecolor{unstimGray}{RGB}{60, 60, 60}
+				%-----------------------------------------------------------
+		% ARRIÈRE-PLAN MODERNISÉ : SYMÉTRIE DE COURBES LUXE
+		%-----------------------------------------------------------
+		\fill[white] (current page.south west) rectangle (current page.north east);
 		
-		\begin{tikzpicture}[remember picture, overlay]
+		% 1. COURBE SUPÉRIEURE (L'élément "Raide")
+		\shade[left color=unstimPrimary, right color=unstimPrimary!85, shading angle=135]
+		(current page.north west) -- ([xshift=14cm]current page.north west) 
+		.. controls ([xshift=10cm, yshift=-4cm]current page.north west) and ([xshift=0.5cm, yshift=-10cm]current page.north west) ..
+		([yshift=-18cm]current page.north west) -- cycle;
+		
+		% Filet doré supérieur
+		\draw[unstimAccent, line width=1.2pt, opacity=0.8]
+		([xshift=14.1cm]current page.north west) 
+		.. controls ([xshift=10.1cm, yshift=-4.1cm]current page.north west) and ([xshift=0.6cm, yshift=-10.1cm]current page.north west) ..
+		([yshift=-18.1cm]current page.north west);
+		
+				%-----------------------------------------------------------
+		% 2. ÉLÉMENT INFÉRIEUR : TRILOGIE DE NAPPES DE FAISCEAUX
+		%-----------------------------------------------------------
+		\begin{scope}
+			% --- NAPPE 1 : LE SOCLE (L'éventail large qui balaie le centre) ---
+			\foreach \i in {0, 0.5, ..., 6} {
+				\draw[unstimPrimary, opacity={0.02 + \i/100}, line width={0.1pt + \i*0.08pt}]
+				([xshift={(-22 + \i*1.5)*1cm}]current page.south east) 
+				.. controls ([xshift={(-14 + \i)*1cm}, yshift={(0.5 + \i*0.3)*1cm}]current page.south east) 
+				and ([xshift={(-5 - \i*0.2)*1cm}, yshift={(6 + \i*0.4)*1cm}]current page.south east) .. 
+				([yshift={(10 - \i*0.5)*1cm}]current page.south east);
+			}
 			
-			%-----------------------------------------------------------
-			% ARRIÈRE-PLAN MODERNISÉ : SYMÉTRIE DE COURBES LUXE
-			%-----------------------------------------------------------
-			\fill[white] (current page.south west) rectangle (current page.north east);
+			% --- NAPPE 2 : L'ÉCLAT (Plus serré, doré, décalé vers le haut) ---
+			\foreach \i in {0, 0.4, ..., 4} {
+				\draw[unstimAccent, opacity={0.05 + \i/40}, line width={0.1pt + \i*0.1pt}]
+				([xshift={(-18 + \i*1.2)*1cm}, yshift=0.5cm]current page.south east) 
+				.. controls ([xshift={(-10 + \i)*1cm}, yshift={(3 + \i*0.4)*1cm}]current page.south east) 
+				and ([xshift={(-2 - \i*0.1)*1cm}, yshift={(9 + \i*0.3)*1cm}]current page.south east) .. 
+				([yshift={(14 - \i*0.4)*1cm}]current page.south east);
+			}
 			
-			% 1. COURBE SUPÉRIEURE (L'élément "Raide")
-			\shade[left color=unstimPrimary, right color=unstimPrimary!85, shading angle=135]
-			(current page.north west) -- ([xshift=14cm]current page.north west) 
-			.. controls ([xshift=10cm, yshift=-4cm]current page.north west) and ([xshift=0.5cm, yshift=-10cm]current page.north west) ..
-			([yshift=-18cm]current page.north west) -- cycle;
+			% --- NAPPE 3 : LE FILIGRANE (Très fin, très haut, bleu marine) ---
+			\foreach \i in {0, 0.3, ..., 3} {
+				\draw[unstimPrimary, opacity={0.1 + \i/15}, line width={0.2pt + \i*0.05pt}]
+				([xshift={(-15 + \i*1)*1cm}, yshift=1cm]current page.south east) 
+				.. controls ([xshift={(-7 + \i)*1cm}, yshift={(5 + \i*0.5)*1cm}]current page.south east) 
+				and ([xshift={(-1 + \i*0.2)*1cm}, yshift={(11 + \i*0.2)*1cm}]current page.south east) .. 
+				([yshift={(17 - \i*0.2)*1cm}]current page.south east);
+			}
+		\foreach \i in {0, 0.5, ..., 6} {
+			\draw[unstimPrimary, opacity={0.03 + \i/30}, line width={0.1pt + \i*0.12pt}]
+			([xshift={(-21 + \i*1.2)*1cm}]current page.south east) 
+			% On pousse le premier contrôle très loin vers la gauche (-16cm) pour balayer le centre
+			.. controls ([xshift={(-16 + \i)*1cm}, yshift={(2 + \i*0.5)*1cm}]current page.south east) 
+			% Le deuxième contrôle reste à gauche (-10cm) pour donner de l'ampleur
+			and ([xshift={(-10 - \i*0.5)*1cm}, yshift={(10 + \i)*1cm}]current page.south east) .. 
+			% POINT FINAL : xshift=0pt pour toucher le bord droit de la page
+			([xshift=0pt, yshift={(15 - \i*0.8)*1cm}]current page.south east);
+		}
+		
+		
 			
-			% Filet doré supérieur
-			\draw[unstimAccent, line width=1.2pt, opacity=0.8]
-			([xshift=14.1cm]current page.north west) 
-			.. controls ([xshift=10.1cm, yshift=-4.1cm]current page.north west) and ([xshift=0.6cm, yshift=-10.1cm]current page.north west) ..
-			([yshift=-18.1cm]current page.north west);
+			% --- LIGNE MAÎTRESSE ET POINTS (La signature) ---
+			\draw[unstimAccent, line width=1.4pt, opacity=0.7]
+			([xshift=-15cm, yshift=1cm]current page.south east) 
+			.. controls ([xshift=-7cm, yshift=5cm]current page.south east) 
+			and ([xshift=-1cm, yshift=11cm]current page.south east) .. 
+			([yshift=17cm]current page.south east);
 			
-			%-----------------------------------------------------------
-			% 2. ÉLÉMENT INFÉRIEUR : TRILOGIE DE NAPPES DE FAISCEAUX
-			%-----------------------------------------------------------
-			\begin{scope}
-				% --- NAPPE 1 : LE SOCLE (L'éventail large qui balaie le centre) ---
-				\foreach \i in {0, 0.5, ..., 6} {
-					\draw[unstimPrimary, opacity={0.02 + \i/100}, line width={0.1pt + \i*0.08pt}]
-					([xshift={(-22 + \i*1.5)*1cm}]current page.south east) 
-					.. controls ([xshift={(-14 + \i)*1cm}, yshift={(0.5 + \i*0.3)*1cm}]current page.south east) 
-					and ([xshift={(-5 - \i*0.2)*1cm}, yshift={(6 + \i*0.4)*1cm}]current page.south east) .. 
-					([yshift={(10 - \i*0.5)*1cm}]current page.south east);
-				}
-				
-				% --- NAPPE 2 : L'ÉCLAT (Plus serré, doré, décalé vers le haut) ---
-				\foreach \i in {0, 0.4, ..., 4} {
-					\draw[unstimAccent, opacity={0.05 + \i/40}, line width={0.1pt + \i*0.1pt}]
-					([xshift={(-18 + \i*1.2)*1cm}, yshift=0.5cm]current page.south east) 
-					.. controls ([xshift={(-10 + \i)*1cm}, yshift={(3 + \i*0.4)*1cm}]current page.south east) 
-					and ([xshift={(-2 - \i*0.1)*1cm}, yshift={(9 + \i*0.3)*1cm}]current page.south east) .. 
-					([yshift={(14 - \i*0.4)*1cm}]current page.south east);
-				}
-				
-				% --- NAPPE 3 : LE FILIGRANE (Très fin, très haut, bleu marine) ---
-				\foreach \i in {0, 0.3, ..., 3} {
-					\draw[unstimPrimary, opacity={0.1 + \i/15}, line width={0.2pt + \i*0.05pt}]
-					([xshift={(-15 + \i*1)*1cm}, yshift=1cm]current page.south east) 
-					.. controls ([xshift={(-7 + \i)*1cm}, yshift={(5 + \i*0.5)*1cm}]current page.south east) 
-					and ([xshift={(-1 + \i*0.2)*1cm}, yshift={(11 + \i*0.2)*1cm}]current page.south east) .. 
-					([yshift={(17 - \i*0.2)*1cm}]current page.south east);
-				}
-				\foreach \i in {0, 0.5, ..., 6} {
-					\draw[unstimPrimary, opacity={0.03 + \i/30}, line width={0.1pt + \i*0.12pt}]
-					([xshift={(-21 + \i*1.2)*1cm}]current page.south east) 
-					% On pousse le premier contrôle très loin vers la gauche (-16cm) pour balayer le centre
-					.. controls ([xshift={(-16 + \i)*1cm}, yshift={(2 + \i*0.5)*1cm}]current page.south east) 
-					% Le deuxième contrôle reste à gauche (-10cm) pour donner de l'ampleur
-					and ([xshift={(-10 - \i*0.5)*1cm}, yshift={(10 + \i)*1cm}]current page.south east) .. 
-					% POINT FINAL : xshift=0pt pour toucher le bord droit de la page
-					([xshift=0pt, yshift={(15 - \i*0.8)*1cm}]current page.south east);
-				}
-				
-				
-				
-				% --- LIGNE MAÎTRESSE ET POINTS (La signature) ---
-				\draw[unstimAccent, line width=1.4pt, opacity=0.7]
-				([xshift=-15cm, yshift=1cm]current page.south east) 
+			\foreach \p in {0.25, 0.5, 0.75} {
+				\path ([xshift=-15cm, yshift=1cm]current page.south east) 
 				.. controls ([xshift=-7cm, yshift=5cm]current page.south east) 
 				and ([xshift=-1cm, yshift=11cm]current page.south east) .. 
-				([yshift=17cm]current page.south east);
-				
-				\foreach \p in {0.25, 0.5, 0.75} {
-					\path ([xshift=-15cm, yshift=1cm]current page.south east) 
-					.. controls ([xshift=-7cm, yshift=5cm]current page.south east) 
-					and ([xshift=-1cm, yshift=11cm]current page.south east) .. 
-					([yshift=17cm]current page.south east) 
-					node[pos=\p, circle, fill=white, draw=unstimAccent, line width=0.6pt, inner sep=1.2pt] {};
-				}
-			\end{scope}
-			
-			
-			
-			% Filet doré inférieur
-			\draw[unstimAccent, line width=1pt, opacity=0.7]
-			([yshift=8.1cm]current page.south east)
-			.. controls ([xshift=-4.1cm, yshift=4.1cm]current page.south east) and ([xshift=-10.1cm, yshift=0.6cm]current page.south east) ..
-			([xshift=-14.1cm]current page.south east);
-			
-			% 3. MOTIFS DE DISPERSION (Version ultra-robuste)
-			\foreach \i in {1,...,20} {
-				\fill[unstimAccent, opacity=0.3] 
-				([xshift={(15*rnd)*1cm}, yshift={(-12*rnd)*1cm}]current page.north west) circle (1pt);
-				\fill[unstimPrimary!40, opacity=0.2] 
-				([xshift={(-15*rnd)*1cm}, yshift={(10*rnd)*1cm}]current page.south east) circle (0.8pt);
+				([yshift=17cm]current page.south east) 
+				node[pos=\p, circle, fill=white, draw=unstimAccent, line width=0.6pt, inner sep=1.2pt] {};
 			}
-			
-			
-			
-			% 4. ÉLÉMENT TECHNIQUE DISCRET (Haut-Droite)
-			\foreach \r in {0.8, 1.3, ..., 3} {
-				\draw[unstimPrimary!15, line width=0.2pt] 
-				([xshift=-1.5cm, yshift=-1.5cm]current page.north east) circle (\r cm);
-			}
-			
-			
-			%-----------------------------------------------------------
-			% LOGOS ET ÉTABLISSEMENTS
-			%-----------------------------------------------------------
-			
-			\node[anchor=north west, inner sep=0]
-			at ([xshift=0.7cm, yshift=-1.3cm]current page.north west)
-			{\includegraphics[height=1.8cm]{logo_unstim.png}};
-			
-			\node[anchor=north west, font=\bfseries\large\color{white}]
-			at ([xshift=3.1cm, yshift=-1.1cm]current page.north west)
-			{\textsc{UNSTIM}};
-			\node[anchor=north west, font=\fontsize{13pt}{15pt}\selectfont\color{unstimAccent}, text width=7cm]
-			at ([xshift=3.1cm, yshift=-1.9cm]current page.north west)
-			{Université Nationale des Sciences,
-				Technologies, Ingénierie et \\
-				Mathématiques};
-			
-			\node[anchor=north east, inner sep=0]
-			at ([xshift=-0.7cm, yshift=-1.3cm]current page.north east)
-			{\includegraphics[height=1.8cm]{logo_ensgmm.png}};
-			
-			\node[anchor=north east, font=\bfseries\large\color{unstimPrimary}]
-			at ([xshift=-3.1cm, yshift=-1.1cm]current page.north east)
-			{\textsc{ENSGMM}};
-			\node[anchor=north east, font=\fontsize{13pt}{15pt}\selectfont\color{unstimGray},
-			text width=7.8cm, align=right]
-			at ([xshift=-3.1cm, yshift=-1.9cm]current page.north east)
-			{École Nationale Supérieure de \\
-				Génie
-				Mathématique et \\ Modélisation};
-			%-----------------------------------------------------------
-			% NOM DE LA MATIÈRE (AGRANDI ET CONTRASTÉ)
-			%-----------------------------------------------------------
-			\node[anchor=north, align=center, font=\fontsize{20pt}{15pt}\selectfont]
-			at ([yshift=-6.6cm]current page.north)
-			{\color{white} MMI 2 \color{unstimPrimary}  ----  Méthode Mathématique de l'Ingénieur II};
-			
-			%-----------------------------------------------------------
-			% BLOC TITRE 
-			%-----------------------------------------------------------
-			\begin{scope}
-				% 1. OMBRE PORTÉE 
-				\fill[black!15, rounded corners=12pt]
-				([xshift=1.7cm, yshift=-8.2cm]current page.north west) rectangle
-				([xshift=-1.3cm, yshift=-13.2cm]current page.north east);
-				
-				% 2. CORPS DU BLOC 
-				\filldraw[white, draw=unstimPrimary!20, line width=0.5pt]
-				([xshift=1.5cm, yshift=-8.0cm]current page.north west) [rounded corners=12pt] --
-				([xshift=-1.5cm, yshift=-8.0cm]current page.north east) --
-				([xshift=-1.5cm, yshift=-11.8cm]current page.north east) -- 
-				([xshift=-2.7cm, yshift=-13.0cm]current page.north east) [rounded corners=12pt] -- 
-				([xshift=1.5cm, yshift=-13.0cm]current page.north west) -- cycle;
-				
-				% 3. LE RABAT DU PLI 
-				\shade[left color=gray!10, right color=gray!30, shading angle=45, draw=unstimPrimary!30]
-				([xshift=-1.5cm, yshift=-11.8cm]current page.north east) -- 
-				([xshift=-2.7cm, yshift=-13.0cm]current page.north east) -- 
-				([xshift=-2.7cm, yshift=-11.8cm]current page.north east) -- cycle;
-				
-				% 4. OMBRE DE CONTACT 
-				\fill[black!20]
-				([xshift=-1.5cm, yshift=-11.8cm]current page.north east) -- 
-				([xshift=-2.7cm, yshift=-13.0cm]current page.north east) -- 
-				([xshift=-1.9cm, yshift=-12.1cm]current page.north east) -- cycle;
-			\end{scope}
-			
-			%-----------------------------------------------------------
-			% TEXTE DU BLOC 
-			%-----------------------------------------------------------
-			\node[anchor=north, align=center, font=\large\itshape\color{unstimGray}]
-			at ([yshift=-8.6cm]current page.north) {Exposé sur la};
-			
-			\node[anchor=north, align=center, font=\bfseries\huge\color{unstimPrimary}]
-			at ([yshift=-9.4cm]current page.north) {\textsc{Théorie des Distributions}};
-			
-			\draw[unstimAccent, line width=1.5pt]
-			([xshift=-3cm, yshift=-10.6cm]current page.north) -- ([xshift=3cm, yshift=-10.6cm]current page.north);
-			
-			\node[anchor=north, align=center, font=\large\color{unstimGray}]
-			at ([yshift=-11.3cm]current page.north) {Cours, QCM et exercices corrigés};
-			
-			\node[anchor=north, align=center, font=\normalsize\scshape\color{unstimPrimary!80}]
-			at ([yshift=-12.1cm]current page.north) {Ing1 --- Génie Mathématique et Modélisation};
-			%-----------------------------------------------------------
-			% ENSEIGNANT RESPONSABLE (DÉCALÉ VERS LE BAS)
-			%-----------------------------------------------------------
-			\node[anchor=north, align=center, font=\small\color{unstimGray}]
-			at ([yshift=-14.5cm]current page.north)
-			{Sous la direction de};
-			
-			\node[anchor=north, align=center, font=\bfseries\Large\color{unstimPrimary}]
-			at ([yshift=-15.3cm]current page.north)
-			{Dr.\ Djibril A.\ MOUSSA};
-			
-			\draw[unstimAccent, line width=1pt]
-			([xshift=-2.5cm, yshift=-16.4cm]current page.north) --
-			([xshift=2.5cm, yshift=-16.4cm]current page.north);
-			
-			
-			%-----------------------------------------------------------
-			% MEMBRES DU GROUPE 
-			%-----------------------------------------------------------
-			
-			% Titre du bloc
-			\node[anchor=north, font=\fontsize{16pt}{15pt}\selectfont\color{unstimPrimary}] 
-			at ([yshift=-18.5cm]current page.north) 
-			{\textsc{\textbf{Membres du Groupe}}};
-			
-			% Le Tableau 
-			\node[anchor=north] at ([yshift=-19.8cm]current page.north) {
-				\begin{tikzpicture}
-					% Fond du tableau (Gris ultra-léger avec bordure latérale)
-					\fill[unstimGray!5, rounded corners=2pt] (0,0) rectangle (14,2.5);
-					\fill[unstimPrimary] (0,0) rectangle (0.15,2.5); % Barre bleue à gauche
-					\fill[unstimAccent] (13.85,0) rectangle (14,2.5); % Barre dorée à droite
-					
-					% Contenu du tableau
-					\node[anchor=west] at (0.8, 1.8) {\large\color{unstimGray} \textbf{01.} \textsc{Affoukou} Prosper};
-					\node[anchor=west] at (7.5, 1.8) {\large\color{unstimGray} \textbf{02.} \textsc{Botchi} Parfait};
-					
-					% Ligne de séparation interne ultra-fine
-					\draw[unstimGray!20] (0.8, 1.25) -- (13.2, 1.25);
-					
-					\node[anchor=west] at (0.8, 0.7) {\large\color{unstimGray} \textbf{03.} \textsc{Doboevi} Judaël};
-					\node[anchor=west] at (7.5, 0.7) {\large\color{unstimGray} \textbf{04.} \textsc{Dohou} Alexis};
-				\end{tikzpicture}
-			};
-			
-			
-			%-----------------------------------------------------------
-			% PIED DE PAGE
-			%-----------------------------------------------------------
-			\node[anchor=south west, align=left, font=\small\itshape\color{unstimGray}]
-			at ([xshift=1.5cm, yshift=3.8cm]current page.south west)
-			{\og{}Donner un sens à ce qui n'en a pas.\fg{}};
-			\node[anchor=south west, align=left, font=\footnotesize\color{unstimGray!70}]
-			at ([xshift=1.5cm, yshift=3.1cm]current page.south west)
-			{--- Laurent Schwartz, Médaille Fields 1950};
-			
-			\foreach \i in {0, 0.5, 1, ..., 10} {
-				\fill[unstimPrimary, opacity={0.3 - 0.025*\i}]
-				([xshift={2cm + 1.8cm*\i}, yshift=1.2cm]current page.south west)
-				circle (1.5pt);
-			}
-			
-			\node[anchor=south, align=center, font=\small\color{unstimGray}]
-			at ([yshift=1.5cm]current page.south)
-			{Abomey, Sogbo-Aliho --- Année universitaire 2025--2026};
-			
-		\end{tikzpicture}
-	\end{titlepage}
+		\end{scope}
+		
+		
+		
+		% Filet doré inférieur
+		\draw[unstimAccent, line width=1pt, opacity=0.7]
+		([yshift=8.1cm]current page.south east)
+		.. controls ([xshift=-4.1cm, yshift=4.1cm]current page.south east) and ([xshift=-10.1cm, yshift=0.6cm]current page.south east) ..
+		([xshift=-14.1cm]current page.south east);
+		
+				% 3. MOTIFS DE DISPERSION (Version ultra-robuste)
+		\foreach \i in {1,...,20} {
+			\fill[unstimAccent, opacity=0.3] 
+			([xshift={(15*rnd)*1cm}, yshift={(-12*rnd)*1cm}]current page.north west) circle (1pt);
+			\fill[unstimPrimary!40, opacity=0.2] 
+			([xshift={(-15*rnd)*1cm}, yshift={(10*rnd)*1cm}]current page.south east) circle (0.8pt);
+		}
+		
 	
-	\cleardoublepage
+		
+		% 4. ÉLÉMENT TECHNIQUE DISCRET (Haut-Droite)
+		\foreach \r in {0.8, 1.3, ..., 3} {
+			\draw[unstimPrimary!15, line width=0.2pt] 
+			([xshift=-1.5cm, yshift=-1.5cm]current page.north east) circle (\r cm);
+		}
+		
 	
+		%-----------------------------------------------------------
+		% LOGOS ET ÉTABLISSEMENTS
+		%-----------------------------------------------------------
+		
+		\node[anchor=north west, inner sep=0]
+		at ([xshift=0.7cm, yshift=-1.3cm]current page.north west)
+		{\includegraphics[height=1.8cm]{logo_unstim.png}};
+		
+		\node[anchor=north west, font=\bfseries\large\color{white}]
+		at ([xshift=3.1cm, yshift=-1.1cm]current page.north west)
+		{\textsc{UNSTIM}};
+		\node[anchor=north west, font=\fontsize{13pt}{15pt}\selectfont\color{unstimAccent}, text width=7cm]
+		at ([xshift=3.1cm, yshift=-1.9cm]current page.north west)
+		{Université Nationale des Sciences,
+			Technologies, Ingénierie et \\
+			 Mathématiques};
+		
+		\node[anchor=north east, inner sep=0]
+		at ([xshift=-0.7cm, yshift=-1.3cm]current page.north east)
+		{\includegraphics[height=1.8cm]{logo_ensgmm.png}};
+		
+		\node[anchor=north east, font=\bfseries\large\color{unstimPrimary}]
+		at ([xshift=-3.1cm, yshift=-1.1cm]current page.north east)
+		{\textsc{ENSGMM}};
+		\node[anchor=north east, font=\fontsize{13pt}{15pt}\selectfont\color{unstimGray},
+		text width=7.8cm, align=right]
+		at ([xshift=-3.1cm, yshift=-1.9cm]current page.north east)
+		{École Nationale Supérieure de \\
+			Génie
+			Mathématique et \\ Modélisation};
+				%-----------------------------------------------------------
+		% NOM DE LA MATIÈRE (AGRANDI ET CONTRASTÉ)
+		%-----------------------------------------------------------
+		\node[anchor=north, align=center, font=\fontsize{20pt}{15pt}\selectfont]
+		at ([yshift=-6.6cm]current page.north)
+		{\color{white} MMI 2 \color{unstimPrimary}  ----  Méthode Mathématique de l'Ingénieur II};
+		
+			%-----------------------------------------------------------
+		% BLOC TITRE 
+		%-----------------------------------------------------------
+		\begin{scope}
+			% 1. OMBRE PORTÉE 
+			\fill[black!15, rounded corners=12pt]
+			([xshift=1.7cm, yshift=-8.2cm]current page.north west) rectangle
+			([xshift=-1.3cm, yshift=-13.2cm]current page.north east);
+			
+			% 2. CORPS DU BLOC 
+			\filldraw[white, draw=unstimPrimary!20, line width=0.5pt]
+			([xshift=1.5cm, yshift=-8.0cm]current page.north west) [rounded corners=12pt] --
+			([xshift=-1.5cm, yshift=-8.0cm]current page.north east) --
+			([xshift=-1.5cm, yshift=-11.8cm]current page.north east) -- 
+			([xshift=-2.7cm, yshift=-13.0cm]current page.north east) [rounded corners=12pt] -- 
+			([xshift=1.5cm, yshift=-13.0cm]current page.north west) -- cycle;
+			
+			% 3. LE RABAT DU PLI 
+			\shade[left color=gray!10, right color=gray!30, shading angle=45, draw=unstimPrimary!30]
+			([xshift=-1.5cm, yshift=-11.8cm]current page.north east) -- 
+			([xshift=-2.7cm, yshift=-13.0cm]current page.north east) -- 
+			([xshift=-2.7cm, yshift=-11.8cm]current page.north east) -- cycle;
+			
+			% 4. OMBRE DE CONTACT 
+			\fill[black!20]
+			([xshift=-1.5cm, yshift=-11.8cm]current page.north east) -- 
+			([xshift=-2.7cm, yshift=-13.0cm]current page.north east) -- 
+			([xshift=-1.9cm, yshift=-12.1cm]current page.north east) -- cycle;
+		\end{scope}
+		
+		%-----------------------------------------------------------
+		% TEXTE DU BLOC 
+		%-----------------------------------------------------------
+		\node[anchor=north, align=center, font=\large\itshape\color{unstimGray}]
+		at ([yshift=-8.6cm]current page.north) {Exposé sur la};
+		
+		\node[anchor=north, align=center, font=\bfseries\huge\color{unstimPrimary}]
+		at ([yshift=-9.4cm]current page.north) {\textsc{Théorie des Distributions}};
+		
+		\draw[unstimAccent, line width=1.5pt]
+		([xshift=-3cm, yshift=-10.6cm]current page.north) -- ([xshift=3cm, yshift=-10.6cm]current page.north);
+		
+		\node[anchor=north, align=center, font=\large\color{unstimGray}]
+		at ([yshift=-11.3cm]current page.north) {Cours, QCM et exercices corrigés};
+		
+		\node[anchor=north, align=center, font=\normalsize\scshape\color{unstimPrimary!80}]
+		at ([yshift=-12.1cm]current page.north) {Ing1 --- Génie Mathématique et Modélisation};
+		%-----------------------------------------------------------
+% ENSEIGNANT RESPONSABLE (DÉCALÉ VERS LE BAS)
+%-----------------------------------------------------------
+\node[anchor=north, align=center, font=\small\color{unstimGray}]
+at ([yshift=-14.5cm]current page.north)
+{Sous la direction de};
+
+\node[anchor=north, align=center, font=\bfseries\Large\color{unstimPrimary}]
+at ([yshift=-15.3cm]current page.north)
+{Dr.\ Djibril A.\ MOUSSA};
+
+\draw[unstimAccent, line width=1pt]
+([xshift=-2.5cm, yshift=-16.4cm]current page.north) --
+([xshift=2.5cm, yshift=-16.4cm]current page.north);
+
+
+		%-----------------------------------------------------------
+% MEMBRES DU GROUPE 
+%-----------------------------------------------------------
+
+% Titre du bloc
+\node[anchor=north, font=\fontsize{16pt}{15pt}\selectfont\color{unstimPrimary}] 
+at ([yshift=-18.5cm]current page.north) 
+{\textsc{\textbf{Membres du Groupe}}};
+
+% Le Tableau 
+\node[anchor=north] at ([yshift=-19.8cm]current page.north) {
+	\begin{tikzpicture}
+		% Fond du tableau (Gris ultra-léger avec bordure latérale)
+		\fill[unstimGray!5, rounded corners=2pt] (0,0) rectangle (14,2.5);
+		\fill[unstimPrimary] (0,0) rectangle (0.15,2.5); % Barre bleue à gauche
+		\fill[unstimAccent] (13.85,0) rectangle (14,2.5); % Barre dorée à droite
+		
+		% Contenu du tableau
+		\node[anchor=west] at (0.8, 1.8) {\large\color{unstimGray} \textbf{01.} \textsc{Affoukou} Prosper};
+		\node[anchor=west] at (7.5, 1.8) {\large\color{unstimGray} \textbf{02.} \textsc{Botchi} Parfait};
+		
+		% Ligne de séparation interne ultra-fine
+		\draw[unstimGray!20] (0.8, 1.25) -- (13.2, 1.25);
+		
+		\node[anchor=west] at (0.8, 0.7) {\large\color{unstimGray} \textbf{03.} \textsc{Doboevi} Judaël};
+		\node[anchor=west] at (7.5, 0.7) {\large\color{unstimGray} \textbf{04.} \textsc{Dohou} Alexis};
+	\end{tikzpicture}
+};
+
+
+		%-----------------------------------------------------------
+		% PIED DE PAGE
+		%-----------------------------------------------------------
+		\node[anchor=south west, align=left, font=\small\itshape\color{unstimGray}]
+		at ([xshift=1.5cm, yshift=3.8cm]current page.south west)
+		{\og{}Donner un sens à ce qui n'en a pas.\fg{}};
+		\node[anchor=south west, align=left, font=\footnotesize\color{unstimGray!70}]
+		at ([xshift=1.5cm, yshift=3.1cm]current page.south west)
+		{--- Laurent Schwartz, Médaille Fields 1950};
+		
+		\foreach \i in {0, 0.5, 1, ..., 10} {
+			\fill[unstimPrimary, opacity={0.3 - 0.025*\i}]
+			([xshift={2cm + 1.8cm*\i}, yshift=1.2cm]current page.south west)
+			circle (1.5pt);
+		}
+		
+		\node[anchor=south, align=center, font=\small\color{unstimGray}]
+		at ([yshift=1.5cm]current page.south)
+		{Abomey, Sogbo-Aliho --- Année universitaire 2025--2026};
+		
+	\end{tikzpicture}
+\end{titlepage}
+
+\cleardoublepage
+
 	\setcounter{page}{1}
 	
 	% ==================== TABLE DES MATIÈRES ====================
 	\frontmatter
 	\tableofcontents
-	
-	
+
+
 	
 	\listoffigures
 	\addcontentsline{toc}{chapter}{Table des figures}
@@ -3054,15 +3042,15 @@
 	
 	% ============================================================
 	% SUITE DES CORRECTIONS — à coller juste avant \end{document}
-% dans main_updated__1_.tex (après la correction Ch6 Ex1)
-% ============================================================
-
-\subsection*{Exercice 2 — Convolution avec des translations de Dirac}
-
-\hypertarget{corr:ch6:ex2}{}\label{corr:ch6:ex2}
-\navtoExo{ch6}{2}
-
-\begin{correctionblock}{Convolution avec des translations de Dirac}
+	% dans main_updated__1_.tex (après la correction Ch6 Ex1)
+	% ============================================================
+	
+	\subsection*{Exercice 2 — Convolution avec des translations de Dirac}
+	
+	\hypertarget{corr:ch6:ex2}{}\label{corr:ch6:ex2}
+	\navtoExo{ch6}{2}
+	
+	\begin{correctionblock}{Convolution avec des translations de Dirac}
 	Pour tout $\varphi \in \mathcal{D}(\mathbb{R})$ :
 	\[
 	\langle \delta_a * \delta_b, \varphi \rangle
@@ -3075,14 +3063,14 @@
 	
 	Pour $\delta_a * f$ : $(\delta_a * f)(x) = \langle \delta_a, f(x - \cdot) \rangle = f(x-a)$.
 	Autrement dit, $\delta_a * f = \tau_a f$ est le translaté de $f$ de quantité $a$.
-\end{correctionblock}
-
-\subsection*{Exercice 3 — Calcul explicite de produits de convolution}
-
-\hypertarget{corr:ch6:ex3}{}\label{corr:ch6:ex3}
-\navtoExo{ch6}{3}
-
-\begin{correctionblock}{Calcul explicite de produits de convolution}
+	\end{correctionblock}
+	
+	\subsection*{Exercice 3 — Calcul explicite de produits de convolution}
+	
+	\hypertarget{corr:ch6:ex3}{}\label{corr:ch6:ex3}
+	\navtoExo{ch6}{3}
+	
+	\begin{correctionblock}{Calcul explicite de produits de convolution}
 	\textbf{(a)} Posons $f(x) = e^x H(x)$ et $g(x) = H(x)$. Pour $x > 0$ :
 	\[
 	(f*g)(x) = \int_0^x e^{x-y}\cdot 1\,dy
@@ -3098,14 +3086,14 @@
 	\]
 	Pour $x < 0$, le résultat est $0$.
 	Donc $H * \cos(x)H(x) = \sin(x)H(x)$.
-\end{correctionblock}
-
-\subsection*{Exercice 4 — Convolution et la propriété de régularisation}
-
-\hypertarget{corr:ch6:ex4}{}\label{corr:ch6:ex4}
-\navtoExo{ch6}{4}
-
-\begin{correctionblock}{Convolution et la propriété de régularisation}
+	\end{correctionblock}
+	
+	\subsection*{Exercice 4 — Convolution et la propriété de régularisation}
+	
+	\hypertarget{corr:ch6:ex4}{}\label{corr:ch6:ex4}
+	\navtoExo{ch6}{4}
+	
+	\begin{correctionblock}{Convolution et la propriété de régularisation}
 	\textbf{(a)} Par définition, $(T * \rho_\varepsilon)(x) = \langle T, \rho_\varepsilon(x-\cdot) \rangle$.
 	Comme $x \mapsto \rho_\varepsilon(x-y)$ est $C^\infty$ en $x$ et à support compact en $y$
 	uniformément en $x$, le théorème de dérivation sous le crochet donne
@@ -3122,14 +3110,14 @@
 	\textbf{(c)} Pour $f \in L^1_{\mathrm{loc}}$, on applique (b) avec $T = T_f$.
 	En fait $f * \rho_\varepsilon \to f$ dans $L^1_{\mathrm{loc}}$ par un argument direct
 	de convergence dominée (théorème d'approximation de l'identité).
-\end{correctionblock}
-
-\subsection*{Exercice 5 — Convolution et résolution de l'équation $T' - T = \delta_0$}
-
-\hypertarget{corr:ch6:ex5}{}\label{corr:ch6:ex5}
-\navtoExo{ch6}{5}
-
-\begin{correctionblock}{Convolution et résolution de l'équation $T' - T = \delta_0$}
+	\end{correctionblock}
+	
+	\subsection*{Exercice 5 — Convolution et résolution de l'équation $T' - T = \delta_0$}
+	
+	\hypertarget{corr:ch6:ex5}{}\label{corr:ch6:ex5}
+	\navtoExo{ch6}{5}
+	
+	\begin{correctionblock}{Convolution et résolution de l'équation $T' - T = \delta_0$}
 	On cherche d'abord une solution élémentaire $E$ vérifiant $E' - E = \delta_0$.
 	Posons $E = f(x)H(x)$ avec $f$ à déterminer. Par la formule des sauts :
 	\[
@@ -3147,17 +3135,17 @@
 	\[
 	T = e^x H(x) + Ce^x, \quad C \in \mathbb{C}.
 	\]
-\end{correctionblock}
-
-% ==== CHAPITRE 7 ====
-\section*{Chapitre 7 — Applications aux équations différentielles linéaires}
-
-\subsection*{Exercice 1 — Calculer des solutions fondamentales}
-
-\hypertarget{corr:ch7:ex1}{}\label{corr:ch7:ex1}
-\navtoExo{ch7}{1}
-
-\begin{correctionblock}{Calculer des solutions fondamentales}
+	\end{correctionblock}
+	
+	% ==== CHAPITRE 7 ====
+	\section*{Chapitre 7 — Applications aux équations différentielles linéaires}
+	
+	\subsection*{Exercice 1 — Calculer des solutions fondamentales}
+	
+	\hypertarget{corr:ch7:ex1}{}\label{corr:ch7:ex1}
+	\navtoExo{ch7}{1}
+	
+	\begin{correctionblock}{Calculer des solutions fondamentales}
 	\textbf{1.} $E$ est $C^1$ par morceaux avec saut $[E(0)] = e^0 = 1$ en $0$.
 	Par la formule des sauts :
 	\[
@@ -3179,19 +3167,19 @@
 	Puis $g(x) = \operatorname{sgn}(x)$ a un saut $[g(0)] = 1 - (-1) = 2$ en $0$, donc
 	$(T_{\operatorname{sgn}})' = 0 + 2\delta_0$.
 	Ainsi $(T_{|x|})'' = 2\delta_0$. $\checkmark$
-\end{correctionblock}
-
-
-
-% ============================================================
-% BIBLIOGRAPHIE
-% ============================================================
-\cleardoublepage
-\phantomsection
-\addcontentsline{toc}{chapter}{Bibliographie}
-\markboth{BIBLIOGRAPHIE}{BIBLIOGRAPHIE}
-
-\begin{thebibliography}{99}
+	\end{correctionblock}
+	
+	
+	
+	% ============================================================
+	% BIBLIOGRAPHIE
+	% ============================================================
+	\cleardoublepage
+	\phantomsection
+	\addcontentsline{toc}{chapter}{Bibliographie}
+	\markboth{BIBLIOGRAPHIE}{BIBLIOGRAPHIE}
+	
+	\begin{thebibliography}{99}
 	
 	\bibitem{Boumaza}
 	H. Boumaza, T. Duyckaerts, E. Schenck, \textit{Théorie des distributions}. 
@@ -3203,6 +3191,6 @@
 	Octobre--novembre 2016. 
 	\url{https://math.univ-lyon1.fr/~mironescu/resources/maths4_td_6_support.pdf}
 	
-\end{thebibliography}
-
+	\end{thebibliography}
+	
 \end{document}
