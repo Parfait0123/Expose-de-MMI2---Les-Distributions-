@@ -425,8 +425,8 @@
 			% NOM DE LA MATIÈRE (AGRANDI ET CONTRASTÉ)
 			%-----------------------------------------------------------
 			\node[anchor=north, align=center, font=\fontsize{20pt}{15pt}\selectfont]
-			at ([yshift=-6.6cm]current page.north)
-			{\color{white} MMI 2 \color{unstimPrimary}  ----  Méthode Mathématique de l'Ingénieur II};
+			at ([ yshift=-6.6cm]current page.north)
+			{\color{white} MMI 2 --  Mé\color{unstimPrimary} thodes Mathématiques de l'Ingénieur II};
 			
 			%-----------------------------------------------------------
 			% BLOC TITRE 
@@ -515,7 +515,7 @@
 					% Ligne de séparation interne ultra-fine
 					\draw[unstimGray!20] (0.8, 1.25) -- (13.2, 1.25);
 					
-					\node[anchor=west] at (0.8, 0.7) {\large\color{unstimGray} \textbf{03.} \textsc{Doboevi} Judaël};
+					\node[anchor=west] at (0.8, 0.7) {\large\color{unstimGray} \textbf{03.} \textsc{Doboevi} Judaël Karol};
 					\node[anchor=west] at (7.5, 0.7) {\large\color{unstimGray} \textbf{04.} \textsc{Dohou} Alexis};
 				\end{tikzpicture}
 			};
@@ -887,16 +887,7 @@
 	\[
 	\langle T_n', \varphi \rangle = -\langle T_n, \varphi' \rangle \xrightarrow{n \to \infty} -\langle T, \varphi' \rangle = \langle T', \varphi \rangle.
 	\]
-	La convergence $T_n \to T$ appliquée à la fonction test $\varphi'$ suffit — la dérivation « passe à la limite » gratuitement.
-	
-	Ce résultat est faux pour les fonctions classiques : une suite de fonctions $C^1$ peut converger uniformément vers une limite non dérivable. Ici, dans $\mathcal{D}'$, la dérivée de la limite est toujours la limite des dérivées.
-	
-	\begin{example}[Application : dérivée de la limite des gaussiennes]
-		On sait que $f_n \xrightarrow{\mathcal{D}'} \delta_0$. Par stabilité par dérivation : $f_n' \xrightarrow{\mathcal{D}'} \delta_0'$.
-		
-		Or $f_n'(x) = -2 n^3 x e^{-n^2 x^2}$, une suite de fonctions $C^\infty$ dont la limite au sens des distributions est $\delta_0'$ — une distribution qui n'est associée à aucune fonction.
-	\end{example}
-	
+
 	%----------------------------------------------------------
 	\begin{qcmblock}
 		\hypertarget{qcm:ch2:start}{}\label{qcm:ch2:start}
@@ -1094,7 +1085,7 @@
 	\subsection{Dérivée de la fonction de Heaviside}
 	
 	\begin{proposition}
-		Soit $H$ la fonction de Heaviside : $H(x) = 1$ si $x > 0$, $H(x) = 0$ si $x < 0$. Alors
+		Soit $H$ la fonction de Heaviside : $H(x) = 1$ si $x > 0$, $H(x) = 0$ sinon. Alors
 		\[
 		H' = \delta_0 \quad \text{dans } \mathcal{D}'(\mathbb{R}).
 		\]
@@ -1252,6 +1243,53 @@
 		(car $[f''] = 0$ en dehors des points de non-dérivabilité, et $f$ est nulle hors de $[-1,1]$).
 	\end{exemple}
 	
+	\begin{figure}[htbp]
+		\centering
+		\begin{tikzpicture}[scale=1.1,
+			arrowstyle/.style={-{Stealth[length=5pt, width=4pt]}, ultra thick, black},
+			axisstyle/.style={-Stealth, semithick, gray!70}, 
+			functionstyle/.style={ultra thick, black},
+			labelstyle/.style={font=\scriptsize}] % Texte plus petit pour gagner de la place
+			
+			% --- GRAPH 1 : f(x) ---
+			\begin{scope}[shift={(0,0)}]
+				\draw[axisstyle] (-1.5,0) -- (1.5,0) node[right, black] {$x$};
+				\draw[axisstyle] (0,-0.2) -- (0,1.3) node[above, black] {$f$};
+				\draw[functionstyle] (-1.4,0.03) -- (-1,0.03) -- (0,1) -- (1,0.03) -- (1.4,0.03);
+				\node[below, labelstyle] at (-1,0) {$-1$};
+				\node[below, labelstyle] at (1,0) {$1$};
+				\node[below, labelstyle] at (0,-0.5) {\textbf{Fonction $f$}};
+			\end{scope}
+			
+			% --- GRAPH 2 : f'(x) ---
+			\begin{scope}[shift={(3.8,0)}]
+				\draw[axisstyle] (-1.5,0) -- (1.5,0) node[right, black] {$x$};
+				\draw[axisstyle] (0,-1.3) -- (0,1.3) node[above, black] {$f'$};
+				\draw[functionstyle] (-1.4,0.03) -- (-1,0.03); 
+				\draw[functionstyle] (-1,1) -- (0,1);
+				\draw[functionstyle] (0,-1) -- (1,-1);
+				\draw[functionstyle] (1,0.03) -- (1.4,0.03);
+				\draw[black, dashed, thin] (-1,0) -- (-1,1);
+				\draw[black, dashed, thin] (0,1) -- (0,-1);
+				\draw[black, dashed, thin] (1,-1) -- (1,0);
+				\node[below, labelstyle] at (0,-1.4) {\textbf{Dérivée $f'$}};
+			\end{scope}
+			
+			% --- GRAPH 3 : f''(x) ---
+			\begin{scope}[shift={(7.6,0)}]
+				\draw[axisstyle] (-1.5,0) -- (1.5,0) node[right, black] {$x$};
+				\draw[axisstyle] (0,-1.3) -- (0,1.3) node[above, black] {$f''$};
+				\draw[arrowstyle] (-1,0) -- (-1,0.8) node[above, labelstyle] {$\delta_{-1}$};
+				\draw[arrowstyle] (0,0) -- (0,-1.1) node[right, labelstyle] {$-2\delta_0$};
+				\draw[arrowstyle] (1,0) -- (1,0.8) node[above, labelstyle] {$\delta_{1}$};
+				\node[below, labelstyle] at (0,-1.4) {\textbf{Dérivée $f''$}};
+			\end{scope}
+			
+		\end{tikzpicture}
+		\caption{Succession des dérivées de la fonction triangle au sens des distributions.}
+	\end{figure}
+	
+	
 	%----------------------------------------------------------
 	\section{Dérivée de la distribution de Dirac et de ses itérées}
 	%----------------------------------------------------------
@@ -1276,26 +1314,6 @@
 	\end{remarque}
 	
 	%----------------------------------------------------------
-	\section{Annulateurs de la dérivation — noyau de $T \mapsto xT$}
-	%----------------------------------------------------------
-	
-	\begin{theorem}
-		\begin{enumerate}
-			\item $x\,T = 0$ dans $\mathcal{D}'(\mathbb{R})$ si et seulement si $T = c\,\delta_0$ pour une constante $c \in \mathbb{C}$.
-			\item $x^n T = 0$ dans $\mathcal{D}'(\mathbb{R})$ si et seulement si
-			$T = c_0\delta_0 + c_1\delta_0' + \cdots + c_{n-1}\delta_0^{(n-1)}$.
-			\item Les distributions vérifiant $x\,T = 1$ sont exactement $T = \mathrm{vp}\frac{1}{x} + c\,\delta_0$.
-			\item Les distributions vérifiant $x^n T = 1$ sont $T = \mathrm{Pf}\frac{1}{x^n} + c_0\delta_0 + \cdots + c_{n-1}\delta_0^{(n-1)}$.
-		\end{enumerate}
-	\end{theorem}
-	
-	\begin{proof}[Preuve du point 1]
-		$x\,T = 0 \Leftrightarrow \langle T, x\varphi\rangle = 0$ pour tout $\varphi \in \mathcal{D}$.
-		Le théorème de division des fonctions dérivables assure que $\psi \in \mathcal{D}$ est de la forme $x\varphi$ si et seulement si $\psi(0) = 0$.
-		Donc $T$ s'annule sur $\ker(\varphi \mapsto \varphi(0))$, qui est un hyperplan de $\mathcal{D}$. Par dualité, $T$ est proportionnelle à $\delta_0$.
-	\end{proof}
-	
-	%----------------------------------------------------------
 	\section{Formule des distributions \texorpdfstring{$\partial_j T$}{} en dimension \texorpdfstring{$n$}{n}}
 	%----------------------------------------------------------
 	
@@ -1306,14 +1324,6 @@
 	\]
 	Toutes les propriétés précédentes s'étendent \emph{sans modification}.
 	
-	\begin{exemple}[Dérivée de la fonction de Heaviside en dimension 2]
-		Soit $H_2(x,y) = H(x)H(y)$. Alors
-		\[
-		\partial_x H_2 = \delta_0(x) \otimes H(y), \quad
-		\partial_y H_2 = H(x) \otimes \delta_0(y), \quad
-		\partial_x\partial_y H_2 = \delta_0(x) \otimes \delta_0(y) = \delta_{(0,0)}.
-		\]
-	\end{exemple}
 	
 	%----------------------------------------------------------
 	\section{QCM — Dérivation des distributions}
@@ -2593,7 +2603,7 @@
 	\textbf{Réponse 3 :} A. $6|x|$.
 	
 	\hypertarget{qcmrep:ch3:q4}{}\label{qcmrep:ch3:q4}
-	\textbf{Réponse 4 :} C. $-\delta_0'$.
+	\textbf{Réponse 4 :} B. $-2\delta_0'$.
 	
 	\hypertarget{qcmrep:ch3:q5}{}\label{qcmrep:ch3:q5}
 	\textbf{Réponse 5 :} C. $\delta_0 - \delta_1$.
