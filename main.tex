@@ -12,6 +12,10 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[french]{babel}
+\usepackage[nointegrals]{wasysym} 
+\usepackage{graphicx} 
+
+
 
 % ----- Police Palatino -----
 \usepackage{mathpazo}
@@ -57,12 +61,24 @@
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 \fancyhf{}
+
+% Configuration des EN-TÊTES
 \fancyhead[RO]{\small\itshape\color{titlegray}\leftmark}
 \fancyhead[LE]{\small\itshape\color{titlegray}\rightmark}
 \renewcommand{\headrulewidth}{0.4pt}
-\renewcommand{\footrulewidth}{0pt}
-\fancyfoot[RO]{\thepage}
-\fancyfoot[LE]{\thepage}
+
+% Configuration des PIEDS DE PAGE
+\renewcommand{\footrulewidth}{0.4pt} % Ajoute une ligne de séparation en bas (optionnel)
+
+% Gauche (L) : Titre ou Info
+\fancyfoot[LO,RE]{\small\color{titlegray} Théorie des Distributions} 
+
+% Centre (C) : Votre nom ou autre
+\fancyfoot[C]{\small\color{titlegray} ENSGMM - UNSTIM}
+
+% Droite (R) : Numéro de page
+\fancyfoot[RO,LE]{\bfseries\thepage}
+
 
 \fancypagestyle{plain}{%
 	\fancyhf{}%
@@ -296,16 +312,16 @@
 			\fill[white] (current page.south west) rectangle (current page.north east);
 			
 			% 1. COURBE SUPÉRIEURE (L'élément "Raide")
-			\shade[left color=unstimPrimary, right color=unstimPrimary!85, shading angle=135]
-			(current page.north west) -- ([xshift=14cm]current page.north west) 
-			.. controls ([xshift=10cm, yshift=-4cm]current page.north west) and ([xshift=0.5cm, yshift=-10cm]current page.north west) ..
-			([yshift=-18cm]current page.north west) -- cycle;
+			%\shade[left color=unstimPrimary, right color=unstimPrimary!85, shading angle=135]
+			%(current page.north west) -- ([xshift=14cm]current page.north west) 
+			%.. controls ([xshift=10cm, yshift=-4cm]current page.north west) and ([xshift=0.5cm, yshift=-10cm]current page.north west) ..
+			%([yshift=-18cm]current page.north west) -- cycle;
 			
 			% Filet doré supérieur
-			\draw[unstimAccent, line width=1.2pt, opacity=0.8]
-			([xshift=14.1cm]current page.north west) 
-			.. controls ([xshift=10.1cm, yshift=-4.1cm]current page.north west) and ([xshift=0.6cm, yshift=-10.1cm]current page.north west) ..
-			([yshift=-18.1cm]current page.north west);
+			%\draw[unstimAccent, line width=1.2pt, opacity=0.8]
+			%([xshift=14.1cm]current page.north west) 
+			%.. controls ([xshift=10.1cm, yshift=-4.1cm]current page.north west) and ([xshift=0.6cm, yshift=-10.1cm]current page.north west) ..
+			%([yshift=-18.1cm]current page.north west);
 			
 			%-----------------------------------------------------------
 			% 2. ÉLÉMENT INFÉRIEUR : TRILOGIE DE NAPPES DE FAISCEAUX
@@ -387,7 +403,7 @@
 			% 4. ÉLÉMENT TECHNIQUE DISCRET (Haut-Droite)
 			\foreach \r in {0.8, 1.3, ..., 3} {
 				\draw[unstimPrimary!15, line width=0.2pt] 
-				([xshift=-1.5cm, yshift=-1.5cm]current page.north east) circle (\r cm);
+				([xshift=-1.9cm, yshift=-2.3cm]current page.north east) circle (\r cm);
 			}
 			
 			
@@ -397,20 +413,20 @@
 			
 			\node[anchor=north west, inner sep=0]
 			at ([xshift=0.7cm, yshift=-1.3cm]current page.north west)
-			{\includegraphics[height=1.8cm]{logo_unstim.png}};
+			{\includegraphics[height=2.3cm]{logo_unstim.png}};
 			
-			\node[anchor=north west, font=\bfseries\large\color{white}]
+			\node[anchor=north west, font=\bfseries\large\color{unstimPrimary}]
 			at ([xshift=3.1cm, yshift=-1.1cm]current page.north west)
 			{\textsc{UNSTIM}};
-			\node[anchor=north west, font=\fontsize{13pt}{15pt}\selectfont\color{unstimAccent}, text width=7cm]
+			\node[anchor=north west, font=\fontsize{13pt}{15pt}\selectfont\color{unstimGray}, text width=7cm]
 			at ([xshift=3.1cm, yshift=-1.9cm]current page.north west)
 			{Université Nationale des Sciences,
-				Technologies, Ingénierie et \\
-				Mathématiques};
+				Technologies, Ingénierie \\
+				et Mathématiques};
 			
 			\node[anchor=north east, inner sep=0]
 			at ([xshift=-0.7cm, yshift=-1.3cm]current page.north east)
-			{\includegraphics[height=1.8cm]{logo_ensgmm.png}};
+			{\includegraphics[height=2.1cm]{logo_ensgmm.png}};
 			
 			\node[anchor=north east, font=\bfseries\large\color{unstimPrimary}]
 			at ([xshift=-3.1cm, yshift=-1.1cm]current page.north east)
@@ -418,15 +434,15 @@
 			\node[anchor=north east, font=\fontsize{13pt}{15pt}\selectfont\color{unstimGray},
 			text width=7.8cm, align=right]
 			at ([xshift=-3.1cm, yshift=-1.9cm]current page.north east)
-			{École Nationale Supérieure de \\
-				Génie
-				Mathématique et \\ Modélisation};
+			{École Nationale Supérieure \\
+				de Génie
+				Mathématique \\ et Modélisation};
 			%-----------------------------------------------------------
 			% NOM DE LA MATIÈRE (AGRANDI ET CONTRASTÉ)
 			%-----------------------------------------------------------
 			\node[anchor=north, align=center, font=\fontsize{20pt}{15pt}\selectfont]
 			at ([ yshift=-6.6cm]current page.north)
-			{\color{white} MMI 2 --  Mé\color{unstimPrimary} thodes Mathématiques de l'Ingénieur II};
+			{\color{unstimPrimary}  MMI 2 --  Méthodes Mathématiques de l'Ingénieur II};
 			
 			%-----------------------------------------------------------
 			% BLOC TITRE 
@@ -461,20 +477,22 @@
 			%-----------------------------------------------------------
 			% TEXTE DU BLOC 
 			%-----------------------------------------------------------
-			\node[anchor=north, align=center, font=\large\itshape\color{unstimGray}]
-			at ([yshift=-8.6cm]current page.north) {Exposé sur la};
+			\node[anchor=north, align=center, font=\large\itshape\bfseries\color{unstimGray}]
+			at ([yshift=-8.6cm]current page.north) {Thème :};
 			
 			\node[anchor=north, align=center, font=\bfseries\huge\color{unstimPrimary}]
-			at ([yshift=-9.4cm]current page.north) {\textsc{Théorie des Distributions}};
+			at ([yshift=-9.7cm]current page.north) {\textsc{Théorie des Distributions}};
 			
-			\draw[unstimAccent, line width=1.5pt]
-			([xshift=-3cm, yshift=-10.6cm]current page.north) -- ([xshift=3cm, yshift=-10.6cm]current page.north);
+	
+\draw[unstimAccent, line width=1.5pt]
+    ([xshift=-3cm, yshift=-10.9cm]current page.north) -- 
+    node[midway, fill=white, inner sep=1pt] {\rotatebox{45}{$\wasylozenge$}} 
+    ([xshift=3cm, yshift=-10.9cm]current page.north);
+
+
 			
-			\node[anchor=north, align=center, font=\large\color{unstimGray}]
-			at ([yshift=-11.3cm]current page.north) {Cours, QCM et exercices corrigés};
-			
-			\node[anchor=north, align=center, font=\normalsize\scshape\color{unstimPrimary!80}]
-			at ([yshift=-12.1cm]current page.north) {Ing1 --- Génie Mathématique et Modélisation};
+			\node[anchor=north, align=center, font=\normalsize\scshape\bfseries\color{unstimPrimary!80}]
+			at ([yshift=-12.1cm]current page.north) {Ingénieur 1 --- Génie Mathématique et Modélisation};
 			%-----------------------------------------------------------
 			% ENSEIGNANT RESPONSABLE (DÉCALÉ VERS LE BAS)
 			%-----------------------------------------------------------
@@ -484,7 +502,7 @@
 			
 			\node[anchor=north, align=center, font=\bfseries\Large\color{unstimPrimary}]
 			at ([yshift=-15.3cm]current page.north)
-			{Dr.\ Djibril A.\ MOUSSA};
+			{Dr.\ MOUSSA DJIBRIL A.\ };
 			
 			\draw[unstimAccent, line width=1pt]
 			([xshift=-2.5cm, yshift=-16.4cm]current page.north) --
@@ -524,12 +542,7 @@
 			%-----------------------------------------------------------
 			% PIED DE PAGE
 			%-----------------------------------------------------------
-			\node[anchor=south west, align=left, font=\small\itshape\color{unstimGray}]
-			at ([xshift=1.5cm, yshift=3.8cm]current page.south west)
-			{\og{}Donner un sens à ce qui n'en a pas.\fg{}};
-			\node[anchor=south west, align=left, font=\footnotesize\color{unstimGray!70}]
-			at ([xshift=1.5cm, yshift=3.1cm]current page.south west)
-			{--- Laurent Schwartz, Médaille Fields 1950};
+			
 			
 			\foreach \i in {0, 0.5, 1, ..., 10} {
 				\fill[unstimPrimary, opacity={0.3 - 0.025*\i}]
@@ -537,81 +550,52 @@
 				circle (1.5pt);
 			}
 			
-			\node[anchor=south, align=center, font=\small\color{unstimGray}]
+			\node[anchor=south, align=center, font=\large\color{unstimGray}]
 			at ([yshift=1.5cm]current page.south)
-			{Abomey, Sogbo-Aliho --- Année universitaire 2025--2026};
+			{ Année universitaire 2025--2026};
 			
 		\end{tikzpicture}
 	\end{titlepage}
 	
-	\cleardoublepage
-	
+	%\cleardoublepage
+	\pagestyle{empty}
 	\setcounter{page}{1}
 	
+
 	% ==================== TABLE DES MATIÈRES ====================
 	\frontmatter
 	\tableofcontents
 	
-	
-	
+	 
 	\listoffigures
 	\addcontentsline{toc}{chapter}{Table des figures}
-	
-	% ============================================================
-	% AVANT-PROPOS
-	% ============================================================
-	\chapter*{Avant-propos}
-	\addcontentsline{toc}{chapter}{Avant-propos}
-	\markboth{AVANT-PROPOS}{AVANT-PROPOS}
-	
-	Ce document constitue un support de cours complet pour l'étude de la \textbf{théorie des distributions}, destiné aux étudiants de première année de \textit{Génie Mathématique et Modélisation de l'UNSTIM}. Il a été conçu pour être à la fois un outil d'apprentissage progressif et un aide-mémoire efficace.
-	
-	\medskip
-	\noindent\textbf{Structure de l'ouvrage.}
-	\begin{itemize}[itemsep=2pt]
-		\item Les \textbf{sept chapitres} couvrent l'intégralité du programme : notion de distribution, convergence, dérivation, primitives, opérations, convolution et applications aux équations différentielles linéaires à coefficients constants.
-		\item Chaque chapitre est illustré par des \textbf{figures} et ponctué de \textbf{QCM} ainsi que d'\textbf{exercices} dont les corrections détaillées sont regroupées en annexe.
-		\item Des encadrés \textbf{« À retenir »} synthétisent les points essentiels à mémoriser à la fin de chaque chapitre.
-		\item Un \textbf{système de renvois hypertextes} (dans la version PDF) permet de naviguer aisément entre les énoncés et leurs solutions, ainsi qu'entre les questions des QCM et leurs réponses.
-	\end{itemize}
-	
-	\medskip
-	\noindent\textbf{Remerciements.} Ce polycopié est le fruit d'un travail collectif au sein du groupe mentionné ci-haut. Toute remarque ou suggestion d'amélioration est la bienvenue.
-	
-	\vspace{1.5cm}
-	\begin{flushright}
-		\textit{Bonne étude à tous !}
-	\end{flushright}
+	\pagestyle{fancy}
 	
 	\mainmatter
 	
-	
-	
-	
 	% ============================================================
-	% CHAPITRE 1 : NOTION DE DISTRIBUTION
+	% CONTEXTE
 	% ============================================================
-	
-	\chapter{Notion de distribution}
+	\chapter*{Contexte}
+	\addcontentsline{toc}{chapter}{Contexte}
+	\markboth{CONTEXTE}{CONTEXTE}
 	
 	\section*{Contexte}
 	
 	La théorie des distributions a été développée par le mathématicien français Laurent Schwartz dans les années 1940–1950, travail pour lequel il a reçu la médaille Fields en 1950. L'objectif était de donner un cadre rigoureux à des objets qui apparaissaient naturellement en physique — notamment l'impulsion de Dirac $\delta$, utilisée par le physicien Paul Dirac depuis les années 1930 sans justification mathématique satisfaisante.
 	
 	Le problème central que résout cette théorie est le suivant : certaines fonctions physiquement naturelles (la fonction de Heaviside, les solutions de certaines équations aux dérivées partielles) ne sont pas dérivables au sens classique. L'idée de Schwartz est de renverser le point de vue : plutôt que d'évaluer une fonction en un point, on mesure son effet sur des fonctions très régulières appelées fonctions test. Cela permet de dériver n'importe quel objet raisonnable, et de donner un sens à des équations qui n'en avaient pas.
-	
+	\newpage
 	\subsection*{Notations — valables pour tout l'exposé}
 	
 	Dans tout ce qui suit, $\Omega$ désigne un ouvert de $\mathbb{R}^d$ ($d \ge 1$), et $k \in \mathbb{N} \cup \{\infty\}$.
-	
-	\medskip
 	\begin{center}
 		\renewcommand{\arraystretch}{1.4}
 		\begin{tabular}{@{}cl@{}}
 			\toprule
 			\textbf{Notation} & \textbf{Signification} \\
 			\midrule
-			$C^{k}(\Omega)$ & Fonctions $k$ fois dérivables à dérivées $k$-ièmes continues sur $\Omega$ \\
+			$C^{k}(\Omega)$ & Fonctions $k$ fois dérivables à dérivées d'ordre $k$ continues sur $\Omega$ \\
 			$C^{\infty}(\Omega)$ & Fonctions infiniment dérivables sur $\Omega$ \\
 			$C_{c}^{\infty}(\Omega)=\mathcal{D}(\Omega)$ & Fonctions $C^{\infty}$ à support compact inclus dans $\Omega$ \\
 			$\mathcal{D}^{\prime}(\Omega)$ & Espace des distributions sur $\Omega$ \\
@@ -628,7 +612,19 @@
 			\bottomrule
 		\end{tabular}
 	\end{center}
-	\medskip
+	
+	
+	
+	
+	
+	
+	% ============================================================
+	% CHAPITRE 1 : NOTION DE DISTRIBUTION
+	% ============================================================
+	
+	\chapter{Notion de distribution}
+	
+
 	
 	\section{L'espace des fonctions test}
 	
@@ -3198,21 +3194,78 @@
 % ============================================================
 \cleardoublepage
 \phantomsection
-\addcontentsline{toc}{chapter}{Bibliographie}
-\markboth{BIBLIOGRAPHIE}{BIBLIOGRAPHIE}
+\addcontentsline{toc}{chapter}{References bibliographiques}
+\markboth{References bibliographiques}{REFERENCES BIBLIOGRAPHIQUES}
+\renewcommand{\bibname}{Références bibliographiques}
 
 \begin{thebibliography}{99}
-	
-	\bibitem{Boumaza}
-	H. Boumaza, T. Duyckaerts, E. Schenck, \textit{Théorie des distributions}. 
-	Université Sorbonne Paris Nord, 2020. 
-	\url{https://www.math.univ-paris13.fr/~boumaza/cours/2023-2024-CoursDistribution.pdf}
-	
-	\bibitem{Hormiere}
-	P.-J. Hormière, \textit{Analyse T4, TD n° 6 : Introduction aux distributions}. 
-	Octobre--novembre 2016. 
-	\url{https://math.univ-lyon1.fr/~mironescu/resources/maths4_td_6_support.pdf}
-	
+
+\bibitem{Boumaza}
+H.~Boumaza, T.~Duyckaerts, E.~Schenck, \textit{Théorie des distributions}. 
+Université Sorbonne Paris Nord, 2020. 
+\url{https://www.math.univ-paris13.fr/~boumaza/cours/2023-2024-CoursDistribution.pdf}
+
+\bibitem{Hormiere}
+P.-J.~Hormière, \textit{Analyse T4, TD n° 6 : Introduction aux distributions}. 
+Octobre--novembre 2016. 
+\url{https://math.univ-lyon1.fr/~mironescu/resources/maths4_td_6_support.pdf}
+
+\bibitem{MathsCnam}
+Maths -- Cnam, \textit{Transformée de Fourier des distributions}.
+\url{https://maths.cnam.fr/IMG/pdf/07-11-FourierDistribution.pdf}
+
+% ---- Ouvrage fondateur ----
+\bibitem{Schwartz}
+L.~Schwartz, \textit{Théorie des distributions}.
+Hermann, Paris, 1950--1951 (2 volumes). Nouvelle édition : 1997.
+
+% ---- Manuels français de référence ----
+\bibitem{Bony}
+J.-M.~Bony, \textit{Cours d'analyse : théorie des distributions et analyse de Fourier}.
+Éditions de l'École Polytechnique, Palaiseau, 2001.
+
+\bibitem{Zuily}
+C.~Zuily, \textit{Éléments de distributions et d'équations aux dérivées partielles}.
+Dunod, Paris, 2002.
+
+\bibitem{GasquetWitomski}
+C.~Gasquet et P.~Witomski, \textit{Analyse de Fourier et applications}.
+Masson, Paris, 1995.
+
+% ---- Ouvrages de référence en anglais ----
+\bibitem{Rudin}
+W.~Rudin, \textit{Functional Analysis}.
+McGraw-Hill, New York, 2\up{e} édition, 1991.
+
+\bibitem{FriedlanderJoshi}
+F.~G.~Friedlander et M.~S.~Joshi, \textit{Introduction to the Theory of Distributions}.
+Cambridge University Press, Cambridge, 2\up{e} édition, 1998.
+
+\bibitem{DuistermaatKolk}
+J.~J.~Duistermaat et J.~A.~C.~Kolk, \textit{Distributions: Theory and Applications}.
+Birkhäuser, Boston, 2010.
+
+\bibitem{Vladimirov}
+V.~S.~Vladimirov, \textit{Les distributions en physique mathématique}.
+Éditions Mir, Moscou, 1979.
+
+\bibitem{Zemanian}
+A.~H.~Zemanian, \textit{Distribution Theory and Transform Analysis}.
+Dover Publications, New York, 1987 (réimpression de l'édition de 1965).
+
+% ---- Traités avancés ----
+\bibitem{GelfandShilov}
+I.~M.~Gel'fand et G.~E.~Shilov, \textit{Generalized Functions}, Volumes~1--6.
+Academic Press, New York, 1964--1968.
+
+\bibitem{Grubb}
+G.~Grubb, \textit{Distributions and Operators}.
+Graduate Texts in Mathematics, Vol.~252, Springer, New York, 2009.
+
+\bibitem{Hormander}
+L.~Hörmander, \textit{The Analysis of Linear Partial Differential Operators}, Volumes~I--IV.
+Springer, Berlin, 1983--1985.
+
 \end{thebibliography}
 
 \end{document}
