@@ -2,7 +2,7 @@
 
 Ce dépôt contient le code source \LaTeX\ complet pour un exposé portant sur la **Théorie des Distributions**. Ce document a été rédigé dans le cadre du cours de **M**éthode **M**athématique de l'**I**ngénieur II (MMI 2).
 
-* **Auteur :** BOTCHI Parfait
+* **Auteurs :** Parfait BOTCHI, Judikael DOBOEVI, Prosper AFFOUKOU, Alexis DOHOU
 * **Institution :** ENSGMM (École Nationale Supérieure de Génie Mathématique et Modélisation) – UNSTIM
 * **Niveau/Public :** Ingénieur 1Génie Mathématique et Modélisation
 * **Design du document :** Élégant, monochrome (noir/blanc/nuances de gris) .
