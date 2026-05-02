@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.11.3)  28 APR 2026 11:43
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.11.3)  29 APR 2026 13:19
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -2248,13 +2248,17 @@ File: ts1ppl.fd 2001/06/04 font definitions for TS1/ppl.
 LaTeX2e <2025-06-01> patch level 1
 L3 programming layer <2025-09-02>
  ***********
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
 Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: AE7121BF70B51ABCB9ED1A7B98CF9C3A;5867.
  ) 
 Here is how much of TeX's memory you used:
- 33920 strings out of 468130
- 634695 string characters out of 5430149
- 1074174 words of memory out of 5000000
+ 33915 strings out of 468130
+ 634618 string characters out of 5430149
+ 1074326 words of memory out of 5000000
  60803 multiletter control sequences out of 15000+600000
  762808 words of font info for 666 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -2275,9 +2279,9 @@ o/uplb8a.pfb><C:/Users/lenovo/AppData/Local/Programs/MiKTeX/fonts/type1/urw/pal
 atino/uplbi8a.pfb><C:/Users/lenovo/AppData/Local/Programs/MiKTeX/fonts/type1/ur
 w/palatino/uplr8a.pfb><C:/Users/lenovo/AppData/Local/Programs/MiKTeX/fonts/type
 1/urw/palatino/uplri8a.pfb>
-Output written on main.pdf (66 pages, 700261 bytes).
+Output written on main.pdf (66 pages, 698866 bytes).
 PDF statistics:
- 1270 PDF objects out of 1440 (max. 8388607)
- 449 named destinations out of 1000 (max. 500000)
+ 1264 PDF objects out of 1440 (max. 8388607)
+ 444 named destinations out of 1000 (max. 500000)
  167037 words of extra memory for PDF output out of 184870 (max. 10000000)
 
